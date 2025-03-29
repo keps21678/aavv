@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use Faker\Provider\es_ES\Address;
-use Faker\Provider\es_ES\PhoneNumber;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rules\Email;
 
 class Socio extends Model
 {

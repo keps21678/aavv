@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Socio;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Socio>
@@ -52,21 +53,21 @@ class SocioFactory extends Factory
         $letter = $letters[$numbers % 23];
         return $numbers . $letter;
     }
-    /**
-     * Configure the factory.
-     *
-     * @return $this
-     */
-    public function configure(): static
-    {
-        return $this->afterCreating(function (Socio $socio) {
-            if (Socio::count() > 0) {
-                $socio->assignRole('viewer');
-                return;
-            } else if (Socio::count() === 0) {
-                $socio->assignRole('viewer');
-                return;
-            }
-        });
-    }
+    // /**
+    //  * Configure the factory.
+    //  *
+    //  * @return $this
+    //  */
+    // public function configure(): static
+    // {
+    //     return $this->afterCreating(function (Socio $socio) {
+    //         if (Socio::count() > 0) {
+    //             $socio->assignRole('viewer');
+    //             return;
+    //         } else if (Socio::count() === 0) {
+    //             $socio->assignRole('viewer');
+    //             return;
+    //         }
+    //     });
+    // }
 }
