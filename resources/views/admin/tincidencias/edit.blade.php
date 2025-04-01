@@ -25,11 +25,11 @@
                 @csrf
                 @method('PUT')
                 <div class='mb-4'>
-                    <flux:input wire:model="name" label="Nombre de la categoría"
+                    <flux:input wire:model="nombre" label="Nombre de la categoría"
                         placeholder="Escriba el nombre del tipo de incidencia" :value="old('name', $tincidencia->nombre)" required />
                 </div>
                 <div class='mb-4'>
-                    <flux:input wire:model="description" label="Descripción de la categoría"
+                    <flux:input wire:model="descripcion" label="Descripción de la categoría"
                         placeholder="Escriba la descripción del tipo de incidencia"
                         :value="old('description', $tincidencia->descripcion)" required />
                 </div>

@@ -75,6 +75,7 @@ class TincidenciaController extends Controller
             'nombre' => 'required|string|min:5|max:255',
             'descripcion' => 'required|string|min:5|max:255',
         ]);
+        // Actualizar el registro utilizando los datos validados        
         $tincidencia->update($request->all());
         // variable de sesión
         session()->flash('swal', [
