@@ -1,15 +1,14 @@
-<x-layouts.app :title="__('Lista de tipos dee incidencias')">
+<x-layouts.app :title="__('Lista de categorías')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Tipos de Incidencias') }}
+            <flux:breadcrumbs.item>{{ __('Tipos de incidencia') }}
             </flux:breadcrumbs.item>
         </flux:breadcrumbs>
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
-        <a href="{{ route('admin.tiposincidencias.create') }}"
-            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Nuevo Tipo de
-            incidencia</a>
+        <a href="{{ route('admin.tincidencias.create') }}"
+            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Nuevo tipo de incidencia</a>
     </div>
     <br />
     <div class="relative overflow-x-auto">
@@ -39,23 +38,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($tiposIncidencias as $tipoIncidencia)
+                @foreach ($tincidencias as $tincidencia)
                     <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                         <th scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $tipoIncidencia->id }}
+                            {{ $tincidencia->id }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $tipoIncidencia->nombre }}
+                            {{ $tincidencia->nombre }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $tipoIncidencia->descripcion }}
+                            {{ $tincidencia->descripcion }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $tipoIncidencia->created_at }}
+                            {{ $tincidencia->created_at }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $tipoIncidencia->updated_at }}
+                            {{ $tincidencia->updated_at }}
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex justify-end space-x-2">
@@ -64,12 +63,11 @@
                             </bootstrap:button> --}}
                                 {{-- <a href="{{ route('admin.categories.edit', $category) }}"
                                 class="btn btn-blue justify-end">Editar</a> --}}
-                                <flux:button variant="primary"
-                                    href="{{ route('admin.tiposincidencias.edit', $tipoIncidencia) }}" class="btn btn-blue">
-                                    Editar</flux:button>
+                                <flux:button variant="primary" href="{{ route('admin.tincidencias.edit', $tincidencia) }}"
+                                    class="btn btn-blue">Editar</flux:button>
 
-                                <form class="delete-form"
-                                    action="{{ route('admin.tiposincidencias.destroy', $tipoIncidencia) }}" method="POST">
+                                <form class="delete-form" action="{{ route('admin.tincidencias.destroy', $tincidencia) }}"
+                                    method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
@@ -95,7 +93,7 @@
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
+                        cancelButtonText: 'Cancelar',
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form.submit();

@@ -2,35 +2,36 @@
 
 namespace Database\Seeders;
 
-use App\Models\TipoIncidencia;
+use App\Models\Tincidencia;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Tipo_Incidencia;
 
-class TipoIncidenciaSeeder extends Seeder
+class TincidenciaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        //
-        TipoIncidencia::factory()->create([
+         //
+         Tincidencia::factory()->create([
             'nombre' => 'Alta',
             'descripcion' => 'Alta como socio/a',
         ]);
-        TipoIncidencia::factory()->create([
+        Tincidencia::factory()->create([
             'nombre' => 'Baja',
             'descripcion' => 'Baja como socio/a',
         ]);
-        TipoIncidencia::factory()->create([
+        Tincidencia::factory()->create([
             'nombre' => 'Modificación',
             'descripcion' => 'Modificación de los datos del socio/a',
         ]);
-        TipoIncidencia::factory()->create([
+        Tincidencia::factory()->create([
             'nombre' => 'Observaciones',
             'descripcion' => 'Observaciones sobre el socio',
         ]);
-        TipoIncidencia::factory()->create([
+        Tincidencia::factory()->create([
             'nombre' => 'Otros',
             'descripcion' => 'Otras incidencias',
         ]);

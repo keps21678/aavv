@@ -39,49 +39,50 @@
             </thead>
             <tbody>
                 @foreach ($categories as $category)
-                <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $category->id }}
-                    </th>
-                    <td class="px-6 py-4">
-                        {{ $category->name }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $category->description }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $category->created_at }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $category->updated_at }}
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex justify-end space-x-2">
-                            {{-- <bootstrap:button variant="primary"
+                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                        <th scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ $category->id }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ $category->name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $category->description }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $category->created_at }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $category->updated_at }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex justify-end space-x-2">
+                                {{-- <bootstrap:button variant="primary"
                                 href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary">Edit
                             </bootstrap:button> --}}
-                            {{-- <a href="{{ route('admin.categories.edit', $category) }}"
+                                {{-- <a href="{{ route('admin.categories.edit', $category) }}"
                                 class="btn btn-blue justify-end">Editar</a> --}}
-                            <flux:button variant="primary" href="{{ route('admin.categories.edit', $category) }}"
-                                class="btn btn-blue">Editar</flux:button>
+                                <flux:button variant="primary" href="{{ route('admin.categories.edit', $category) }}"
+                                    class="btn btn-blue">Editar</flux:button>
 
-                            <form class="delete-form" action="{{ route('admin.categories.destroy', $category) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
-                                </flux:button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
+                                <form class="delete-form" action="{{ route('admin.categories.destroy', $category) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                                    </flux:button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
     @push('js')
-    <script>
-        document.querySelectorAll('.delete-form').forEach(form => {
+        <script>
+            document.querySelectorAll('.delete-form').forEach(form => {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     Swal.fire({
@@ -92,7 +93,7 @@
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
+                        cancelButtonText: 'Cancelar',
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form.submit();
@@ -100,6 +101,6 @@
                     });
                 });
             });
-    </script>
+        </script>
     @endpush
 </x-layouts.app>

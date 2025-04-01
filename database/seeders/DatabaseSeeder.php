@@ -14,14 +14,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        $this->call(TipoIncidenciaSeeder::class);
+        $this->call(TincidenciaSeeder::class);
 
         $this->call(RoleSeeder::class);
 
         $this->call(UserSeeder::class);
 
         $this->call(SocioSeeder::class);
-        
-        Category::factory(5)->create();
+
+        Category::factory(15)->create();
     }
 }

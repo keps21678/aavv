@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TipoIncidencia extends Model
+class Tincidencia extends Model
 {
-    use HasFactory;
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     //
-    protected $table = 'tipos_incidencias';
+    protected $table = 'tincidencias';
     protected $primaryKey = 'id';
     protected $fillable = [
         'nombre',
@@ -31,5 +30,5 @@ class TipoIncidencia extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime'
         ];
-    }
+    }    
 }

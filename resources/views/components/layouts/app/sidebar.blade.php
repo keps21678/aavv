@@ -35,8 +35,8 @@
                 [
                     'name' => __('Tipos de incidencias'),
                     'icon' => 'tag',
-                    'url' => route('admin.tiposincidencias.index'),
-                    'current' => request()->routeIs('tiposincidencias.*'),
+                    'url' => route('admin.tincidencias.index'),
+                    'current' => request()->routeIs('tipos_incidencia.*'),
                     'label' => __('Tipos de incidencias'),
                     'role' => ['admin', 'editor'],
                 ],
