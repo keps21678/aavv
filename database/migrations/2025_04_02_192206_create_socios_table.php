@@ -21,9 +21,12 @@ return new class extends Migration
             $table->string('telefono');
             $table->string('movil');
             $table->string('email')->unique();
-            $table->string('direccion');
+            $table->string('calle');
+            $table->string('portal');
+            $table->string('piso');
+            $table->string('letra');
             $table->string('codigo_postal');
-            $table->string('localidad');
+            $table->string('poblacion');            
             $table->string('provincia');
             $table->string('persona_contacto');
             $table->boolean('domiciliacion');

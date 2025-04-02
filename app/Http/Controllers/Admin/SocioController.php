@@ -59,6 +59,46 @@ class SocioController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+            $request->validate([
+                'nsocio' => 'required|integer',
+                'empresa' => 'required|boolean',
+                'nombre' => 'required|string|max:255',
+                'apellidos' => 'required|string|max:255',
+                'dni' => 'required|string|max:255',
+                'telefono' => 'nullable|string|max:255',
+                'movil' => 'nullable|string|max:255',
+                'email' => 'nullable|email|max:255',
+                'calle' => 'nullable|string|max:255',
+                'portal' => 'nullable|string|max:255',
+                'piso' => 'nullable|string|max:255',
+                'letra' => 'nullable|string|max:255',
+                'codigo_postal' => 'nullable|string|max:255',
+                'poblacion' => 'nullable|string|max:255',
+                'provincia' => 'nullable|string|max:255',
+                'persona_contacto' => 'nullable|string|max:255',
+                // Otros campos...
+                'domiciliacion' => 'required|boolean',
+                'iban' => 'nullable|string|max:255',
+                'tiposocio_id' => 'required|integer',
+                'cuota_id' => 'required|integer',
+            ]);
+            Socio::create($request->all());
+            // variable de sesión
+            session()->flash('swal', [
+                'title' => 'Socio creado correctamente',
+                'text' => 'El socio se ha creado correctamente',
+                'icon' => 'success',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            session()->flash('swal', [
+                'title' => 'Error de validación',
+                'text' => 'Por favor, revise los campos e intente nuevamente.',
+                'icon' => 'error',
+            ]);
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
+        return redirect()->route('admin.socios.index');
     }
 
     /**
@@ -84,6 +124,46 @@ class SocioController extends Controller
     public function update(Request $request, Socio $socio)
     {
         //
+        try {
+            $request->validate([
+                'nsocio' => 'required|integer',
+                'empresa' => 'required|boolean',
+                'nombre' => 'required|string|max:255',
+                'apellidos' => 'required|string|max:255',
+                'dni' => 'required|string|max:255',
+                'telefono' => 'nullable|string|max:255',
+                'movil' => 'nullable|string|max:255',
+                'email' => 'nullable|email|max:255',
+                'calle' => 'nullable|string|max:255',
+                'portal' => 'nullable|string|max:255',
+                'piso' => 'nullable|string|max:255',
+                'letra' => 'nullable|string|max:255',
+                'codigo_postal' => 'nullable|string|max:255',
+                'poblacion' => 'nullable|string|max:255',
+                'provincia' => 'nullable|string|max:255',
+                'persona_contacto' => 'nullable|string|max:255',
+                // Otros campos...
+                'domiciliacion' => 'required|boolean',
+                'iban' => 'nullable|string|max:255',
+                'tiposocio_id' => 'required|integer',
+                'cuota_id' => 'required|integer',
+            ]);
+            $socio->update($request->all());
+            // variable de sesión
+            session()->flash('swal', [
+                'title' => 'Socio creado correctamente',
+                'text' => 'El socio se ha creado correctamente',
+                'icon' => 'success',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            session()->flash('swal', [
+                'title' => 'Error de validación',
+                'text' => 'Por favor, revise los campos e intente nuevamente.',
+                'icon' => 'error',
+            ]);
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
+        return redirect()->route('admin.socios.index');
     }
 
     /**
@@ -92,5 +172,13 @@ class SocioController extends Controller
     public function destroy(Socio $socio)
     {
         //
+        $socio->delete();
+        // variable de sesión
+        session()->flash('swal', [
+            'title' => 'Socio eliminado correctamente',
+            'text' => 'El socio se ha eliminado correctamente',
+            'icon' => 'success',
+        ]);
+        return redirect()->route('admin.socios.index');
     }
 }

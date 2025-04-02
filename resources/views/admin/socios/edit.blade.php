@@ -21,7 +21,7 @@
         {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
         <div class="px-6 py-4">
             <h1 class="flex justify-end font-bold text-xl mb-4">Edición de Socio/a</h1>
-            <form action="{{ route('admin.socios.update', $user) }}" method="POST">
+            <form action="{{ route('admin.socios.update', $socio) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class='mb-4'>
@@ -35,14 +35,7 @@
                 <div class='mb-4'>
                     <flux:input wire:model="email" label="Email" placeholder="Escriba el email del socio"
                         :value="old('email', $socio->email)" required />
-                </div>
-                <div class='mb-4 gap-2'>
-                    @foreach ($roles as $role)
-                    <input type="checkbox" name="roles[]" value="{{ $role->id }}" {{ in_array($role->name, $userRoles) ?
-                    'checked' : '' }}>
-                    {{ $role->name }}
-                    @endforeach
-                </div>
+                </div>                
                 <div class="flex justify-end">
                     <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar cambios</flux:button>
                 </div>

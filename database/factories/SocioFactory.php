@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Socio;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Socio>
@@ -28,9 +26,12 @@ class SocioFactory extends Factory
             'telefono' => $this->faker->phoneNumber,
             'movil' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
-            'direccion' => $this->faker->address,
+            'calle' => $this->faker->streetName,
+            'portal' => $this->faker->buildingNumber,
+            'piso' => $this->faker->numberBetween(1, 10),
+            'letra' => $this->faker->randomLetter,
             'codigo_postal' => $this->faker->postcode,
-            'localidad' => $this->faker->city,
+            'poblacion' => $this->faker->city,
             'provincia' => $this->faker->state,
             'persona_contacto' => $this->faker->firstName . ' ' . $this->faker->lastName,
             'domiciliacion' => $this->faker->boolean,

@@ -21,9 +21,12 @@ class Socio extends Model
         'telefono',
         'movil',
         'email',
-        'direccion',
+        'calle',
+        'portal',
+        'piso',
+        'letra',
         'codigo_postal',
-        'localidad',
+        'poblacion',
         'provincia',
         'persona_contacto',
         'domiciliacion',
@@ -51,7 +54,10 @@ class Socio extends Model
             'telefono' => 'string', // Cambiado de PhoneNumber::class a 'string'
             'movil' => 'string',    // Cambiado de PhoneNumber::class a 'string'
             'email' => 'string',    // Cambiado de Email::class a 'string'
-            'direccion' => 'string',
+            'calle' => 'string',
+            'portal' => 'string',
+            'piso' => 'string',
+            'letra' => 'string',
             'codigo_postal' => 'string',
             'poblacion' => 'string',
             'provincia' => 'string',
