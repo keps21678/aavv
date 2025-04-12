@@ -91,14 +91,39 @@ class TincidenciaController extends Controller
      */
     public function destroy(Tincidencia $tincidencia)
     {
-        //
-        $tincidencia->delete();
-        // variable de sesión
-        session()->flash('swal', [
-            'title' => 'Tipo de incidencia eliminado correctamente',
-            'text' => 'El Tipo de incidencia se ha eliminado correctamente',
-            'icon' => 'success',
-        ]);
-        return redirect()->route('admin.tincidencias.index');
+        try {
+            // Verificar si el tipo de incidencia está asociado a alguna incidencia
+            if ($tincidencia->incidencias()->exists()) {
+                // Mensaje de error si el tipo de incidencia está en uso
+                session()->flash('swal', [
+                    'title' => 'Error',
+                    'text' => 'No se puede eliminar el tipo de incidencia porque está asociado a una o más incidencias.',
+                    'icon' => 'error',
+                ]);
+
+                return redirect()->route('admin.tincidencias.index');
+            }
+
+            // Eliminar el tipo de incidencia
+            $tincidencia->delete();
+
+            // Mensaje de éxito
+            session()->flash('swal', [
+                'title' => 'Tipo de incidencia eliminado correctamente',
+                'text' => 'El Tipo de incidencia se ha eliminado correctamente.',
+                'icon' => 'success',
+            ]);
+
+            return redirect()->route('admin.tincidencias.index');
+        } catch (\Exception $e) {
+            // Mensaje de error genérico
+            session()->flash('swal', [
+                'title' => 'Error',
+                'text' => 'Ocurrió un error al intentar eliminar el tipo de incidencia.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->route('admin.tincidencias.index');
+        }
     }
 }

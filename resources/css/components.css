@@ -1,17 +1,21 @@
 .btn {
-    @apply font-bold py-2 px-4 rounded;
+    @apply font-bold py-2 px-4 rounded text-base font-bold py-2 px-4;
 }
 
 .btn-blue {
-    @apply bg-blue-500 text-white hover:bg-blue-700;
+    @apply bg-blue-600 text-white hover:bg-blue-300;
+}
+
+.btn-blue-dark {
+    @apply bg-blue-900 text-white hover:bg-blue-300;
 }
 
 .btn-green {
-    @apply bg-green-600 text-white hover:bg-green-400;
+    @apply bg-green-600 text-white hover:bg-green-300;
 }
 
 .btn-green-dark {
-    @apply bg-green-900 text-white hover:bg-blue-700;
+    @apply bg-green-900 text-white hover:bg-green-300;
 }
 
 .btn-yellow {

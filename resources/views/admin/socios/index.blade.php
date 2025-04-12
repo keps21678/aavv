@@ -6,10 +6,10 @@
         </flux:breadcrumbs>
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
-        <a href="{{ route('admin.socios.create') }}"
-            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
+        <flux:button href="{{ route('admin.socios.create') }}"
+            class="btn btn-green">
             Nuevo Socio
-        </a>
+        </flux:button>
     </div>
     <br />
     <div class="relative overflow-x-auto">
@@ -62,6 +62,9 @@
                                 <flux:button icon:trailing="arrow-up-right"
                                     href="{{ route('admin.socios.show', $socio) }}" class="btn btn-green">Consultar
                                 </flux:button>
+                                <flux:modal.trigger name="edit-profile">
+                                    <flux:button>Edit profile</flux:button>
+                                </flux:modal.trigger>
                                 <flux:button variant="primary" href="{{ route('admin.socios.edit', $socio) }}"
                                     class="btn btn-blue">Editar</flux:button>
                                 <form class="delete-form" action="{{ route('admin.socios.destroy', $socio) }}"
@@ -82,6 +85,25 @@
             {{ $socios->links() }}
         </div>
     </div>
+        
+    <flux:modal name="edit-profile" class="md:w-96">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">Update profile</flux:heading>
+                <flux:text class="mt-2">Make changes to your personal details.</flux:text>
+            </div>
+    
+            <flux:input label="Name" placeholder="Your name" />
+    
+            <flux:input label="Date of birth" type="date" />
+    
+            <div class="flex">
+                <flux:spacer />
+    
+                <flux:button type="submit" variant="primary">Save changes</flux:button>
+            </div>
+        </div>
+    </flux:modal>
     @push('js')
         <script>
             document.querySelectorAll('.delete-form').forEach(form => {

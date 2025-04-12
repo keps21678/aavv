@@ -8,9 +8,9 @@
         </flux:breadcrumbs>
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
-        <a href="{{ route('admin.tincidencias.index') }}"
-            class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de
-            tipos de incidencia</a>
+        <flux:button href="{{ route('admin.tincidencias.index') }}"
+            class="btn btn-green-dark ">Listado de
+            tipos de incidencia</flux:button>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}

@@ -64,16 +64,55 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'socio_id' => 'required|exists:socios,id',
-            'tincidencia_id' => 'required|exists:tincidencias,id',
-            'descripcion' => 'required|string|max:255',
-            'fecha_incidencia' => 'required|date',
-        ]);
+        try {
+            // Validar los datos de la solicitud
+            $request->validate([
+                'socio_id' => 'required|exists:socios,id',
+                'socio_id' => function ($attribute, $value, $fail) {
+                    if (!Socio::find($value)) {
+                        $fail('El socio especificado no existe.');
+                    }
+                },
+                'tincidencia_id' => 'required|exists:tincidencias,id',
+                'tincidencia_id' => function ($attribute, $value, $fail) {
+                    if (!TIncidencia::find($value)) {
+                        $fail('El tipo de incidencia especificado no existe.');
+                    }
+                },
+                'descripcion' => 'required|string|max:255',
+                'fecha_incidencia' => 'required|date',
+            ]);
 
-        Incidencia::create($request->all());
+            // Crear la incidencia
+            Incidencia::create($request->all());
 
-        return redirect()->route('admin.incidencias.index')->with('success', 'Incidencia creada correctamente.');
+            // Mensaje de éxito
+            session()->flash('swal', [
+                'title' => 'Incidencia creada correctamente',
+                'text' => 'La incidencia se ha creado correctamente.',
+                'icon' => 'success',
+            ]);
+
+            return redirect()->route('admin.incidencias.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Mensaje de error de validación
+            session()->flash('swal', [
+                'title' => 'Error de validación',
+                'text' => 'Por favor, revise los campos e intente nuevamente.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            // Mensaje de error genérico
+            session()->flash('swal', [
+                'title' => 'Error',
+                'text' => 'Ocurrió un error al intentar crear la incidencia.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -89,8 +128,12 @@ class IncidenciaController extends Controller
      */
     public function edit(Incidencia $incidencia)
     {
-        //
-        return view('admin.incidencias.edit', compact('incidencia'));
+        // Obtener todos los socios y tipos de incidencia
+        $socios = Socio::all();
+        $tincidencias = TIncidencia::all();
+
+        // Pasar los datos a la vista
+        return view('admin.incidencias.edit', compact('incidencia', 'socios', 'tincidencias'));
     }
 
     /**
@@ -98,8 +141,61 @@ class IncidenciaController extends Controller
      */
     public function update(Request $request, Incidencia $incidencia)
     {
-        //
+        try {
+            // Validar los datos de la solicitud
+            $request->validate([
+                'socio_id' => [
+                    'required',
+                    'exists:socios,id',
+                    function ($attribute, $value, $fail) {
+                        if (!Socio::find($value)) {
+                            $fail('El socio especificado no existe.');
+                        }
+                    },
+                ],
+                'tincidencia_id' => [
+                    'required',
+                    'exists:tincidencias,id',
+                    function ($attribute, $value, $fail) {
+                        if (!TIncidencia::find($value)) {
+                            $fail('El tipo de incidencia especificado no existe.');
+                        }
+                    },
+                ],
+                'descripcion' => 'required|string|max:255',
+                'fecha_incidencia' => 'required|date',
+            ]);
 
+            // Actualizar la incidencia
+            $incidencia->update($request->all());
+
+            // Mensaje de éxito
+            session()->flash('swal', [
+                'title' => 'Incidencia actualizada correctamente',
+                'text' => 'La incidencia se ha actualizado correctamente.',
+                'icon' => 'success',
+            ]);
+
+            return redirect()->route('admin.incidencias.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Mensaje de error de validación
+            session()->flash('swal', [
+                'title' => 'Error de validación',
+                'text' => 'Por favor, revise los campos e intente nuevamente.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            // Mensaje de error genérico
+            session()->flash('swal', [
+                'title' => 'Error',
+                'text' => 'Ocurrió un error al intentar actualizar la incidencia.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -107,16 +203,39 @@ class IncidenciaController extends Controller
      */
     public function destroy(Incidencia $incidencia)
     {
-        //
-        // Eliminar la incidencia
-        $incidencia->delete();
-        // variable de sesión
-        session()->flash('swal', [
-            'title' => 'Incidencia eliminada correctamente',
-            'text' => 'La incidencia se ha eliminado correctamente',
-            'icon' => 'success',
-        ]);
-        // Redirigir a la lista de incidencias
-        return redirect()->route('admin.incidencias.index', ['socio_id' => $incidencia->socio_id]);
+        try {
+            // Verificar si la incidencia está asociada a un socio
+            if (!$incidencia->socio) {
+                // Mensaje de error si no está asociada a un socio
+                session()->flash('swal', [
+                    'title' => 'Error',
+                    'text' => 'No se puede eliminar la incidencia porque no está asociada a ningún socio.',
+                    'icon' => 'error',
+                ]);
+
+                return redirect()->route('admin.incidencias.index');
+            }
+
+            // Eliminar la incidencia
+            $incidencia->delete();
+
+            // Mensaje de éxito
+            session()->flash('swal', [
+                'title' => 'Incidencia eliminada correctamente',
+                'text' => 'La incidencia se ha eliminado correctamente.',
+                'icon' => 'success',
+            ]);
+
+            return redirect()->route('admin.incidencias.index', ['socio_id' => $incidencia->socio_id]);
+        } catch (\Exception $e) {
+            // Mensaje de error genérico
+            session()->flash('swal', [
+                'title' => 'Error',
+                'text' => 'Ocurrió un error al intentar eliminar la incidencia.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->route('admin.incidencias.index');
+        }
     }
 }

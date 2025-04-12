@@ -14,7 +14,7 @@ class Incidencia extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'socio_id',
-        'tipo_incidencia_id',
+        'tincidencia_id',
         'descripcion',
         'fecha_incidencia',
         'created_at',
@@ -30,7 +30,7 @@ class Incidencia extends Model
     {
         return [
             'socio_id' => 'integer',
-            'tipo_incidencia_id' => 'integer',
+            'tincidencia_id' => 'integer',
             'descripcion' => 'string',
             'fecha_incidencia' => 'datetime',
             'created_at' => 'datetime',
@@ -45,5 +45,15 @@ class Incidencia extends Model
     public function tincidencia()
     {
         return $this->belongsTo(Tincidencia::class, 'tincidencia_id');
+    }
+    
+    public static function validateRequest($request)
+    {
+        $request->validate([
+            'socio_id' => 'required|exists:socios,id',
+            'tincidencia_id' => 'required|exists:tincidencias,id',
+            'descripcion' => 'required|string|max:255',
+            'fecha_incidencia' => 'required|date',
+        ]);
     }
 }

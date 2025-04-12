@@ -39,4 +39,9 @@ class Cuota extends Model
     {
         return $this->belongsTo(TSocio::class, 'tsocio_id');
     }
+
+    public function socios()
+    {
+        return $this->hasMany(Socio::class, 'cuota_id');
+    }
 }

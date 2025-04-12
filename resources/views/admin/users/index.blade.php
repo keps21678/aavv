@@ -6,10 +6,10 @@
         </flux:breadcrumbs>
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
-        <a href="{{ route('register') }}"
-            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
+        <flux:button href="{{ route('register') }}"
+            class="btn btn-green">
             Nuevo usuario
-        </a>
+        </flux:button>
     </div>
     <br />
     <div class="relative overflow-x-auto">

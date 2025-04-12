@@ -77,8 +77,12 @@ class Socio extends Model
     {
         return $this->belongsTo(Cuota::class, 'cuota_id', 'id');
     }
+    public function cuota()
+    {
+        return $this->belongsTo(Cuota::class, 'cuota_id');
+    }
     public function incidencias()
-{
-    return $this->hasMany(Incidencia::class, 'socio_id');
-}
+    {
+        return $this->hasMany(Incidencia::class, 'socio_id');
+    }
 }

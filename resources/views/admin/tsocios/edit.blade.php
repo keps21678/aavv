@@ -9,12 +9,12 @@
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
         <div>
-            <a href="{{ route('admin.tsocios.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">
-                Listado de tipos de socios/as</a>
-            <a href="{{ route('admin.tsocios.create') }}"
-                class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
-                Nuevo tipo de socio/a</a>
+            <flux:button href="{{ route('admin.tsocios.create') }}"
+                class="btn btn-green">
+                Nuevo tipo de socio/a</flux:button>
+            <flux:button href="{{ route('admin.tsocios.index') }}"
+                class="btn btn-green-dark ">
+                Listado de tipos de socios/as</flux:button>            
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg">

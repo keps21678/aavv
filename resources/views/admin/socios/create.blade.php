@@ -10,7 +10,7 @@
             Create Category</bootstrap:button> --}}
         <div>
             <a href="{{ route('admin.socios.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de
+                class="btn btn-green-dark ">Listado de
                 Socios/as</a>
         </div>
     </div>

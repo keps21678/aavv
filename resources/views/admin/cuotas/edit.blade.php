@@ -9,12 +9,10 @@
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
         <div>
-            <a href="{{ route('admin.cuotas.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">
-                Listado de Cuotas</a>
-            <a href="{{ route('admin.cuotas.create') }}"
-                class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
-                Nueva Cuota</a>
+            <flux:button href="{{ route('admin.cuotas.create') }}" class="btn btn-green">
+                Nueva Cuota</flux:button>
+            <flux:button href="{{ route('admin.cuotas.index') }}" class="btn btn-green-dark">
+                Listado de Cuotas</flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg">

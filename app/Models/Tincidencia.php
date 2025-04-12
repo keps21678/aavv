@@ -30,5 +30,10 @@ class Tincidencia extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime'
         ];
-    }    
+    }
+
+    public function incidencias()
+    {
+        return $this->hasMany(Incidencia::class, 'tincidencia_id');
+    }
 }

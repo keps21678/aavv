@@ -7,7 +7,7 @@
             <flux:breadcrumbs.item>{{ __('Nueva Incidencia') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <a href="{{ route('admin.incidencias.index') }}"
-            class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Incidencias</a>
+            class="btn btn-green-dark">Listado de Incidencias</a>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
@@ -27,9 +27,9 @@
                 <div class='mb-4'>
                     <flux:select wire:model="tincidencia_id" label="Tipo de Incidencia" name="tincidencia_id"
                         id="tincidencia_id" required>
-                        <option value="" disabled selected>Seleccione un tipo de incidencia</option>
+                        <flux:select.option value="" disabled selected>Seleccione un tipo de incidencia</flux:select.option>
                         @foreach ($tincidencias as $tincidencia)
-                            <option value="{{ $tincidencia->id }}">{{ $tincidencia->nombre }}</option>
+                            <flux:select.option value="{{ $tincidencia->id }}">{{ $tincidencia->nombre }}</flux:select.option>
                         @endforeach
                     </flux:select>
                 </div>

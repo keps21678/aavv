@@ -9,12 +9,11 @@
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
         <div>
-            <a href="{{ route('admin.tincidencias.index') }}"
-                class="bbtn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">
-                Listado de categorías</a>
-            <a href="{{ route('admin.tincidencias.create') }}"
-                class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
-                Nueva Categoría</a>
+            <flux:button href="{{ route('admin.tincidencias.create') }}" class="btn btn-green">
+                Nueva Categoría</flux:button>
+            <flux:button href="{{ route('admin.tincidencias.index') }}"
+                class="btn btn-green-dark ">
+                Listado de categorías</flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg">
@@ -26,7 +25,8 @@
                 @method('PUT')
                 <div class='mb-4'>
                     <flux:input wire:model="nombre" label="Nombre de la categoría"
-                        placeholder="Escriba el nombre del tipo de incidencia" :value="old('name', $tincidencia->nombre)" required />
+                        placeholder="Escriba el nombre del tipo de incidencia"
+                        :value="old('name', $tincidencia->nombre)" required />
                 </div>
                 <div class='mb-4'>
                     <flux:input wire:model="descripcion" label="Descripción de la categoría"

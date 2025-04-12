@@ -9,12 +9,11 @@
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
         <div>
-            <a href="{{ route('admin.users.index') }}"
+            <flux:button href="{{ route('register') }}" class="btn btn-green">Nuevo/a
+                Usuario/a</flux:button>
+            <flux:button href="{{ route('admin.users.index') }}"
                 class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de
-                Usuarios</a>
-            <a href="{{ route('register') }}"
-                class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Nuevo/a
-                Usuario/a</a>
+                Usuarios</flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg">

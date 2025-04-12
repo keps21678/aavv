@@ -9,18 +9,16 @@
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
         <div>
-            <a href="{{ route('admin.users.index') }}"
+            <flux:button href="{{ route('register') }}" class="btn btn-green">Nuevo/a
+                Usuario/a</flux:button>
+            <flux:button href="{{ route('admin.users.index') }}"
                 class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de
-                usuarios</a>
-            <a href="{{ route('register') }}"
-                class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Nuevo/a
-                Usuario/a</a>
+                usuarios</flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg p-2 mt-4">
         <div class="flex flex-col gap-6">
-            <x-auth-header :title="__('Crear una cuenta de usuario/a ')"
-                :description="__('Introduce a continuación, los detalles  para crear la cuenta')" />
+            <x-auth-header :title="__('Crear una cuenta de usuario/a ')" :description="__('Introduce a continuación, los detalles  para crear la cuenta')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.users.store') }}" method="POST">

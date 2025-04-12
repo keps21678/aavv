@@ -10,7 +10,7 @@
             Create Category</bootstrap:button> --}}
         <div>
             <a href="{{ route('admin.cuotas.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">
+                class="btn btn-green-dark">
                 Listado de Cuotas</a>
         </div>
     </div>

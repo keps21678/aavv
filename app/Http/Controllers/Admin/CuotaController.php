@@ -192,14 +192,39 @@ class CuotaController extends Controller
      */
     public function destroy(Cuota $cuota)
     {
-        // Eliminar la cuota
-        $cuota->delete();
-        // Redirigir a la lista de cuotas con un mensaje de éxito
-        session()->flash('swal', [
-            'title' => 'Cuota eliminada',
-            'text' => 'La cuota se ha eliminado correctamente',
-            'icon' => 'success',
-        ]);
-        return redirect()->route('admin.cuotas.index');
+        try {
+            // Verificar si la cuota está asociada a algún socio
+            if ($cuota->socios()->exists()) {
+                // Mensaje de error si la cuota está en uso
+                session()->flash('swal', [
+                    'title' => 'Error',
+                    'text' => 'No se puede eliminar la cuota porque está asociada a uno o más socios.',
+                    'icon' => 'error',
+                ]);
+
+                return redirect()->route('admin.cuotas.index');
+            }
+
+            // Eliminar la cuota
+            $cuota->delete();
+
+            // Mensaje de éxito
+            session()->flash('swal', [
+                'title' => 'Cuota eliminada',
+                'text' => 'La cuota se ha eliminado correctamente.',
+                'icon' => 'success',
+            ]);
+
+            return redirect()->route('admin.cuotas.index');
+        } catch (\Exception $e) {
+            // Mensaje de error genérico
+            session()->flash('swal', [
+                'title' => 'Error',
+                'text' => 'Ocurrió un error al intentar eliminar la cuota.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->route('admin.cuotas.index');
+        }
     }
 }
