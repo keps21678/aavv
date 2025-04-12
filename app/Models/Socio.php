@@ -31,7 +31,7 @@ class Socio extends Model
         'persona_contacto',
         'domiciliacion',
         'iban',
-        'tiposocio_id',
+        'tsocio_id',
         'cuota_id',
         'baja',
         'created_at',
@@ -64,9 +64,17 @@ class Socio extends Model
             'persona_contacto' => 'string',
             'domiciliacion' => 'boolean',
             'iban' => 'string',
-            'tiposocio_id' => 'integer',
+            'tsocio_id' => 'integer',
             'cuota_id' => 'integer',
             'baja' => 'boolean'
         ];
+    }
+    public function tsocio()
+    {
+        return $this->belongsTo(TSocio::class, 'tsocio_id');
+    }
+    public function cuota_id()
+    {
+        return $this->belongsTo(Cuota::class, 'cuota_id');
     }
 }

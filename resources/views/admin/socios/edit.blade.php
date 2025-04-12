@@ -26,14 +26,14 @@
                 @method('PUT')
                 <div class='mb-4'>
                     <flux:input wire:model="nombre" label="Nombre" placeholder="Escriba el nombre"
-                        :value="old('name', $socio->nombre)" required />
+                        :value="old('nombre', $socio->nombre)" required />
                 </div>
                 <div class='mb-4'>
                     <flux:input wire:model="apellidos" label="Apellidos" placeholder="Escriba los apellidos"
                         :value="old('apellidos', $socio->apellidos)" required />
                 </div>
                 <div class='mb-4'>
-                    <flux:input wire:model="email" label="Email" placeholder="Escriba el email del socio"
+                    <flux:input wire:model="correo" label="Email" placeholder="Escriba el email del socio"
                         :value="old('email', $socio->email)" required />
                 </div>                
                 <div class="flex justify-end">

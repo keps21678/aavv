@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Tincidencia;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Tipo_Incidencia;
 
 class TincidenciaSeeder extends Seeder
 {

@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.socios.index')">{{ __('Usuarios/as') }}
+            <flux:breadcrumbs.item :href="route('admin.socios.index')">{{ __('Socios/as') }}
             </flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Crear una cuenta de Socio/a') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
@@ -11,26 +11,28 @@
         <div>
             <a href="{{ route('admin.socios.index') }}"
                 class="bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-xs">Listado de
-                usuarios</a>
-            <a href="{{ route('admin.socios.create') }}"
-                class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Nuevo/a
-                Usuario/a</a>
+                Socios/as</a>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg p-2 mt-4">
         <div class="flex flex-col gap-6">
-            <x-auth-header :title="__('Crear una cuenta de usuario/a ')" :description="__('Introduce a continuación, los detalles  para crear la cuenta')" />
+            <x-auth-header :title="__('Crear una cuenta de socio/a ')"
+                :description="__('Introduce a continuación, los detalles  para crear la cuenta')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.socios.store') }}" method="POST">
                 @csrf
                 <div class='mb-4'>
-                    <flux:input wire:model="name" label="Nombre y Apellidos" placeholder="Esciba el Nombre y Apellidos"
-                        :value="old('name')" required />
+                    <flux:input wire:model="nombre" label="Nombre" placeholder="Escriba el nombre"
+                        :value="old('nombre', $socio->nombre)" required />
                 </div>
-                <div c>
+                <div class='mb-4'>
+                    <flux:input wire:model="apellidos" label="Apellidos" placeholder="Escriba los apellidos"
+                        :value="old('apellidos', $socio->apellidos)" required />
+                </div>
+                <div class='mb-4'>
                     <flux:input wire:model="email" label="Email" placeholder="Escriba el email del usuario"
-                        :value="old('description')" required />
+                        :value="old('email', $socio->email)" required />
                 </div>
                 <div class='mb-4'>
                     <flux:input wire:model="password" label="Contraseña" type="password" required

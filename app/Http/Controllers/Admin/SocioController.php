@@ -50,7 +50,9 @@ class SocioController extends Controller
     public function create()
     {
         //
-        return view('admin.socios.create');
+        $socio = new Socio();
+        $socio->email = 'Escriba el email del usuario';
+        return view('admin.socios.create', compact('socio'));
     }
 
     /**

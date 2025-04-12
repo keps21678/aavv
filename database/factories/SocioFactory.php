@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TSocio;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -36,7 +37,7 @@ class SocioFactory extends Factory
             'persona_contacto' => $this->faker->firstName . ' ' . $this->faker->lastName,
             'domiciliacion' => $this->faker->boolean,
             'iban' => $this->faker->iban('ES'),
-            'tiposocio_id' => $this->faker->numberBetween(1, 6),
+            'tsocio_id' => TSocio::query()->inRandomOrder()->first()?->id ?? 1, // Selecciona un TSocio existente o usa un ID predeterminado
             'cuota_id' => $this->faker->numberBetween(1, 6),
             'baja' => $this->faker->boolean,
         ];

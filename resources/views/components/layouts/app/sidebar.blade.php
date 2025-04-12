@@ -40,6 +40,14 @@
                     'label' => __('Tipos de incidencias'),
                     'role' => ['admin', 'editor'],
                 ],
+                [
+                    'name' => __('Tipos de socios/as'),
+                    'icon' => 'user-circle',
+                    'url' => route('admin.tsocios.index'),
+                    'current' => request()->routeIs('tsocios.*'),
+                    'label' => __('Tipos de socios/as'),
+                    'role' => ['admin', 'editor'],
+                ],
             ],
         ],
         [

@@ -31,7 +31,8 @@ return new class extends Migration
             $table->string('persona_contacto');
             $table->boolean('domiciliacion');
             $table->string('iban')->unique();
-            $table->unsignedBigInteger('tiposocio_id');
+            $table->unsignedBigInteger('tsocio_id');
+            $table->foreign('tsocio_id')->references('id')->on('tsocios')->onDelete('cascade');
             $table->unsignedBigInteger('cuota_id');
             $table->boolean('baja');
             $table->timestamps();
