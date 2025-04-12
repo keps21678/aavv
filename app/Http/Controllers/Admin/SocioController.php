@@ -27,7 +27,9 @@ class SocioController extends Controller
         $socios = Socio::where('nombre', 'LIKE', '%' . $this->search . '%')
             ->orWhere('apellidos', 'LIKE', '%' . $this->search . '%')
             ->orderBy('nsocio', 'asc')
+            ->withCount('incidencias')
             ->paginate(10);
+        //$socios = Socio::withCount('incidencias')->paginate(10); // Carga el conteo de incidencias
 
         if ($socios->isEmpty()) {
             session()->flash('swal', [

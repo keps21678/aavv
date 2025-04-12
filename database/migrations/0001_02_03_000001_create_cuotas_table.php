@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('cuotas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tsocio_id')
+                ->constrained('tsocios')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->integer('anyo')->nullable();
+            $table->decimal('cantidad', 8, 2)->nullable();
             $table->timestamps();
         });
     }

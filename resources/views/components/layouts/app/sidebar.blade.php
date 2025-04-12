@@ -48,6 +48,22 @@
                     'label' => __('Tipos de socios/as'),
                     'role' => ['admin', 'editor'],
                 ],
+                [
+                    'name' => __('Incidencias'),
+                    'icon' => 'user-circle',
+                    'url' => route('admin.incidencias.index'),
+                    'current' => request()->routeIs('incidencias.*'),
+                    'label' => __('Incidencias'),
+                    'role' => ['admin', 'editor'],
+                ],
+                [
+                    'name' => __('Cuotas'),
+                    'icon' => 'currency-euro',
+                    'url' => route('admin.cuotas.index'),
+                    'current' => request()->routeIs('cuotas.*'),
+                    'label' => __('Cuotas'),
+                    'role' => ['admin', 'editor'],
+                ],
             ],
         ],
         [

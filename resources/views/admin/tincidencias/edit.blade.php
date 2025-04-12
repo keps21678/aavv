@@ -10,7 +10,7 @@
             Create Category</bootstrap:button> --}}
         <div>
             <a href="{{ route('admin.tincidencias.index') }}"
-                class="bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-xs">
+                class="bbtn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">
                 Listado de categorías</a>
             <a href="{{ route('admin.tincidencias.create') }}"
                 class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">

@@ -6,6 +6,22 @@
     @apply bg-blue-500 text-white hover:bg-blue-700;
 }
 
+.btn-green {
+    @apply bg-green-600 text-white hover:bg-green-400;
+}
+
+.btn-green-dark {
+    @apply bg-green-900 text-white hover:bg-blue-700;
+}
+
+.btn-yellow {
+    @apply bg-yellow-600 text-white hover:bg-yellow-300;
+}
+
+.btn-yellow-dark {
+    @apply bg-yellow-900 text-white hover:bg-yellow-300;
+}
+
 .card {
     /* block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 */
     @apply bg-white px-6 py-8 shadow-lg rounded-lg;

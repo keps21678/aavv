@@ -18,13 +18,15 @@ class DatabaseSeeder extends Seeder
         
         $this->call(TSocioSeeder::class);
 
-        $this->call(CuotaSeeder::class);
+        $this->call(CuotaSeeder::class);        
 
         $this->call(RoleSeeder::class);
 
         $this->call(UserSeeder::class);
 
         $this->call(SocioSeeder::class);
+
+        $this->call(IncidenciaSeeder::class);
 
         Category::factory(15)->create();
     }

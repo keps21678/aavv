@@ -9,7 +9,7 @@
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
         <a href="{{ route('admin.tincidencias.index') }}"
-            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Listado de
+            class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de
             tipos de incidencia</a>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
