@@ -6,7 +6,8 @@
     @stack('js')
     @if (session('swal'))
         <script>
-            Swal.fire(@json(session('swal')));
+            Swal.fire(@json(session('swal')));            
+            {{ session()->forget('swal') }}
         </script>
     @endif
 </x-layouts.app.sidebar>

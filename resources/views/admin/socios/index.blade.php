@@ -15,36 +15,34 @@
     <div class="relative overflow-x-auto">
 
         <hr class="solid">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">Socio</th>                    
-                    <th scope="col" class="px-6 py-3">Nombre</th>
-                    <th scope="col" class="px-6 py-3">Apellidos</th>
-                    <th scope="col" class="px-6 py-3">Tipo Socio</th>
-                    <th scope="col" class="px-6 py-3">Email</th>
-                    <th scope="col" class="px-6 py-3">Movil</th>
-                    <th scope="col" class="px-6 py-3">Persona Contacto</th>
-                    <th scope="col" class="px-6 py-3">Incidencias</th>
-                    <th scope="col" class="px-6 py-3">Acciones</th>
+                    <th scope="col" class="px-2 py-3">Socio</th>                    
+                    <th scope="col" class="px-2 py-3">Nombre</th>
+                    <th scope="col" class="px-2 py-3">Apellidos</th>
+                    <th scope="col" class="px-2 py-3">Tipo Socio</th>
+                    <th scope="col" class="px-2 py-3">Email</th>
+                    <th scope="col" class="px-2 py-3">Movil</th>
+                    <th scope="col" class="px-2 py-3">Persona Contacto</th>
+                    <th scope="col" class="px-2 py-3">Incidencias</th>
+                    <th scope="col" class="px-2 py-3">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($socios as $socio)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                         <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $socio->nsocio }}
                         </th>                        
-                        <td class="px-6 py-4">{{ $socio->nombre }}</td>
-                        <td class="px-6 py-4">{{ $socio->apellidos }}</td>
-                        <td class="px-6 py-4">
-                            {{ $socio->tsocio->nombre ?? 'Sin asignar' }}
-                        </td>
-                        <td class="px-6 py-4">{{ $socio->email }}</td>
-                        <td class="px-6 py-4">{{ $socio->movil }}</td>
-                        <td class="px-6 py-4">{{ $socio->persona_contacto }}</td>
-                        <td class="px-6 py-4">
+                        <td class="px-2 py-4">{{ $socio->nombre }}</td>
+                        <td class="px-2 py-4">{{ $socio->apellidos }}</td>
+                        <td class="px-2 py-4">{{ $socio->tsocio->nombre ?? 'Sin asignar' }}</td>
+                        <td class="px-2 py-4">{{ $socio->email }}</td>
+                        <td class="px-2 py-4">{{ $socio->movil }}</td>
+                        <td class="px-2 py-4">{{ $socio->persona_contacto }}</td>
+                        <td class="px-2 py-4">
                             @if ($socio->incidencias_count > 0)
                                 <flux:button variant="outline" href="{{ route('admin.incidencias.index', ['socio_id' => $socio->id]) }}"
                                     class="btn btn-green-dark text-white font-bold py-1 px-3 rounded">
@@ -57,14 +55,9 @@
                                 </flux:button>
                             @endif
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-2 py-4">
                             <div class="flex justify-end space-x-2">
-                                <flux:button icon:trailing="arrow-up-right"
-                                    href="{{ route('admin.socios.show', $socio) }}" class="btn btn-green">Consultar
-                                </flux:button>
-                                <flux:modal.trigger name="edit-profile">
-                                    <flux:button>Edit profile</flux:button>
-                                </flux:modal.trigger>
+                                    <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.socios.show', $socio) }}" class="btn btn-green mr-2">Consultar</flux:button>
                                 <flux:button variant="primary" href="{{ route('admin.socios.edit', $socio) }}"
                                     class="btn btn-blue">Editar</flux:button>
                                 <form class="delete-form" action="{{ route('admin.socios.destroy', $socio) }}"
@@ -84,26 +77,7 @@
         <div class="mt-2">
             {{ $socios->links() }}
         </div>
-    </div>
-        
-    <flux:modal name="edit-profile" class="md:w-96">
-        <div class="space-y-6">
-            <div>
-                <flux:heading size="lg">Update profile</flux:heading>
-                <flux:text class="mt-2">Make changes to your personal details.</flux:text>
-            </div>
-    
-            <flux:input label="Name" placeholder="Your name" />
-    
-            <flux:input label="Date of birth" type="date" />
-    
-            <div class="flex">
-                <flux:spacer />
-    
-                <flux:button type="submit" variant="primary">Save changes</flux:button>
-            </div>
-        </div>
-    </flux:modal>
+    </div> 
     @push('js')
         <script>
             document.querySelectorAll('.delete-form').forEach(form => {

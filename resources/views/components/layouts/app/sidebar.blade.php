@@ -50,7 +50,7 @@
                 ],
                 [
                     'name' => __('Incidencias'),
-                    'icon' => 'user-circle',
+                    'icon' => 'question-mark-circle',
                     'url' => route('admin.incidencias.index'),
                     'current' => request()->routeIs('incidencias.*'),
                     'label' => __('Incidencias'),
@@ -117,7 +117,7 @@
     @include('partials.head')
 </head>
 
-<body class="min-h-screen bg-white dark:bg-zinc-800">
+<body class="min-h-screen bg-white dark:bg-zinc-800 text-lg">
     <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 

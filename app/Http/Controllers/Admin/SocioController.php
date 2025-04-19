@@ -53,7 +53,6 @@ class SocioController extends Controller
     {
         //
         $socio = new Socio();
-        $socio->email = 'Escriba el email del usuario';
         return view('admin.socios.create', compact('socio'));
     }
 
@@ -62,47 +61,28 @@ class SocioController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        try {
-            $request->validate([
-                'nsocio' => 'required|integer',
-                'empresa' => 'required|boolean',
-                'nombre' => 'required|string|max:255',
-                'apellidos' => 'required|string|max:255',
-                'dni' => 'required|string|max:255',
-                'telefono' => 'nullable|string|max:255',
-                'movil' => 'nullable|string|max:255',
-                'email' => 'nullable|email|max:255',
-                'calle' => 'nullable|string|max:255',
-                'portal' => 'nullable|string|max:255',
-                'piso' => 'nullable|string|max:255',
-                'letra' => 'nullable|string|max:255',
-                'codigo_postal' => 'nullable|string|max:255',
-                'poblacion' => 'nullable|string|max:255',
-                'provincia' => 'nullable|string|max:255',
-                'persona_contacto' => 'nullable|string|max:255',
-                // Otros campos...
-                'domiciliacion' => 'required|boolean',
-                'iban' => 'nullable|string|max:255',
-                'tiposocio_id' => 'required|integer',
-                'cuota_id' => 'required|integer',
-            ]);
-            Socio::create($request->all());
-            // variable de sesión
-            session()->flash('swal', [
-                'title' => 'Socio creado correctamente',
-                'text' => 'El socio se ha creado correctamente',
-                'icon' => 'success',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            session()->flash('swal', [
-                'title' => 'Error de validación',
-                'text' => 'Por favor, revise los campos e intente nuevamente.',
-                'icon' => 'error',
-            ]);
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        }
-        return redirect()->route('admin.socios.index');
+        $validatedData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'dni' => 'required|string|max:20|unique:socios,dni',
+            'telefono' => 'nullable|string|max:20',
+            'movil' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'calle' => 'nullable|string|max:255',
+            'portal' => 'nullable|string|max:10',
+            'piso' => 'nullable|string|max:10',
+            'letra' => 'nullable|string|max:5',
+            'codigo_postal' => 'nullable|string|max:10',
+            'poblacion' => 'nullable|string|max:255',
+            'provincia' => 'nullable|string|max:255',
+            'empresa' => 'boolean',
+            'baja' => 'boolean',
+            'domiciliacion' => 'boolean',
+        ]);
+
+        Socio::create($validatedData);
+
+        return redirect()->route('admin.socios.index')->with('success', 'Socio creado correctamente.');
     }
 
     /**
@@ -128,47 +108,44 @@ class SocioController extends Controller
      */
     public function update(Request $request, Socio $socio)
     {
-        //
         try {
-            $request->validate([
-                'nsocio' => 'required|integer',
-                'empresa' => 'required|boolean',
+            // Asegurarse de que los valores sean booleanos
+            $validatedData['empresa'] = filter_var($request->input('empresa', false), FILTER_VALIDATE_BOOLEAN);
+            $validatedData['baja'] = filter_var($request->input('baja', false), FILTER_VALIDATE_BOOLEAN);
+            $validatedData['domiciliacion'] = filter_var($request->input('domiciliacion', false), FILTER_VALIDATE_BOOLEAN);
+            // Validar los datos de entrada
+            $validatedData = $request->validate([
                 'nombre' => 'required|string|max:255',
                 'apellidos' => 'required|string|max:255',
-                'dni' => 'required|string|max:255',
-                'telefono' => 'nullable|string|max:255',
-                'movil' => 'nullable|string|max:255',
-                'email' => 'nullable|email|max:255',
-                'calle' => 'nullable|string|max:255',
-                'portal' => 'nullable|string|max:255',
-                'piso' => 'nullable|string|max:255',
-                'letra' => 'nullable|string|max:255',
-                'codigo_postal' => 'nullable|string|max:255',
-                'poblacion' => 'nullable|string|max:255',
-                'provincia' => 'nullable|string|max:255',
-                'persona_contacto' => 'nullable|string|max:255',
-                // Otros campos...
-                'domiciliacion' => 'required|boolean',
-                'iban' => 'nullable|string|max:255',
-                'tiposocio_id' => 'required|integer',
-                'cuota_id' => 'required|integer',
+                'dni' => 'required|string|max:20|unique:socios,dni,' . $socio->id,
+                'empresa' => 'boolean',
+                'baja' => 'boolean',
+                'domiciliacion' => 'boolean',
+                // Agrega las demás reglas aquí...
             ]);
-            $socio->update($request->all());
-            // variable de sesión
+
+            $socio->update($validatedData);
+
             session()->flash('swal', [
-                'title' => 'Socio creado correctamente',
-                'text' => 'El socio se ha creado correctamente',
+                'title' => 'Socio actualizado correctamente',
+                'text' => 'El socio se ha actualizado correctamente.',
                 'icon' => 'success',
             ]);
+            return view('admin.socios.edit', compact('socio'));
+            //return redirect()->route('admin.socios.index');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = collect($e->errors())->map(function ($messages, $field) {
+                return ucfirst($field) . ': ' . implode(', ', $messages);
+            })->implode("\n");
+
             session()->flash('swal', [
                 'title' => 'Error de validación',
-                'text' => 'Por favor, revise los campos e intente nuevamente.',
+                'text' => $errors,
                 'icon' => 'error',
             ]);
+
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
-        return redirect()->route('admin.socios.index');
     }
 
     /**
