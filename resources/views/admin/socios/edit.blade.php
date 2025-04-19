@@ -16,37 +16,34 @@
     <div class="max-w-4xl mx-auto rounded overflow-hidden shadow-lg">
         <div class="flex flex-col gap-6">
             <x-auth-header :title="__('Editar la cuenta del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
-                :description="__('Introduce laas modificaciones de la cuenta')" />
+                :description="__('Introduce las modificaciones de la cuenta')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.socios.update', $socio) }}" method="POST">
                 @csrf
                 @method('PUT')
-
                 <!-- Contenedor de tres columnas -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
                     <!-- Primera columna -->
                     <div class="flex flex-col gap-6">
                         <flux:input wire:model="nsocio" label="Número de Socio" placeholder="Escriba el número de socio"
-                            :value="old('nsocio', $socio->nsocio)" required />
-                        <div x-data="{ showIBAN: {{ old('domiciliacion', $socio->domiciliacion) ? 'true' : 'false' }} }">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <flux:checkbox wire:model="empresa" name="empresa" label="Empresa"
-                                    :checked="old('empresa', $socio->empresa)" class="col" />
-                                <flux:checkbox wire:model="baja" name="baja" label="Baja"
-                                    :checked="old('baja', $socio->baja)" class="col" />
-                                <flux:checkbox wire:model="domiciliacion" name="domiciliacion" label="Domiciliación"
-                                    :checked="old('domiciliacion', $socio->domiciliacion)" class="col"
-                                    @change="showIBAN = $event.target.checked" />
-                                <template x-if="showIBAN" class="mt-2">
-                                    <flux:modal.trigger name="view-iban" class="place-items-end">
-                                        <flux:button icon:trailing="eye" variant="outline" class="col-span-3">
-                                            Ver IBAN
-                                        </flux:button>
-                                    </flux:modal.trigger>
-                                </template>
+                            :value="old('nsocio', $socio->nsocio)" />
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="empresa" name="empresa" value="1" {{ old('empresa',
+                                    $socio->empresa) ? 'checked' : '' }}
+                                class="form-checkbox h-5 w-5">
+                                <label for="empresa" class="ml-2 text-gray-700">Empresa</label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="baja" name="baja" value="1" {{ old('baja', $socio->baja) ?
+                                'checked' : '' }}
+                                class="form-checkbox h-5 w-5" >
+                                <label for="baja" class="ml-2 text-gray-700">Baja</label>
                             </div>
                         </div>
+
                         <flux:input wire:model="nombre" label="Nombre" placeholder="Escriba el nombre"
                             :value="old('nombre', $socio->nombre)" required />
                         @error('nombre')
@@ -56,6 +53,19 @@
                             :value="old('apellidos', $socio->apellidos)" required />
                         <flux:input wire:model="dni" label="DNI" placeholder="Escriba el DNI"
                             :value="old('dni', $socio->dni)" required />
+                        <div
+                            x-data="{ showIBAN: {{ old('domiciliacion', $socio->domiciliacion) ? 'true' : 'false' }} }">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1" {{
+                                    old('domiciliacion', $socio->domiciliacion) ? 'checked' : '' }}
+                                class="form-checkbox h-5 w-5" @change="showIBAN = $event.target.checked">
+                                <label for="domiciliacion" class="ml-2 text-gray-700">Domiciliación</label>
+                            </div>
+                            <template x-if="showIBAN" class="mt-2 col-span-3">
+                                <flux:input readonly variant="filled" label="IBAN" placeholder="IBAN del socio" type="password" 
+                                    :value="$socio->iban ? $socio->iban : 'Sin IBAN definido'" viewable />
+                            </template>
+                        </div>
                     </div>
 
                     <!-- Segunda columna -->

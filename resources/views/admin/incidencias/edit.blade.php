@@ -49,7 +49,7 @@
 
                 <div class='mb-4'>
                     <flux:input label="Fecha de la incidencia" name="fecha_incidencia" id="fecha_incidencia"
-                        type="date" value="{{ old('fecha_incidencia', $incidencia->fecha_incidencia) }}" required />
+                        type="text" value="{{ old('fecha_incidencia', $incidencia->fecha_incidencia ? \Carbon\Carbon::parse($incidencia->fecha_incidencia)->format('d/m/Y') : now()->format('d/m/Y')) }}" required />
                 </div>
 
                 <div class="flex justify-end">
