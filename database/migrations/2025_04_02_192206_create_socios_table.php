@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('provincia');
             $table->string('persona_contacto');
             $table->boolean('domiciliacion');
-            $table->string('iban')->unique();
+            $table->string('iban', 512)->unique();
             $table->unsignedBigInteger('tsocio_id');
             $table->foreign('tsocio_id')->references('id')->on('tsocios')->onDelete('cascade');
             $table->unsignedBigInteger('cuota_id');
