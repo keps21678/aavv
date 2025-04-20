@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TSocio;
+use App\Models\Cuota;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SocioFactory extends Factory
 {
+    private static $nsocioCounter = 1;
+
     /**
      * Define the model's default state.
      *
@@ -18,8 +21,7 @@ class SocioFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-            'nsocio' => $this->faker->unique()->numberBetween(1, 1000),
+            'nsocio' => self::$nsocioCounter++,
             'empresa' => $this->faker->company,
             'nombre' => $this->faker->firstName,
             'apellidos' => $this->faker->lastName . ' ' . $this->faker->lastName,
@@ -37,8 +39,10 @@ class SocioFactory extends Factory
             'persona_contacto' => $this->faker->firstName . ' ' . $this->faker->lastName,
             'domiciliacion' => $this->faker->boolean,
             'iban' => $this->faker->iban('ES'),
+            'titular' => $this->faker->firstName,
+            'dni_titular' => $this->generateDni(),
             'tsocio_id' => TSocio::query()->inRandomOrder()->first()?->id ?? 1, // Selecciona un TSocio existente o usa un ID predeterminado
-            'cuota_id' => $this->faker->numberBetween(1, 6),
+            'cuota_id' => Cuota::query()->inRandomOrder()->first()?->id ?? 1,
             'baja' => $this->faker->boolean,
         ];
     }

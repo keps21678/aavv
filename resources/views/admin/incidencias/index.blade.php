@@ -17,54 +17,58 @@
         <hr class="solid">
         <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">Nombre</th>
-                    <th scope="col" class="px-6 py-3">Apellidos</th>
-                    <th scope="col" class="px-6 py-3">Tipo de Incidencia</th>
-                    <th scope="col" class="px-6 py-3">Descripción</th>
-                    <th scope="col" class="px-6 py-3">Fecha de Incidencia</th>
-                    <th scope="col" class="px-6 py-3">Creado</th>
-                    <th scope="col" class="px-6 py-3">Editar</th>
-                </tr>
+            <tr>
+                <th scope="col" class="px-6 py-3">Nº Socio</th>
+                <th scope="col" class="px-6 py-3">Nombre</th>
+                <th scope="col" class="px-6 py-3">Apellidos</th>
+                <th scope="col" class="px-6 py-3">Tipo de Incidencia</th>
+                <th scope="col" class="px-6 py-3">Descripción</th>
+                <th scope="col" class="px-6 py-3">Fecha de Incidencia</th>
+                <th scope="col" class="px-6 py-3">Creado</th>
+                <th scope="col" class="px-6 py-3">Editar</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach ($incidencias as $incidencia)
-                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                        <th scope="row" class="px-6 py-4">
-                            {{ $incidencia->socio->nombre ?? 'Sin asignar' }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $incidencia->socio->apellidos ?? 'Sin asignar' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $incidencia->tincidencia->nombre ?? 'Sin asignar' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $incidencia->descripcion }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $incidencia->fecha_incidencia->format('d/m/Y') }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $incidencia->created_at }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="flex justify-end space-x-2">
-                                <flux:button variant="primary"
-                                    href="{{ route('admin.incidencias.edit', $incidencia) }}" class="btn btn-blue">
-                                    Editar</flux:button>
+            @foreach ($incidencias as $incidencia)
+                <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                <th scope="row" class="px-6 py-4">
+                    {{ $incidencia->socio->nsocio ?? 'Sin asignar' }}
+                </th>
+                <td class="px-6 py-4">
+                    {{ $incidencia->socio->nombre ?? 'Sin asignar' }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $incidencia->socio->apellidos ?? 'Sin asignar' }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $incidencia->tincidencia->nombre ?? 'Sin asignar' }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $incidencia->descripcion }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $incidencia->fecha_incidencia->format('d/m/Y') }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $incidencia->created_at }}
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex justify-end space-x-2">
+                    <flux:button variant="primary"
+                        href="{{ route('admin.incidencias.edit', $incidencia) }}" class="btn btn-blue">
+                        Editar</flux:button>
 
-                                <form class="delete-form"
-                                    action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
-                                    </flux:button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
+                    <form class="delete-form"
+                        action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                        </flux:button>
+                    </form>
+                    </div>
+                </td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>

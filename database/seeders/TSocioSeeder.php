@@ -15,6 +15,10 @@ class TSocioSeeder extends Seeder
     {
         //
         TSocio::factory()->create([
+            'nombre' => 'Individual',
+            'descripcion' => 'Socio',
+        ]);
+        TSocio::factory()->create([
             'nombre' => 'Familiar',
             'descripcion' => 'Socio de tipo familiar',
         ]);

@@ -41,7 +41,7 @@
                 </div>
                 <div class='mb-4'>
                     <flux:input wire:model="fecha_incidencia" label="Fecha de la incidencia" name="fecha_incidencia"
-                        type="text" :value="old('fecha_incidencia', now()->format('d/m/Y'))" required />
+                        type="date" :value="old('fecha_incidencia', now()->format('Y-m-d'))" required />
                 </div>
                 <div class="flex justify-end">
                     <flux:button type="submit" variant="primary" class="btn btn-blue">Crear Incidencia</flux:button>

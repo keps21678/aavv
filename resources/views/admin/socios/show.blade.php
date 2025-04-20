@@ -8,7 +8,7 @@
         <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Volver al Listado</a>
     </div>
 
-    <div class="max-w-4xl mx-auto rounded overflow-hidden shadow-lg">
+    <div class="max-w-xl mx-auto rounded overflow-hidden shadow-lg text-lg">
         <div class="flex flex-col gap-6 px-4 mb-6">
             <x-auth-header :title="__('Detalles del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
                 :description="__('Datos de la cuenta')" />
@@ -23,18 +23,9 @@
                         :value="old('nsocio', $socio->nsocio)" disabled />
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <flux:checkbox wire:model="empresa" label="Empresa" :checked="old('empresa', $socio->empresa)"
-                            class="col" disabled/>
-                        <flux:checkbox wire:model="baja" label="Baja" :checked="old('baja', $socio->baja)"
-                            class="col" disabled/>
-                        <flux:checkbox wire:model="domiciliacion" label="Domiciliación"
-                            :checked="old('domiciliacion', $socio->domiciliacion)" class="col" disabled/>
-                        @if ($socio->domiciliacion)
-                            <flux:modal.trigger name="edit-profile" class="place-items-stretch">
-                                <flux:button icon:trailing="eye" variant="outline" class="col-span-3">
-                                    Ver IBAN
-                                </flux:button>
-                            </flux:modal.trigger>
-                        @endif
+                            class="col" disabled />
+                        <flux:checkbox wire:model="baja" label="Baja" :checked="old('baja', $socio->baja)" class="col"
+                            disabled />
                     </div>
                     <flux:input wire:model="nombre" label="Nombre" placeholder="Escriba el nombre"
                         :value="old('nombre', $socio->nombre)" disabled />
@@ -42,6 +33,15 @@
                         :value="old('apellidos', $socio->apellidos)" disabled />
                     <flux:input wire:model="dni" label="DNI" placeholder="Escriba el DNI"
                         :value="old('dni', $socio->dni)" disabled />
+                    <flux:checkbox wire:model="domiciliacion" label="Domiciliación"
+                        :checked="old('domiciliacion', $socio->domiciliacion)" class="col" disabled />
+                    @if ($socio->domiciliacion)
+                    <flux:modal.trigger name="edit-profile" class="place-items-stretch">
+                        <flux:button icon:trailing="eye" variant="outline" class="col">
+                            Ver IBAN
+                        </flux:button>
+                    </flux:modal.trigger>
+                    @endif
                 </div>
 
                 <!-- Segunda columna -->
@@ -72,6 +72,7 @@
                         :value="old('provincia', $socio->provincia)" disabled />
                 </div>
             </div>
+
             <!-- Incidencias relacionadas -->
             <div class="mt-8">
                 @if ($socio->incidencias->isEmpty())
@@ -104,18 +105,20 @@
             </div>
         </div>
     </div>
+
     <flux:modal name="edit-profile" class="md:w-96">
         <div class="space-y-6">
             <div>
-                <flux:heading size="lg">IBAN</flux:heading>     
+                <flux:heading size="lg">IBAN</flux:heading>
             </div>
             <flux:input readonly variant="filled" label="IBAN" placeholder="IBAN del socio" :value="$socio->iban" />
             <div class="flex">
                 <flux:spacer />
-                <flux:button icon="clipboard" variant="outline" @click="navigator.clipboard.writeText('{{ $socio->iban }}')">
-                   Copiar IBAN
+                <flux:button icon="clipboard" variant="outline"
+                    @click="navigator.clipboard.writeText('{{ $socio->iban }}')">
+                    Copiar IBAN
                 </flux:button>
             </div>
         </div>
-    </flux:modal>    
+    </flux:modal>
 </x-layouts.app>

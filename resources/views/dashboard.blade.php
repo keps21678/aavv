@@ -20,10 +20,11 @@
                 </p>
 
             </div>
-            <div class="text-right relative flex items-center justify-end p-4 bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
+            <div
+                class="text-right relative flex items-center justify-end p-4 bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
                 <!-- Ícono representativo -->
-                <div class="flex items-center mx-auto text-blue-600">                    
-                    <flux:icon.users class="h-6 w-6 mr-2" />                    
+                <div class="flex items-center mx-auto text-blue-600">
+                    <flux:icon.users class="h-6 w-6 mr-2" />
                     <!-- Contenido de la tarjeta -->
                     <h2 class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 mr-2">Número de Socios Activos:
                     </h2>
@@ -45,29 +46,56 @@
 
         <div class="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-3">
             <!-- Card con el número de socios -->
-            <div class="relative flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
+            <div
+                class="relative flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
                 <!-- Ícono representativo -->
                 <div class="flex items-center justify-center text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17 20h5v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2h5m6-10a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <!-- Contenido de la tarjeta -->
-                    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 mr-2">Número de Socios Activos: </h2>
-                    <p class="text-2xl font-extrabold  text-gray-900 dark:text-gray-100">
-                        {{ \App\Models\Socio::count() }}
-                    </p>
+                    <div class="flex flex-col items-center">
+                        <!-- Contenido de la tarjeta -->
+                        <div class="flex items-center justify-center text-blue-600 mt-4">
+                            <flux:icon.users class="h-6 w-6 mr-2" />
+                            <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Socios con Domiciliación:
+                            </h2>
+                            <p class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 ml-2">
+                                {{ \App\Models\Socio::where('domiciliacion', true)->count() }}
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-center text-blue-600 mt-4">
+                            <flux:icon.users class="h-6 w-6 mr-2" />
+                            <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Socios sin Domiciliación:
+                            </h2>
+                            <p class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 ml-2">
+                                {{ \App\Models\Socio::where('domiciliacion', false)->count() }}
+                            </p>
+                        </div>
+                        <a href="{{ route('admin.incidencias.index') }}" class="hover:underline">
+                        <div class="flex items-center justify-center text-blue-600 mt-4">                            
+                                <flux:icon.question-mark-circle class="h-6 w-6 mr-2" />
+                                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Número de Incidencias
+                                    Totales: </h2>
+                                <p class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 ml-2">
+                                    {{ \App\Models\Incidencia::count() }}
+                                </p>                            
+                        </div>
+                    </a>
+                    </div>
                 </div>
             </div>
 
             <!-- Tarjetas de ejemplo existentes -->
-            <div class="relative flex items-center justify-center aspect-video overflow-hidden bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">            
-                <div class="bg-gray-200 h-full w-full flex items-center justify-center">
-                    <img src="{{ asset('images/Logo.AAVV.svg') }}" alt="Logo AAVV" class="object-contain h-full w-full" />
+            <div
+                class="relative flex items-center justify-center aspect-video overflow-hidden bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
+                <div class=" bg-gray-300 h-full w-full flex items-center justify-center">
+                    <img src="{{ asset('images/Logo.AAVV.svg') }}" alt="Logo AAVV"
+                        class="object-contain h-full w-full" />
+                    <a href="{{ asset('images/Logo.AAVV.svg') }}" download="Logo_AAVV"
+                        class="px-4 py-2 me-2 mb-2 mt-auto outline place-items-end text-white rounded-lg hover:bg-blue-700">
+                        Descargar Imagen
+                    </a>
                 </div>
             </div>
-            <div class="place-items-stretch relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
+            <div
+                class="place-items-stretch relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
                 <livewire:appointments-calendar />
             </div>
         </div>

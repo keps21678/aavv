@@ -25,16 +25,14 @@ class Cuota extends Model
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'tsocio_id' => 'integer',
-            'anyo' => 'integer',
-            'cantidad' => 'decimal:2',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime'
-        ];
-    }
+    protected $casts = [
+        'tsocio_id' => 'integer',
+        'anyo' => 'integer',
+        'cantidad' => 'decimal:2',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function tsocio()
     {
         return $this->belongsTo(TSocio::class, 'tsocio_id');

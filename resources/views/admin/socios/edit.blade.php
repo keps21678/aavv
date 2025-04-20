@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto rounded overflow-hidden shadow-lg">
+    <div class="max-w-xl mx-auto rounded overflow-hidden shadow-lg">
         <div class="flex flex-col gap-6">
             <x-auth-header :title="__('Editar la cuenta del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
                 :description="__('Introduce las modificaciones de la cuenta')" />
@@ -33,14 +33,14 @@
                                 <input type="checkbox" id="empresa" name="empresa" value="1" {{ old('empresa',
                                     $socio->empresa) ? 'checked' : '' }}
                                 class="form-checkbox h-5 w-5">
-                                <label for="empresa" class="ml-2 text-gray-700">Empresa</label>
+                                <label for="empresa" class="ml-2">Empresa</label>
                             </div>
 
                             <div class="flex items-center">
                                 <input type="checkbox" id="baja" name="baja" value="1" {{ old('baja', $socio->baja) ?
                                 'checked' : '' }}
                                 class="form-checkbox h-5 w-5" >
-                                <label for="baja" class="ml-2 text-gray-700">Baja</label>
+                                <label for="baja" class="ml-2">Baja</label>
                             </div>
                         </div>
 
@@ -52,20 +52,7 @@
                         <flux:input wire:model="apellidos" label="Apellidos" placeholder="Escriba los apellidos"
                             :value="old('apellidos', $socio->apellidos)" required />
                         <flux:input wire:model="dni" label="DNI" placeholder="Escriba el DNI"
-                            :value="old('dni', $socio->dni)" required />
-                        <div
-                            x-data="{ showIBAN: {{ old('domiciliacion', $socio->domiciliacion) ? 'true' : 'false' }} }">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1" {{
-                                    old('domiciliacion', $socio->domiciliacion) ? 'checked' : '' }}
-                                class="form-checkbox h-5 w-5" @change="showIBAN = $event.target.checked">
-                                <label for="domiciliacion" class="ml-2 text-gray-700">Domiciliación</label>
-                            </div>
-                            <template x-if="showIBAN" class="mt-2 col-span-3">
-                                <flux:input readonly variant="filled" label="IBAN" placeholder="IBAN del socio" type="password" 
-                                    :value="$socio->iban ? $socio->iban : 'Sin IBAN definido'" viewable />
-                            </template>
-                        </div>
+                            :value="old('dni', $socio->dni)" required />                        
                     </div>
 
                     <!-- Segunda columna -->
@@ -97,7 +84,47 @@
                             :value="old('provincia', $socio->provincia)" />
                     </div>
                 </div>
-
+                <div class="">
+                    <div x-data="{ showIBAN: {{ old('domiciliacion', $socio->domiciliacion) ? 'true' : 'false' }} }">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1" {{ old('domiciliacion',
+                                $socio->domiciliacion) ? 'checked' : '' }}
+                            class="form-checkbox h-5 w-5" @change="showIBAN = $event.target.checked">
+                            <label for="domiciliacion" class="ml-2">Domiciliación</label>
+                        </div>
+                        <template x-if="showIBAN">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 px-2">
+                                <flux:input variant="filled" label="IBAN" placeholder="IBAN de la cuenta" type='password'
+                                    :value="old('iban', $socio->iban)" viewable />
+                                <flux:input variant="filled" label="Titular de la cuenta"
+                                    placeholder="Nombre y apellidos del titular" :value="old('titular', $socio->titular)" />
+                                <flux:input variant="filled" label="DNI del titular de la cuenta" placeholder="dni_titular"
+                                    :value="old('dni_titular', $socio->dni_titular)" />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 px-2">
+                    <!-- Tipo de Socio -->
+                    <flux:select wire:model="tsocio_id" label="Tipo Socio" name="tsocio_id" id="tsocio_id" required>
+                        <option value="" disabled>Seleccionar el tipo Socio/a</option>
+                        @foreach ($tsocios as $tsocio)
+                        <option value="{{ $tsocio->id }}" {{ $socio->tsocio_id == $tsocio->id ? 'selected' : '' }}>
+                            {{ $tsocio->nombre }}
+                        </option>
+                        @endforeach
+                    </flux:select>
+        
+                    <!-- Cuota -->
+                    <flux:select wire:model="cuotas_id" label="Cuota" name="cuota_id" id="cuota_id" required>
+                        <option value="" disabled selected>Seleccionar cuota</option>
+                        @foreach ($cuotas as $cuota)
+                        <option value="{{ $cuota->id }}" {{ $socio->cuota_id == $cuota->id ? 'selected' : '' }}>
+                            {{ $cuota->cantidad }} € / {{ $cuota->anyo }}
+                        </option>
+                        @endforeach
+                    </flux:select>
+                </div>
                 <!-- Botón de envío -->
                 <div class="flex justify-end mt-6 mb-4">
                     <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar cambios</flux:button>

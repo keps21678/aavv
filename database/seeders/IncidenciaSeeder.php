@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Incidencia;
+use Faker\Factory as Faker;
 use App\Models\Tincidencia;
 use App\Models\Socio;
 
@@ -21,12 +22,14 @@ class IncidenciaSeeder extends Seeder
         // Obtener un ID válido de la tabla socios
         $socioId = Socio::inRandomOrder()->value('id');
 
-        // Crear una incidencia con un tipo de incidencia y socio válidos
+        // Crear una incidencia con un tipo de incidencia y socio válidos        
         Incidencia::factory()->create([
             'socio_id' => $socioId,
             'tincidencia_id' => $tincidenciaId,
             'descripcion' => 'Incidencia de prueba',
             'fecha_incidencia' => now(),
         ]);
+        // Crear 25 incidencias aleatorias
+        Incidencia::factory()->count(25)->create();
     }
 }

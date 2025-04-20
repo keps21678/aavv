@@ -136,7 +136,7 @@ class CuotaController extends Controller
             // Validar los datos de la solicitud con mensajes personalizados
             $request->validate([
                 'tsocio_id' => 'required|integer|exists:tsocios,id',
-                'anyo' => 'required|integer|min:1950|max:3000',
+                'anyo' => 'required|integer|min:1990|max:3000',
                 'cantidad' => 'required|numeric|min:0',
             ], [
                 'tsocio_id.required' => 'El campo Tipo de Socio es obligatorio.',
@@ -144,7 +144,7 @@ class CuotaController extends Controller
                 'tsocio_id.exists' => 'El Tipo de Socio seleccionado no es válido.',
                 'anyo.required' => 'El campo Año es obligatorio.',
                 'anyo.integer' => 'El campo Año debe ser un número entero.',
-                'anyo.min' => 'El campo Año debe ser mayor o igual a 1950.',
+                'anyo.min' => 'El campo Año debe ser mayor o igual a 1990.',
                 'anyo.max' => 'El campo Año debe ser menor o igual a 3000.',
                 'cantidad.required' => 'El campo Cantidad es obligatorio.',
                 'cantidad.numeric' => 'El campo Cantidad debe ser un número.',

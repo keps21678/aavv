@@ -6,8 +6,7 @@
             </flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Edición de Incidencia') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.incidencias.index') }}"
-            class="btn btn-green-dark">Listado de Incidencias</a>
+        <a href="{{ route('admin.incidencias.index') }}" class="btn btn-green-dark">Listado de Incidencias</a>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
@@ -20,10 +19,9 @@
                     <flux:select label="Socio" name="socio_id" id="socio_id" required searchable>
                         <option value="" disabled>Seleccione un socio</option>
                         @foreach ($socios as $socio)
-                            <option value="{{ $socio->id }}"
-                                {{ $incidencia->socio_id == $socio->id ? 'selected' : '' }}>
-                                {{ $socio->nombre }} {{ $socio->apellidos }}
-                            </option>
+                        <option value="{{ $socio->id }}" {{ $incidencia->socio_id == $socio->id ? 'selected' : '' }}>
+                            {{ $socio->nombre }} {{ $socio->apellidos }}
+                        </option>
                         @endforeach
                     </flux:select>
                 </div>
@@ -32,10 +30,10 @@
                     <flux:select label="Tipo de Incidencia" name="tincidencia_id" id="tincidencia_id" required>
                         <option value="" disabled>Seleccione un tipo de incidencia</option>
                         @foreach ($tincidencias as $tincidencia)
-                            <option value="{{ $tincidencia->id }}"
-                                {{ $incidencia->tincidencia_id == $tincidencia->id ? 'selected' : '' }}>
-                                {{ $tincidencia->nombre }}
-                            </option>
+                        <option value="{{ $tincidencia->id }}" {{ $incidencia->tincidencia_id == $tincidencia->id ?
+                            'selected' : '' }}>
+                            {{ $tincidencia->nombre }}
+                        </option>
                         @endforeach
                     </flux:select>
                 </div>
@@ -48,8 +46,11 @@
                 </div>
 
                 <div class='mb-4'>
-                    <flux:input label="Fecha de la incidencia" name="fecha_incidencia" id="fecha_incidencia"
-                        type="text" value="{{ old('fecha_incidencia', $incidencia->fecha_incidencia ? \Carbon\Carbon::parse($incidencia->fecha_incidencia)->format('d/m/Y') : now()->format('d/m/Y')) }}" required />
+                    <flux:input label="Fecha de la incidencia" name="fecha_incidencia" id="fecha_incidencia" type="date"
+                        value="{{ old('fecha_incidencia', $incidencia->fecha_incidencia ? \Carbon\Carbon::parse($incidencia->fecha_incidencia)->format('Y-m-d') : now()->format('Y-m-d')) }}" required />
+                    {{-- type="text" value="{{ old('fecha_incidencia', $incidencia->fecha_incidencia ?
+                    \Carbon\Carbon::parse($incidencia->fecha_incidencia)->format('d/m/Y') : now()->format('d/m/Y')) }}"
+                    required /> --}}
                 </div>
 
                 <div class="flex justify-end">

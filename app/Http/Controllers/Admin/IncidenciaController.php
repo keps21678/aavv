@@ -204,18 +204,6 @@ class IncidenciaController extends Controller
     public function destroy(Incidencia $incidencia)
     {
         try {
-            // Verificar si la incidencia está asociada a un socio
-            if (!$incidencia->socio) {
-                // Mensaje de error si no está asociada a un socio
-                session()->flash('swal', [
-                    'title' => 'Error',
-                    'text' => 'No se puede eliminar la incidencia porque no está asociada a ningún socio.',
-                    'icon' => 'error',
-                ]);
-
-                return redirect()->route('admin.incidencias.index');
-            }
-
             // Eliminar la incidencia
             $incidencia->delete();
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Socio;
+use App\Models\TSocio;
+use App\Models\Cuota;
 use Illuminate\Http\Request;
 use Livewire\WithPagination;
 
@@ -51,9 +53,14 @@ class SocioController extends Controller
      */
     public function create()
     {
-        //
         $socio = new Socio();
-        return view('admin.socios.create', compact('socio'));
+        $socio->nsocio = Socio::max('nsocio') + 1; // Generar el número de socio automáticamente
+
+        // Obtener los tipos de socios y cuotas
+        $tsocios = TSocio::all(); // Asegúrate de que el modelo TSocio existe
+        $cuotas = Cuota::where('anyo', '>=', now()->year)->get(); // Obtener cuotas del año actual y futuros
+
+        return view('admin.socios.create', compact('socio', 'tsocios', 'cuotas'));
     }
 
     /**
@@ -62,6 +69,7 @@ class SocioController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'nsocio' => 'required|integer|unique:socios,nsocio',
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'dni' => 'required|string|max:20|unique:socios,dni',
@@ -75,14 +83,27 @@ class SocioController extends Controller
             'codigo_postal' => 'nullable|string|max:10',
             'poblacion' => 'nullable|string|max:255',
             'provincia' => 'nullable|string|max:255',
+            'persona_contacto' => 'nullable|string|max:255',
+            'iban' => 'nullable|string|max:34',
+            'titular' => 'nullable|string|max:255',
+            'dni_titular' => 'nullable|string|max:20',
             'empresa' => 'boolean',
             'baja' => 'boolean',
             'domiciliacion' => 'boolean',
+            'tsocio_id' => 'required|exists:tsocios,id',
+            'cuota_id' => 'required|exists:cuotas,id',
+            // Agrega aquí cualquier otro campo nuevo...
         ]);
 
         Socio::create($validatedData);
 
-        return redirect()->route('admin.socios.index')->with('success', 'Socio creado correctamente.');
+        session()->flash('swal', [
+            'title' => 'Socio creado correctamente',
+            'text' => 'El socio se ha creado correctamente.',
+            'icon' => 'success',
+        ]);
+
+        return redirect()->route('admin.socios.index');
     }
 
     /**
@@ -90,7 +111,7 @@ class SocioController extends Controller
      */
     public function show(Socio $socio)
     {
-        //
+        //        
         return view('admin.socios.show', compact('socio'));
     }
 
@@ -100,7 +121,11 @@ class SocioController extends Controller
     public function edit(Socio $socio)
     {
         //
-        return view('admin.socios.edit', compact('socio'));
+        // Obtener los tipos de socios y cuotas
+        $tsocios = TSocio::all(); // Asegúrate de que el modelo TSocio existe
+        $cuotas = Cuota::where('anyo', '>=', now()->year - 1)->get(); // Obtener cuotas del año actual y futuros
+
+        return view('admin.socios.edit', compact('socio', 'tsocios', 'cuotas'));
     }
 
     /**
@@ -115,7 +140,7 @@ class SocioController extends Controller
                 $socio->incidencias()->create([
                     'descripcion' => 'Baja',
                     'fecha_incidencia' => now(),
-                    'tincidencia_id' => \App\Models\Tincidencia::where('descripcion', 'Baja')->value('id'), // Buscar el ID de la incidencia según la descripción
+                    'tincidencia_id' => \App\Models\Tincidencia::where('nombre', 'Baja')->value('id'), // Buscar el ID de la incidencia según la descripción
                     'socio_id' => $socio->id,
                 ]); // Generar una incidencia con el texto "Baja"
                 $request->merge(['baja' => true]); // Asegurarse de que 'baja' sea true
@@ -123,7 +148,7 @@ class SocioController extends Controller
                 $socio->incidencias()->create([
                     'descripcion' => 'Alta, tras una baja',
                     'fecha_incidencia' => now(),
-                    'tincidencia_id' => \App\Models\Tincidencia::where('descripcion', 'Alta')->value('id'), // Buscar el ID de la incidencia según la descripción
+                    'tincidencia_id' => \App\Models\Tincidencia::where('nombre', 'Alta')->value('id'), // Buscar el ID de la incidencia según la descripción
                     'socio_id' => $socio->id,
                 ]); // Generar una incidencia con el texto "Alta"
                 $request->merge(['baja' => false]); // Asegurarse de que 'baja' sea false
@@ -145,7 +170,7 @@ class SocioController extends Controller
             } else {
                 //$socio->tipo_domiciliacion = 'no_domiciliacion'; // Registrar el tipo de no domiciliación
                 $request->merge(['domiciliacion' => false]); // Asegurarse de que 'domiciliacion' sea false
-            }            
+            }
             // Validar los datos de entrada
             $request->validate([
                 'nombre' => 'required|string|max:255',
@@ -154,6 +179,8 @@ class SocioController extends Controller
                 'empresa' => 'required|boolean',
                 'baja' => 'required|boolean',
                 'domiciliacion' => 'required|boolean',
+                'tsocio_id' => 'required|exists:tsocios,id',
+                'cuota_id' => 'required|exists:cuotas,id',
                 // Agrega las demás reglas aquí...
             ]);
             $socio->fill($request->all());
@@ -168,11 +195,15 @@ class SocioController extends Controller
             // variable de sesión
             session()->flash('swal', [
                 'title' => 'Socio actualizado correctamente',
-                'text' => 'El socio se ha actualizado correctamente. ' . ($request->input('empresa') ? 'Sí' : 'No') . ($request->input('baja') ? 'Sí' : 'No') . ($request->input('domiciliacion') ? 'Sí' : 'No'),
+                'text' => 'El socio se ha actualizado correctamente. ',
                 'icon' => 'success',
             ]);
-            return view('admin.socios.edit', compact('socio'));
-            //return redirect()->route('admin.socios.index');
+
+            // Obtener los tipos de socios y cuotas
+            $tsocios = TSocio::all(); // Asegúrate de que el modelo TSocio existe
+            $cuotas = Cuota::where('anyo', '>=', now()->year - 1)->get(); // Obtener cuotas del año actual y futuros
+            //return view('admin.socios.edit', compact('socio'));
+            return redirect()->route('admin.socios.edit', compact('socio', 'tsocios', 'cuotas'));
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = collect($e->errors())->map(function ($messages, $field) {
                 return ucfirst($field) . ': ' . implode(', ', $messages);

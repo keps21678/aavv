@@ -17,7 +17,22 @@ class CuotaSeeder extends Seeder
         Cuota::factory()->create([
             'tsocio_id' => '1',
             'anyo' => '2025',
-            'cantidad' => '10.00',
+            'cantidad' => '11.00',
+        ]);
+        Cuota::factory()->create([
+            'tsocio_id' => '2',
+            'anyo' => '2025',
+            'cantidad' => '12.00',
+        ]);
+        Cuota::factory()->create([
+            'tsocio_id' => '3',
+            'anyo' => '2025',
+            'cantidad' => '13.00',
+        ]);
+        Cuota::factory()->create([
+            'tsocio_id' => '4',
+            'anyo' => '2025',
+            'cantidad' => '14.00',
         ]);
     }
 }

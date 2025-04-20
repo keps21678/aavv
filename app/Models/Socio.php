@@ -31,6 +31,8 @@ class Socio extends Model
         'persona_contacto',
         'domiciliacion',
         'iban',
+        'titular',
+        'dni_titular',
         'tsocio_id',
         'cuota_id',
         'baja',
@@ -65,6 +67,8 @@ class Socio extends Model
             'persona_contacto' => 'string',
             'domiciliacion' => 'boolean',
             'iban' => 'string',
+            'titular' => 'string',
+            'dni_titular' => 'string',
             'tsocio_id' => 'integer',
             'cuota_id' => 'integer',
             'baja' => 'boolean'
