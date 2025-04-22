@@ -7,14 +7,13 @@
         </flux:breadcrumbs>
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
-        <flux:button href="{{ route('admin.tsocios.create') }}"
-            class="btn btn-green">Nuevo tipo de socios/as</flux:button>
+        <flux:button href="{{ route('admin.tsocios.create') }}" class="btn btn-green">Nuevo tipo de socios/as
+        </flux:button>
     </div>
     <br />
-    <div class="relative overflow-x-auto">
-
+    <div class="relative overflow-x-auto px-2">
         <hr class="solid">
-        <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400" id="tabla">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
@@ -39,57 +38,66 @@
             </thead>
             <tbody>
                 @foreach ($tsocios as $tsocio)
-                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                        <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $tsocio->id }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $tsocio->nombre }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $tsocio->descripcion }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $tsocio->created_at }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $tsocio->updated_at }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="flex justify-end space-x-2">
-                                {{-- <bootstrap:button variant="primary"
+                <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ $tsocio->id }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ $tsocio->nombre }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $tsocio->descripcion }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $tsocio->created_at }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $tsocio->updated_at }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex justify-end space-x-2">
+                            {{-- <bootstrap:button variant="primary"
                                 href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary">Edit
                             </bootstrap:button> --}}
-                                {{-- <a href="{{ route('admin.categories.edit', $category) }}"
+                            {{-- <a href="{{ route('admin.categories.edit', $category) }}"
                                 class="btn btn-blue justify-end">Editar</a> --}}
-                                <flux:button variant="primary" href="{{ route('admin.tsocios.edit', $tsocio) }}"
-                                    class="btn btn-blue">Editar</flux:button>
+                            <flux:button variant="primary" href="{{ route('admin.tsocios.edit', $tsocio) }}"
+                                class="btn btn-blue">Editar</flux:button>
 
-                                <form class="delete-form" action="{{ route('admin.tsocios.destroy', $tsocio) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
-                                    </flux:button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
+                            <form class="delete-form" action="{{ route('admin.tsocios.destroy', $tsocio) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                                </flux:button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    @push('css')
+{{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> --}}
+@endpush
     @push('js')
-        <script>
-            document.querySelectorAll('.delete-form').forEach(form => {
+    <script>
+        $(document).ready(function () {
+            $('#tabla').DataTable({
+                responsive: true,
+                language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
+                },
+            });
+        });        
+        document.querySelectorAll('.delete-form').forEach(form => {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     Swal.fire({
                         title: '¿Estás seguro?',
                         text: 'No podrás revertir esto',
-                        icon: 'warning',
-                        showCancelButton: true,
+                        icon: 'warning',showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Sí, eliminar',
@@ -100,7 +108,7 @@
                         }
                     });
                 });
-            });
-        </script>
+            });            
+    </script>
     @endpush
 </x-layouts.app>

@@ -14,7 +14,7 @@
     <div class="relative overflow-x-auto">
 
         <hr class="solid">
-        <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-2 py-3">Socio</th>
@@ -81,12 +81,20 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="mt-2">
+        {{-- <div class="mt-2">
             {{ $socios->links() }}
-        </div>
+        </div> --}}
     </div>
     @push('js')
     <script>
+        $(document).ready(function () {
+            $('#tabla').DataTable({
+                responsive: true,
+                language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
+                },
+            });
+        });
         document.querySelectorAll('.delete-form').forEach(form => {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();

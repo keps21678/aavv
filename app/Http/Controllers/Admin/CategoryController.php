@@ -100,6 +100,7 @@ class CategoryController extends Controller
             'text' => 'La categoria se ha eliminado correctamente',
             'icon' => 'success',
         ]);
+        
         return redirect()->route('admin.categories.index');
     }
 }

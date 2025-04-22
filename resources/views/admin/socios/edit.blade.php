@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="max-w-xl mx-auto rounded overflow-hidden shadow-lg">
+    <div class="max-w-4xl mx-auto rounded overflow-hidden shadow-lg">
         <div class="flex flex-col gap-6">
             <x-auth-header :title="__('Editar la cuenta del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
                 :description="__('Introduce las modificaciones de la cuenta')" />

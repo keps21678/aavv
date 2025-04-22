@@ -30,7 +30,7 @@ class SocioController extends Controller
             ->orWhere('apellidos', 'LIKE', '%' . $this->search . '%')
             ->orderBy('nsocio', 'asc')
             ->withCount('incidencias')
-            ->paginate(8);
+            ->get();
         //$socios = Socio::withCount('incidencias')->paginate(10); // Carga el conteo de incidencias
 
         if ($socios->isEmpty()) {
@@ -233,5 +233,6 @@ class SocioController extends Controller
             'icon' => 'success',
         ]);
         return redirect()->route('admin.socios.index');
+        //return redirect()->route('admin.socios.index');
     }
 }

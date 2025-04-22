@@ -28,6 +28,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(IncidenciaSeeder::class);
 
-        Category::factory(15)->create();
+        Category::factory(50)->create();
     }
 }

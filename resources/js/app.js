@@ -1,4 +1,12 @@
-// import Swal from 'sweetalert2';
+import _ from 'lodash';
+window._ = _;
 
-// // Hacer que Swal esté disponible globalmente
+import jQuery from 'jquery';
+window.$ = jQuery;
+
+import DataTable from 'datatables.net';
+window.DataTable = DataTable;
+
+// SweetAlert2
+// import Swal from 'sweetalert2';
 // window.Swal = Swal;
