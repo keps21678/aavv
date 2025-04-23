@@ -8,7 +8,7 @@
         <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Volver al Listado</a>
     </div>
 
-    <div class="max-w-xl mx-auto rounded overflow-hidden shadow-lg text-lg">
+    <div class="rounded overflow-hidden shadow-lg text-lg">
         <div class="flex flex-col gap-6 px-4 mb-6">
             <x-auth-header :title="__('Detalles del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
                 :description="__('Datos de la cuenta')" />
@@ -111,7 +111,15 @@
             <div>
                 <flux:heading size="lg">IBAN</flux:heading>
             </div>
-            <flux:input readonly variant="filled" label="IBAN" placeholder="IBAN del socio" :value="$socio->iban" />
+            <div class="container">
+                <div class="columns-3 gap-6 mb-6">
+                    <flux:input class="mb-2" readonly variant="filled" label="IBAN" placeholder="IBAN del socio" :value="$socio->iban" />
+                    <flux:input class="mb-2" readonly variant="filled" label="Titular de la cuenta" placeholder="Titular"
+                        :value="$socio->titular" />
+                    <flux:input class="mb-2" readonly variant="filled" label="DNI del Titular" placeholder="DNI"
+                        :value="$socio->dni_titular" />
+                </div>
+            </div>
             <div class="flex">
                 <flux:spacer />
                 <flux:button icon="clipboard" variant="outline"

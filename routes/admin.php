@@ -25,6 +25,13 @@ Route::prefix('admin')->group(function () {
 
     Route::resource('categories', CategoryController::class)
         ->names('admin.categories');
+
+    Route::resource('proveedores', \App\Http\Controllers\Admin\ProveedorController::class)
+        ->names('admin.proveedores');
+
+    Route::resource('facturas', \App\Http\Controllers\Admin\FacturaController::class)
+        ->names('admin.facturas');
+
     //});
     //Route::resource('users', UserController::class)->names('admin.users');
     //Route::prefix('admin')->group(function () {

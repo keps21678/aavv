@@ -2,33 +2,31 @@
 
 namespace Database\Factories;
 
-use App\Models\TSocio;
-use App\Models\Cuota;
+use App\Models\Proveedor;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Socio>
- */
-class SocioFactory extends Factory
+class ProveedorFactory extends Factory
 {
-    private static $nsocioCounter = 1;
+    /**
+     * El modelo asociado con este factory.
+     *
+     * @var string
+     */
+    protected $model = Proveedor::class;
 
     /**
-     * Define the model's default state.
+     * Define el estado por defecto del modelo.
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            'nsocio' => self::$nsocioCounter++,
-            'empresa' => $this->faker->company,
-            'nombre' => $this->faker->firstName,
-            'apellidos' => $this->faker->lastName . ' ' . $this->faker->lastName,
-            'dni' => $this->generateDni(),
+            'nif' => strtoupper(Str::random(9)),
+            'nombre' => $this->faker->company,
             'telefono' => $this->faker->phoneNumber,
-            'movil' => $this->faker->phoneNumber,
-            'email' => $this->faker->email,
+            'email' => $this->faker->unique()->safeEmail,
             'calle' => $this->faker->streetName,
             'portal' => $this->faker->buildingNumber,
             'piso' => $this->faker->numberBetween(1, 10),
@@ -36,19 +34,16 @@ class SocioFactory extends Factory
             'codigo_postal' => $this->faker->postcode,
             'poblacion' => $this->faker->city,
             'provincia' => $this->faker->state,
-            'persona_contacto' => $this->faker->firstName . ' ' . $this->faker->lastName,
+            'persona_contacto' => $this->faker->name,
             'domiciliacion' => $this->faker->boolean,
-            'iban' => $this->isValidIban($this->faker->iban('ES')) ? $this->faker->iban('ES') : null,
-            'titular' => $this->faker->firstName,
-            'dni_titular' => $this->generateDni(),
-            'tsocio_id' => TSocio::query()->inRandomOrder()->first()?->id ?? 1, // Selecciona un TSocio existente o usa un ID predeterminado
-            'cuota_id' => Cuota::query()->inRandomOrder()->first()?->id ?? 1,
-            'baja' => $this->faker->boolean,
+            'iban' => $this->faker->iban('ES'),
+            'titular' => $this->faker->name, // Nuevo campo
+            'dni_titular' => $this->generateDni(), // Nuevo campo
         ];
     }
 
     /**
-     * Generate a valid DNI.
+     * Genera un DNI válido.
      *
      * @return string
      */
@@ -59,6 +54,7 @@ class SocioFactory extends Factory
         $letter = $letters[$numbers % 23];
         return $numbers . $letter;
     }
+
     /**
      * Validate the IBAN.
      *

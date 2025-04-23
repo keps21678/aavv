@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto rounded overflow-hidden shadow-lg">
+    <div class="rounded overflow-hidden shadow-lg">
         <div class="flex flex-col gap-6">
             <x-auth-header :title="__('Editar la cuenta del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
                 :description="__('Introduce las modificaciones de la cuenta')" />
@@ -21,7 +21,7 @@
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.socios.update', $socio) }}" method="POST">
                 @csrf
-                @method('PUT')
+                @method('PUT')                
                 <!-- Contenedor de tres columnas -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
                     <!-- Primera columna -->

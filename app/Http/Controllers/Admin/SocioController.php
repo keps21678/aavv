@@ -72,7 +72,17 @@ class SocioController extends Controller
             'nsocio' => 'required|integer|unique:socios,nsocio',
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
-            'dni' => 'required|string|max:20|unique:socios,dni',
+            'dni' => [
+                'required',
+                'string',
+                'max:20',
+                'unique:socios,dni',
+                function ($attribute, $value, $fail) {
+                    if (!$this->isValidDni($value)) {
+                        $fail('El DNI proporcionado no es válido.');
+                    }
+                },
+            ],
             'telefono' => 'nullable|string|max:20',
             'movil' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:255',
@@ -84,7 +94,16 @@ class SocioController extends Controller
             'poblacion' => 'nullable|string|max:255',
             'provincia' => 'nullable|string|max:255',
             'persona_contacto' => 'nullable|string|max:255',
-            'iban' => 'nullable|string|max:34',
+            'iban' => [
+                'nullable',
+                'string',
+                'max:34',
+                function ($attribute, $value, $fail) {
+                    if (!$this->isValidIban($value)) {
+                        $fail('El IBAN proporcionado no es válido.');
+                    }
+                },
+            ],
             'titular' => 'nullable|string|max:255',
             'dni_titular' => 'nullable|string|max:20',
             'empresa' => 'boolean',
@@ -182,6 +201,27 @@ class SocioController extends Controller
                 'tsocio_id' => 'required|exists:tsocios,id',
                 'cuota_id' => 'required|exists:cuotas,id',
                 // Agrega las demás reglas aquí...
+                'dni' => [
+                    'required',
+                    'string',
+                    'max:20',
+                    'unique:socios,dni',
+                    function ($attribute, $value, $fail) {
+                        if (!$this->isValidDni($value)) {
+                            $fail('El DNI proporcionado no es válido.');
+                        }
+                    },
+                    'iban' => [
+                        'nullable',
+                        'string',
+                        'max:34',
+                        function ($attribute, $value, $fail) {
+                            if (!$this->isValidIban($value)) {
+                                $fail('El IBAN proporcionado no es válido.');
+                            }
+                        },
+                    ],
+                ],
             ]);
             $socio->fill($request->all());
             // Verificar si el DNI ha cambiado y es único
@@ -234,5 +274,64 @@ class SocioController extends Controller
         ]);
         return redirect()->route('admin.socios.index');
         //return redirect()->route('admin.socios.index');
+    }
+    /**
+     * Validate the IBAN.
+     *
+     * @param string $iban
+     * @return bool
+     */
+    private function isValidIban(string $iban): bool
+    {
+        // Elimina espacios y convierte a mayúsculas
+        $iban = strtoupper(str_replace(' ', '', $iban));
+
+        // Verifica la longitud mínima y máxima del IBAN
+        if (strlen($iban) < 15 || strlen($iban) > 34) {
+            return false;
+        }
+
+        // Mueve los primeros 4 caracteres al final
+        $iban = substr($iban, 4) . substr($iban, 0, 4);
+
+        // Reemplaza las letras por números (A=10, B=11, ..., Z=35)
+        $iban = preg_replace_callback('/[A-Z]/', function ($match) {
+            return ord($match[0]) - 55;
+        }, $iban);
+
+        // Calcula el módulo 97
+        $remainder = intval(substr($iban, 0, 1));
+        for ($i = 1, $len = strlen($iban); $i < $len; $i++) {
+            $remainder = intval($remainder . $iban[$i]) % 97;
+        }
+
+        return $remainder === 1;
+    }
+    /**
+     * Validate the DNI.
+     *
+     * @param string $dni
+     * @return bool
+     */
+    private function isValidDni(string $dni): bool
+    {
+        // Elimina espacios y convierte a mayúsculas
+        $dni = strtoupper(str_replace(' ', '', $dni));
+
+        // Verifica que el formato sea válido (8 números seguidos de una letra)
+        if (!preg_match('/^[0-9]{8}[A-Z]$/', $dni)) {
+            return false;
+        }
+
+        // Extrae los números y la letra
+        $numbers = substr($dni, 0, 8);
+        $letter = substr($dni, -1);
+
+        // Calcula la letra correcta
+        $validLetters = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        $correctLetter = $validLetters[$numbers % 23];
+
+        // Compara la letra proporcionada con la calculada
+        return $letter === $correctLetter;
     }
 }
