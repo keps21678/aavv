@@ -23,7 +23,7 @@ class FacturaFactory extends Factory
     public function definition(): array
     {
         return [
-            'proveedor_id' => Proveedor::factory(), // Relación con un proveedor
+            'proveedor_id' => Proveedor::query()->inRandomOrder()->first()?->id ?? Proveedor::factory(), // Relación con un proveedor existente o crea uno nuevo
             'numero' => $this->faker->unique()->numerify('FAC-#####'), // Número de factura único
             'fecha_emision' => $this->faker->date(),
             'fecha_vencimiento' => $this->faker->dateTimeBetween('now', '+30 days'),

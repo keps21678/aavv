@@ -88,14 +88,22 @@
             ],
         ],
         [
-            'heading' => __('Gestión Finaciera'),
+            'heading' => __('Gestión Financiera'),
             'items' => [
                 [
                     'name' => __('Proveedores'),
                     'icon' => 'building-storefront',
-                    'url' => route('admin.categories.index'),
-                    'current' => request()->routeIs('categories.*'),
+                    'url' => route('admin.proveedores.index'),
+                    'current' => request()->routeIs('proveedores.*'),
                     'label' => __('Proveedores'),
+                    'role' => ['admin', 'editor'],
+                ],
+                [
+                    'name' => __('Facturas'),
+                    'icon' => 'document-text',
+                    'url' => route('admin.facturas.index'),
+                    'current' => request()->routeIs('facturas.*'),
+                    'label' => __('Facturas'),
                     'role' => ['admin', 'editor'],
                 ],
                 [

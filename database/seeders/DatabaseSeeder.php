@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(IncidenciaSeeder::class);
 
+        $this->call(ProveedorSeeder::class);
+        
+        $this->call(FacturaSeeder::class);
+
         Category::factory(50)->create();
     }
 }
