@@ -12,7 +12,7 @@
                                 setInterval(() => {
                                     const currentTimeElement = document.getElementById('current-time');
                                     const now = new Date();
-                                    const formattedTime = now.toLocaleTimeString('en-GB', { hour12: false });
+                                    const formattedTime = now.toLocaleTimeString('es-ES', { hour12: false });
                                     currentTimeElement.textContent = formattedTime;
                                 }, 1000);
                             });

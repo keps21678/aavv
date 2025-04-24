@@ -1,87 +1,81 @@
-<x-layouts.app :title="__('Nuevo Proveedor')">
+<x-layouts.app :title="__('Nueva Factura')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.proveedores.index')">{{ __('Proveedores') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Nuevo Proveedor') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.facturas.index')">{{ __('Facturas') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Nueva Factura') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.proveedores.index') }}" class="btn btn-green-dark">Listado de Proveedores</a>
+            <a href="{{ route('admin.facturas.index') }}" class="btn btn-green-dark">Listado de Facturas</a>
         </div>
     </div>
     <div class="rounded overflow-hidden shadow-lg">
         <div class="flex flex-col gap-6">
-            <x-auth-header :title="__('Nuevo Proveedor')" :description="__('Introduce los detalles para crear el proveedor')" />
+            <x-auth-header :title="__('Nueva Factura')" :description="__('Introduce los detalles para crear la factura')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
-            <form action="{{ route('admin.proveedores.store') }}" method="POST">
+            <form action="{{ route('admin.facturas.store') }}" method="POST">
                 @csrf
-                <!-- Contenedor de tres columnas -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-2">
+                <!-- Contenedor de dos columnas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
                     <!-- Primera columna -->
                     <div class="flex flex-col gap-6">
-                        <flux:input wire:model="nif" label="NIF" placeholder="Escriba el NIF"
-                            :value="old('nif', $proveedor->nif ?? '')" required />
-                        <flux:input wire:model="nombre" label="Nombre" placeholder="Escriba el nombre"
-                            :value="old('nombre', $proveedor->nombre ?? '')" required />
-                        <flux:input wire:model="telefono" label="Teléfono" placeholder="Escriba el teléfono"
-                            :value="old('telefono', $proveedor->telefono ?? '')" />
-                        <flux:input wire:model="email" label="Correo Electrónico" placeholder="Escriba el correo electrónico"
-                            :value="old('email', $proveedor->email ?? '')" />
+                        <!-- Selección del proveedor -->
+                        <flux:select wire:model="proveedor_id" label="Proveedor" name="proveedor_id" id="proveedor_id" required searchable>
+                            <option value="" disabled {{ old('proveedor_id') ? '' : 'selected' }}>Seleccione un proveedor</option>
+                            @foreach ($proveedores as $proveedor)
+                                <option value="{{ $proveedor->id }}" {{ old('proveedor_id') == $proveedor->id ? 'selected' : '' }}>
+                                    {{ $proveedor->nombre }}
+                                </option>
+                            @endforeach
+                        </flux:select>
+
+                        <!-- Número de factura -->
+                        <flux:input wire:model="numero" label="Número de Factura" name="numero" id="numero" type="text"
+                            placeholder="Ingrese el número de la factura" :value="old('numero')" required />
+                        
+                        <!-- Fecha de emisión -->
+                        <flux:input wire:model="fecha_emision" label="Fecha de Emisión" name="fecha_emision" id="fecha_emision" type="date"
+                            :value="old('fecha_emision', now()->format('Y-m-d'))" required />
+                        
+                        <!-- Fecha de vencimiento -->
+                        <flux:input wire:model="fecha_vencimiento" label="Fecha de Vencimiento" name="fecha_vencimiento" id="fecha_vencimiento" type="date"
+                            :value="old('fecha_vencimiento', now()->addDays(30)->format('Y-m-d'))" required />
                     </div>
 
                     <!-- Segunda columna -->
                     <div class="flex flex-col gap-6">
-                        <flux:input wire:model="calle" label="Calle" placeholder="Escriba la calle"
-                            :value="old('calle', $proveedor->calle ?? '')" />
-                        <flux:input wire:model="portal" label="Portal" placeholder="Escriba el portal"
-                            :value="old('portal', $proveedor->portal ?? '')" />
-                        <flux:input wire:model="piso" label="Piso" placeholder="Escriba el piso"
-                            :value="old('piso', $proveedor->piso ?? '')" />
-                        <flux:input wire:model="letra" label="Letra" placeholder="Escriba la letra"
-                            :value="old('letra', $proveedor->letra ?? '')" />
-                        <flux:input wire:model="codigo_postal" label="Código Postal" placeholder="Escriba el código postal"
-                            :value="old('codigo_postal', $proveedor->codigo_postal ?? '')" />
-                    </div>
+                        <!-- Importe -->
+                        <flux:input wire:model="importe" label="Importe" name="importe" id="importe" type="number" step="0.01"
+                            placeholder="Ingrese el importe de la factura" :value="old('importe')" required />
+                        
+                        <!-- Descripción -->
+                        <flux:textarea wire:model="descripcion" label="Descripción" name="descripcion"
+                            placeholder="Escriba una descripción de la factura" required>
+                            {{ old('descripcion') }}
+                        </flux:textarea>
 
-                    <!-- Tercera columna -->
-                    <div class="flex flex-col gap-6">
-                        <flux:input wire:model="poblacion" label="Población" placeholder="Escriba la población"
-                            :value="old('poblacion', $proveedor->poblacion ?? '')" />
-                        <flux:input wire:model="provincia" label="Provincia" placeholder="Escriba la provincia"
-                            :value="old('provincia', $proveedor->provincia ?? '')" />
-                        <flux:input wire:model="persona_contacto" label="Persona de Contacto"
-                            placeholder="Escriba el nombre de la persona de contacto"
-                            :value="old('persona_contacto', $proveedor->persona_contacto ?? '')" />
+                        <!-- Estado -->
+                        <flux:select wire:model="estado" label="Estado" name="estado" id="estado" required>
+                            <option value="" disabled {{ old('estado') ? '' : 'selected' }}>Seleccione un estado</option>
+                            <option value="pendiente" class="text-yellow-500" {{ old('estado') == 'pendiente' ? 'selected' : '' }}>
+                                Pendiente
+                            </option>
+                            <option value="pagada" class="text-green-500" {{ old('estado') == 'pagada' ? 'selected' : '' }}>
+                                Pagada
+                            </option>
+                            <option value="vencida" class="text-red-500" {{ old('estado') == 'vencida' ? 'selected' : '' }}>
+                                Cancelada
+                            </option>
+                        </flux:select>
                     </div>
                 </div>
-        </div>
-        <div class="">
-            <div x-data="{ showIBAN: {{ old('domiciliacion', $proveedor->domiciliacion ?? false) ? 'true' : 'false' }} }">
-                <div class="flex items-center">
-                    <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1"
-                        {{ old('domiciliacion', $proveedor->domiciliacion ?? false) ? 'checked' : '' }}
-                        class="form-checkbox h-5 w-5" @change="showIBAN = $event.target.checked">
-                    <label for="domiciliacion" class="ml-2">Domiciliación</label>
+
+                <!-- Botón de envío -->
+                <div class="flex justify-end mt-6">
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar Factura</flux:button>
                 </div>
-                <template x-if="showIBAN">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 px-2">
-                        <flux:input variant="filled" label="IBAN" placeholder="IBAN de la cuenta"
-                            :value="old('iban', $proveedor->iban ?? '')" />
-                        <flux:input variant="filled" label="Titular de la cuenta"
-                            placeholder="Nombre y apellidos del titular"
-                            :value="old('titular', $proveedor->titular ?? '')" />
-                        <flux:input variant="filled" label="DNI del titular de la cuenta" placeholder="DNI del titular"
-                            :value="old('dni_titular', $proveedor->dni_titular ?? '')" />
-                    </div>
-                </template>
-            </div>
+            </form>
         </div>
-        <!-- Botón de envío -->
-        <div class="flex justify-end mt-6">
-            <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar Proveedor</flux:button>
-        </div>
-        </form>
-    </div>
     </div>
 </x-layouts.app>
