@@ -49,6 +49,14 @@
                     'role' => ['admin', 'editor'],
                 ],
                 [
+                    'name' => __('Estados'),
+                    'icon' => 'check-circle',
+                    'url' => route('admin.estados.index'),
+                    'current' => request()->routeIs('estados.*'),
+                    'label' => __('Estados'),
+                    'role' => ['admin', 'editor'],
+                ],
+                [
                     'name' => __('Tipos de socios/as'),
                     'icon' => 'user-circle',
                     'url' => route('admin.tsocios.index'),
@@ -90,7 +98,7 @@
                     'icon' => 'banknotes',
                     'url' => route('admin.recibos.index'),
                     'current' => request()->routeIs('recibos.*'),
-                    'label' => __('recibos'),
+                    'label' => __('Recibos'),
                     'role' => ['admin', 'editor'],
                 ],                
             ],

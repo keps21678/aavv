@@ -20,7 +20,7 @@ class CreateFacturasTable extends Migration
             $table->date('fecha_vencimiento');
             $table->text('descripcion')->nullable(); // Nuevo campo
             $table->decimal('importe', 10, 2);
-            $table->enum('estado', ['pendiente', 'pagada', 'vencida']);
+            $table->foreignId('estado_id')->constrained('estados')->onDelete('cascade');
             $table->softDeletes(); // Añadir soporte para Soft Deletes            
             $table->timestamps();
         });

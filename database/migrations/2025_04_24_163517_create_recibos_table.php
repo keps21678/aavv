@@ -13,13 +13,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('recibos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('socio_id')->constrained('socios')->onDelete('cascade'); // Relación con socios
-            $table->foreignId('cuota_id')->constrained('cuotas')->onDelete('cascade'); // Relación con cuotas
-            $table->foreignId('estado_id')->nullable()->constrained('estados')->onDelete('set null'); // Relación con estados
-            $table->decimal('importe', 10, 2); // Campo para el importe
+            $table->id();            
+            $table->foreignId('socio_id')->constrained('socios')->onDelete('cascade'); // Relación con socios            
+            $table->foreignId('tsocio_id')->constrained('socios')->onDelete('cascade'); // Relación con socios 
+            $table->foreignId('cuota_id')->constrained('cuotas')->onDelete('cascade'); // Relación con cuotas           
+            $table->string('recibo_numero')->unique()->nullable(); // Número de recibo único
             $table->date('fecha_emision'); // Fecha de emisión
             $table->date('fecha_vencimiento')->nullable(); // Fecha de vencimiento
+            $table->foreignId('estado_id')->nullable()->constrained('estados')->onDelete('set null'); // Relación con estados
             $table->text('descripcion')->nullable(); // Descripción opcional
             $table->timestamps();
             $table->softDeletes(); // Para soporte de eliminación lógica

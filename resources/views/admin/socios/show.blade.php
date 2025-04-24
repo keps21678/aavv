@@ -87,16 +87,31 @@
                             <th class="px-4 py-2" hidden>ID</th>
                             <th class="px-4 py-2 w-1/4">Fecha</th>
                             <th class="px-4 py-2">Descripción</th>
-                            <th class="px-4 py-2" hidden>Estado</th>
+                            <th class="px-4 py-2">Añadido/Modificado el</th>
+                            <th class="px-4 py-2">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($socio->incidencias as $incidencia)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                             <td class="px-4 py-2" hidden>{{ $incidencia->id }}</td>
-                            <td class="px-4 py-2 w-1/4">{{ $incidencia->fecha_incidencia }}</td>
+                            <td class="px-4 py-2 w-1/4">{{ $incidencia->fecha_incidencia ? $incidencia->fecha_incidencia->format('Y/m/d') : 'N/A' }}</td>
                             <td class="px-4 py-2">{{ $incidencia->descripcion }}</td>
-                            <td class="px-4 py-2" hidden>{{ $incidencia->estado }}</td>
+                            <td class="px-4 py-2">{{ $incidencia->updated_at ? $incidencia->updated_at->format('Y/m/d') : 'N/A' }}</td>
+                            <td class="px-4 py-2">
+                                <div class="flex justify-end space-x-2">
+                                    <flux:button variant="primary" href="{{ route('admin.incidencias.edit', $incidencia) }}"
+                                        class="btn btn-blue">
+                                        Editar
+                                    </flux:button>
+
+                                    <form class="delete-form" action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar</flux:button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -129,4 +144,28 @@
             </div>
         </div>
     </flux:modal>
+
+    @push('js')
+    <script>
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'No podrás revertir esto',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+    @endpush
 </x-layouts.app>

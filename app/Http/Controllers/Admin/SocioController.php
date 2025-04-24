@@ -124,6 +124,7 @@ class SocioController extends Controller
 
         return redirect()->route('admin.socios.index');
     }
+    
 
     /**
      * Display the specified resource.
@@ -205,7 +206,7 @@ class SocioController extends Controller
                     'required',
                     'string',
                     'max:20',
-                    'unique:socios,dni',
+                    'unique:socios,dni,' . $socio->id, // Permitir el valor actual del DNI
                     function ($attribute, $value, $fail) {
                         if (!$this->isValidDni($value)) {
                             $fail('El DNI proporcionado no es válido.');

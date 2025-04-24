@@ -15,6 +15,8 @@ class Estado extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
+        'color',
+        'icono',
     ];
     public $timestamps = true;
     /**
@@ -27,6 +29,8 @@ class Estado extends Model
         return [
             'nombre' => 'string',
             'descripcion' => 'string',
+            'color' => 'string',
+            'icono' => 'string',
         ];
     }
     /**

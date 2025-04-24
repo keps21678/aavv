@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Factura;
 use App\Models\Proveedor;
+use App\Models\Estado;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FacturaFactory extends Factory
@@ -31,7 +32,7 @@ class FacturaFactory extends Factory
             'fecha_vencimiento' => $this->faker->dateTimeBetween('now', '+30 days'),
             'descripcion' => $this->faker->sentence(), // Nuevo campo
             'importe' => $this->faker->randomFloat(2, 100, 10000),
-            'estado' => $this->faker->randomElement(['pendiente', 'pagada', 'vencida']),
+            'estado_id' => Estado::query()->inRandomOrder()->first()->id, // Selecciona un Estado existente de forma aleatoria
         ];
     }
 }

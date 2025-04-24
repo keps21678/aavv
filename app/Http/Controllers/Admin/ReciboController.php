@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Recibo;
 use App\Models\Socio;
 use App\Models\Cuota;
+use App\Models\Estado;
+use App\Models\Tsocio;
 use Illuminate\Http\Request;
 
 class ReciboController extends Controller
@@ -15,7 +17,7 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $recibos = Recibo::with(['socio', 'cuota'])->paginate(10);
+        $recibos = Recibo::with(['socio', 'cuota'])->get();
         return view('admin.recibos.index', compact('recibos'));
     }
 
@@ -26,7 +28,9 @@ class ReciboController extends Controller
     {
         $socios = Socio::all();
         $cuotas = Cuota::all();
-        return view('admin.recibos.create', compact('socios', 'cuotas'));
+        $tsocios = Tsocio::all();
+        $estados = Estado::all(); // Asegúrate de que el modelo Estado existe y está configurado correctamente
+        return view('admin.recibos.create', compact('socios', 'cuotas', 'tsocios', 'estados'));
     }
 
     /**
@@ -37,11 +41,13 @@ class ReciboController extends Controller
         try {
             $request->validate([
                 'socio_id' => 'required|exists:socios,id',
-                'cuota_id' => 'required|exists:cuotas,id',
-                'importe' => 'required|numeric|min:0',
+                'tsocio_id' => 'required|exists:cuotas,id',
+                'cuota_id' => 'required|numeric|min:0',
+                'recibo_numero' => 'nullable|string|max:255|unique:recibos,recibo_numero', // Validación para el número de recibo único
+                // Asegúrate de que el número de recibo sea único en la tabla recibos
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
-                'estado' => 'required|string|in:pendiente,pagado,vencido',
+                'estado_id' => 'required|exists:estados,id', // Validación para que coincida con la tabla estados
                 'descripcion' => 'nullable|string|max:1000',
             ]);
 
@@ -55,9 +61,11 @@ class ReciboController extends Controller
 
             return redirect()->route('admin.recibos.index')->with('success', 'Recibo creado correctamente.');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->getMessage();
+
             session()->flash('swal', [
                 'title' => 'Error de validación',
-                'text' => 'Por favor, corrige los errores e inténtalo de nuevo.',
+                'text' => $errors,
                 'icon' => 'error',
             ]);
 
@@ -72,6 +80,7 @@ class ReciboController extends Controller
     {
         $socios = Socio::all();
         $cuotas = Cuota::all();
+        $estados = Estado::all(); // Asegúrate de que el modelo Estado existe y está configurado correctamente
         return view('admin.recibos.edit', compact('recibo', 'socios', 'cuotas'));
     }
 
@@ -83,11 +92,13 @@ class ReciboController extends Controller
         try {
             $request->validate([
                 'socio_id' => 'required|exists:socios,id',
-                'cuota_id' => 'required|exists:cuotas,id',
-                'importe' => 'required|numeric|min:0',
+                'tsocio_id' => 'required|exists:cuotas,id',
+                'cuota_id' => 'required|numeric|min:0',
+                'recibo_numero' => 'nullable|string|max:255|unique:recibos,recibo_numero,' . $recibo->id, // Validación para el número de recibo único
+                // Asegúrate de que el número de recibo sea único en la tabla recibos
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
-                'estado' => 'required|string|in:pendiente,pagado,vencido',
+                'estado_id' => 'required|exists:estados,id', // Validación para que coincida con la tabla estados
                 'descripcion' => 'nullable|string|max:1000',
             ]);
 
@@ -101,9 +112,11 @@ class ReciboController extends Controller
 
             return redirect()->route('admin.recibos.index')->with('success', 'Recibo actualizado correctamente.');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->getMessage();
+
             session()->flash('swal', [
                 'title' => 'Error de validación',
-                'text' => 'Por favor, corrige los errores e inténtalo de nuevo.',
+                'text' => $errors,
                 'icon' => 'error',
             ]);
 
@@ -127,9 +140,11 @@ class ReciboController extends Controller
 
             return redirect()->route('admin.recibos.index')->with('success', 'Recibo eliminado correctamente.');
         } catch (\Exception $e) {
+            $errors = $e->getMessage();
+
             session()->flash('swal', [
-                'title' => 'Error al eliminar',
-                'text' => 'No se pudo eliminar el recibo. Inténtalo de nuevo.',
+                'title' => 'Error de validación',
+                'text' => $errors,
                 'icon' => 'error',
             ]);
 
@@ -154,9 +169,11 @@ class ReciboController extends Controller
 
             return redirect()->route('admin.recibos.index')->with('success', 'Recibo restaurado correctamente.');
         } catch (\Exception $e) {
+            $errors = $e->getMessage();
+
             session()->flash('swal', [
-                'title' => 'Error al restaurar',
-                'text' => 'No se pudo restaurar el recibo. Inténtalo de nuevo.',
+                'title' => 'Error de validación',
+                'text' => $errors,
                 'icon' => 'error',
             ]);
 

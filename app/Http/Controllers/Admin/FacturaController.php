@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Factura;
 use App\Models\Proveedor;
+use App\Models\Estado; // Importación de la clase Estado
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -40,9 +41,9 @@ class FacturaController extends Controller
                 'numero' => 'required|string|unique:facturas,numero|max:255',
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
-                'descripcion' => 'nullable|string|max:1000', // Validación para el nuevo campo
+                'descripcion' => 'nullable|string|max:1000',
                 'importe' => 'required|numeric|min:0',
-                'estado' => 'required|string|in:pendiente,pagada,vencida',
+                'estado_id' => 'required|exists:estados,id', // Validación para que coincida con la clase Estado
             ]);
 
             Factura::create($request->all());
@@ -69,14 +70,21 @@ class FacturaController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
     }
-
+    /**
+     * Muestra los detalles de una factura específica.
+     */
+    public function show(Factura $factura)
+    {
+        return view('admin.facturas.show', compact('factura'));
+    }
     /**
      * Muestra el formulario para editar una factura existente.
      */
     public function edit(Factura $factura)
     {
         $proveedores = Proveedor::all();
-        return view('admin.facturas.edit', compact('factura', 'proveedores'));
+        $estados = Estado::all(); // Obtiene todos los estados
+        return view('admin.facturas.edit', compact('factura', 'proveedores', 'estados'));
     }
 
     /**
@@ -90,9 +98,9 @@ class FacturaController extends Controller
                 'numero' => 'required|string|unique:facturas,numero,' . $factura->id . '|max:255',
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
-                'descripcion' => 'nullable|string|max:1000', // Validación para el nuevo campo
+                'descripcion' => 'nullable|string|max:1000',
                 'importe' => 'required|numeric|min:0',
-                'estado' => 'required|string|in:pendiente,pagada,vencida',
+                'estado_id' => 'required|exists:estados,id', // Validación para que coincida con la clase Estado
             ]);
 
             $factura->update($request->all());

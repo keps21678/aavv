@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre')->unique();
             $table->text('descripcion')->nullable();
+            $table->string('color')->default('#000000'); // Color hexadecimal por defecto
+            $table->string('icono')->nullable(); // Icono opcional
             $table->timestamps();
             $table->softDeletes(); // Para soporte de eliminación lógica
         });

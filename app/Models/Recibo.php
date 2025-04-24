@@ -14,11 +14,12 @@ class Recibo extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'socio_id',
+        'tsocio_id',
         'cuota_id',
-        'importe',
+        'recibo_numero',
         'fecha_emision',
         'fecha_vencimiento',
-        'estado',
+        'estado_id',
         'descripcion', // Nuevo campo
     ];
     public $timestamps = true;
@@ -31,11 +32,12 @@ class Recibo extends Model
     {
         return [
             'socio_id' => 'integer',
+            'tsocio_id' => 'integer',
             'cuota_id' => 'integer',
-            'importe' => 'decimal:2',
+            'recibo_numero' => 'string',
             'fecha_emision' => 'date',
             'fecha_vencimiento' => 'date',
-            'estado' => 'string',
+            'estado_id' => 'integer',
             'descripcion' => 'string', // Nuevo campo
         ];
     }
@@ -47,6 +49,13 @@ class Recibo extends Model
         return $this->belongsTo(Socio::class);
     }
     /**
+     * Get the tsocio that owns the recibo.
+     */
+    public function tsocio()
+    {
+        return $this->belongsTo(Tsocio::class);
+    }
+    /**
      * Get the cuota that owns the recibo.
      */
     public function cuota()
@@ -56,8 +65,8 @@ class Recibo extends Model
     /**
      * Get the estado that owns the recibo.
      */
-    /* public function estado()
+    public function estado()
     {
         return $this->belongsTo(Estado::class);
-    }*/
+    }
 }

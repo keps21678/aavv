@@ -69,17 +69,13 @@
 
                 <!-- Estado -->
                 <div class='mb-4'>
-                    <flux:select wire:model="estado" label="Estado" name="estado" id="estado" required>
+                    <flux:select wire:model="estado_id" label="Estado" name="estado_id" id="estado_id" required>
                         <option value="" disabled>Seleccione un estado</option>
-                        <option value="pendiente" class="text-yellow-500" {{ $factura->estado == 'pendiente' ? 'selected' : '' }}>
-                            Pendiente
-                        </option>
-                        <option value="pagada" class="text-green-500" {{ $factura->estado == 'pagada' ? 'selected' : '' }}>
-                            Pagada
-                        </option>
-                        <option value="vencida" class="text-red-500" {{ $factura->estado == 'vencida' ? 'selected' : '' }}>
-                            Cancelada
-                        </option>
+                        @foreach ($estados as $estado)
+                            <option value="{{ $estado->id }}" class="text-gray-700" {{ $factura->estado_id == $estado->id ? 'selected' : '' }}>
+                                {{ $estado->nombre }}
+                            </option>
+                        @endforeach
                     </flux:select>
                 </div>
 
