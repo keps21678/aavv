@@ -32,11 +32,9 @@ Route::prefix('admin')->group(function () {
     Route::resource('facturas', \App\Http\Controllers\Admin\FacturaController::class)
         ->names('admin.facturas');
 
-    //});
-    //Route::resource('users', UserController::class)->names('admin.users');
-    //Route::prefix('admin')->group(function () {
     Route::resource('users', UserController::class)
         ->names('admin.users');
+        
     Route::resource('socios', SocioController::class)
         ->names('admin.socios');
 });

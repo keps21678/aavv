@@ -23,12 +23,15 @@ class FacturaFactory extends Factory
     public function definition(): array
     {
         return [
-            'proveedor_id' => Proveedor::query()->inRandomOrder()->first()?->id ?? Proveedor::factory(), // Relación con un proveedor existente o crea uno nuevo
-            'numero' => $this->faker->unique()->numerify('FAC-#####'), // Número de factura único
+            'proveedor_id' => Proveedor::query()->exists() 
+                ? Proveedor::query()->inRandomOrder()->first()->id 
+                : throw new \Exception('No existen proveedores en la base de datos.'),
+            'numero' => $this->faker->unique()->numerify('FAC-#####'),
             'fecha_emision' => $this->faker->date(),
             'fecha_vencimiento' => $this->faker->dateTimeBetween('now', '+30 days'),
-            'importe' => $this->faker->randomFloat(2, 100, 10000), // Importe entre 100 y 10,000
-            'estado' => $this->faker->randomElement(['pendiente', 'pagada', 'vencida']), // Estado de la factura
+            'descripcion' => $this->faker->sentence(), // Nuevo campo
+            'importe' => $this->faker->randomFloat(2, 100, 10000),
+            'estado' => $this->faker->randomElement(['pendiente', 'pagada', 'vencida']),
         ];
     }
 }

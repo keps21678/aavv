@@ -6,14 +6,44 @@ use App\Http\Controllers\Controller;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
 
+use Livewire\WithPagination;
+
 class ProveedorController extends Controller
 {
+    use withPagination;
+
+    public string $search = '';
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
     /**
      * Muestra una lista de proveedores.
      */
     public function index()
     {
-        $proveedores = Proveedor::paginate(10); // Paginación de 10 elementos
+        // Obtener los proveedores segun la busqueda, necesario pasara a la vista
+        // de LiveWire
+        $proveedores = Proveedor::where('nombre', 'LIKE', '%' . $this->search . '%')
+            ->orWhere('persona_contacto', 'LIKE', '%' . $this->search . '%')
+            ->orderBy('id', 'asc')
+            ->withCount('facturas')
+            ->get();
+        //$socios = Socio::withCount('incidencias')->paginate(10); // Carga el conteo de incidencias
+
+        if ($proveedores->isEmpty()) {
+            session()->flash('swal', [
+                'title' => 'No se encontraron socios',
+                'text' => 'No se encontraron socios con los criterios de búsqueda proporcionados',
+                'icon' => 'info',
+            ]);
+        }
+        // $users = User::orderBy('id', 'desc')->get();
+        // Obtener todos los usuarios con sus roles
+        // $users = User::with('roles')->orderBy('id', 'asc')->get();
+
+        // Pasar los usuarios a la vista
         return view('admin.proveedores.index', compact('proveedores'));
     }
 

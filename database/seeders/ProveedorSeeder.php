@@ -13,6 +13,6 @@ class ProveedorSeeder extends Seeder
     public function run(): void
     {
         // Generar 50 proveedores utilizando el factory
-        Proveedor::factory(50)->create();
+        Proveedor::factory(25)->create();
     }
 }

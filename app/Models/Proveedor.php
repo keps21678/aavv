@@ -112,7 +112,7 @@ class Proveedor extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function facturas()
+    public function facturas(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Factura::class, 'proveedor_id');
     }

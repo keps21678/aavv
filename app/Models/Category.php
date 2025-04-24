@@ -10,5 +10,15 @@ class Category extends Model
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'categories';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'name', 
+        'description'
+    ];
 }

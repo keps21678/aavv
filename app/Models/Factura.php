@@ -16,6 +16,7 @@ class Factura extends Model
         'numero',
         'fecha_emision',
         'fecha_vencimiento',
+        'descripcion',
         'importe',
         'estado',
         'created_at',

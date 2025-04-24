@@ -38,6 +38,7 @@ class FacturaController extends Controller
                 'numero' => 'required|string|unique:facturas,numero|max:255',
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
+                'descripcion' => 'nullable|string|max:1000', // Validación para el nuevo campo
                 'importe' => 'required|numeric|min:0',
                 'estado' => 'required|string|in:pendiente,pagada,vencida',
             ]);
@@ -87,6 +88,7 @@ class FacturaController extends Controller
                 'numero' => 'required|string|unique:facturas,numero,' . $factura->id . '|max:255',
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
+                'descripcion' => 'nullable|string|max:1000', // Validación para el nuevo campo
                 'importe' => 'required|numeric|min:0',
                 'estado' => 'required|string|in:pendiente,pagada,vencida',
             ]);

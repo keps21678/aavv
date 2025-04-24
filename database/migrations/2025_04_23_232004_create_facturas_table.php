@@ -17,6 +17,7 @@ class CreateFacturasTable extends Migration
             $table->string('numero')->unique();
             $table->date('fecha_emision');
             $table->date('fecha_vencimiento');
+            $table->text('descripcion')->nullable(); // Nuevo campo
             $table->decimal('importe', 10, 2);
             $table->enum('estado', ['pendiente', 'pagada', 'vencida']);
             $table->timestamps();
