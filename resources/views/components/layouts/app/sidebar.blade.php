@@ -47,15 +47,7 @@
                     'current' => request()->routeIs('tsocios.*'),
                     'label' => __('Tipos de socios/as'),
                     'role' => ['admin', 'editor'],
-                ],
-                [
-                    'name' => __('Incidencias'),
-                    'icon' => 'question-mark-circle',
-                    'url' => route('admin.incidencias.index'),
-                    'current' => request()->routeIs('incidencias.*'),
-                    'label' => __('Incidencias'),
-                    'role' => ['admin', 'editor'],
-                ],
+                ],                
                 [
                     'name' => __('Cuotas'),
                     'icon' => 'currency-euro',
@@ -75,6 +67,14 @@
                     'url' => route('admin.socios.index'),
                     'current' => request()->routeIs('socios.*'),
                     'label' => __('Socios'),
+                    'role' => ['admin', 'editor'],
+                ],
+                [
+                    'name' => __('Incidencias'),
+                    'icon' => 'question-mark-circle',
+                    'url' => route('admin.incidencias.index'),
+                    'current' => request()->routeIs('incidencias.*'),
+                    'label' => __('Incidencias'),
                     'role' => ['admin', 'editor'],
                 ],
                 [

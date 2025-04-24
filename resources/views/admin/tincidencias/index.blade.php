@@ -11,7 +11,7 @@
             class="btn btn-green">Nuevo tipo de incidencia</flux:button>
     </div>
     <br />
-    <div class="relative overflow-x-auto">
+    <div class="relative overflow-x-auto px-4">
 
         <hr class="solid">
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">

@@ -11,7 +11,7 @@
         </flux:button>
     </div>
     <br />
-    <div class="relative overflow-x-auto px-2">
+    <div class="relative overflow-x-auto px-4">
         <hr class="solid">
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400" id="tabla">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

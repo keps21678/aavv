@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Incidencia extends Model
 {
     /** @use HasFactory<\Database\Factories\IncidenciaFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'incidencias';
     protected $primaryKey = 'id';
@@ -17,8 +18,6 @@ class Incidencia extends Model
         'tincidencia_id',
         'descripcion',
         'fecha_incidencia',
-        'created_at',
-        'updated_at'
     ];
     public $timestamps = true;
     /**

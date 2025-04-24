@@ -8,9 +8,10 @@ use App\Models\Socio;
 use App\Models\TIncidencia;
 use Illuminate\Http\Request;
 use Livewire\WithPagination;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class IncidenciaController extends Controller
 {
+    use SoftDeletes;
     use withPagination;
 
     public string $search = '';

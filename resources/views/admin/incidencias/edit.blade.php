@@ -6,7 +6,12 @@
             </flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Edición de Incidencia') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.incidencias.index') }}" class="btn btn-green-dark">Listado de Incidencias</a>
+        <div>
+            <a href="{{ route('admin.incidencias.create') }}"
+                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nueva Incidencia</a>
+            <a href="{{ route('admin.incidencias.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Incidencias</a>
+        </div>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">

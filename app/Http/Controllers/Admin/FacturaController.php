@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Factura;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FacturaController extends Controller
 {
+    use SoftDeletes;
     /**
      * Muestra una lista de facturas.
      */
@@ -138,6 +140,34 @@ class FacturaController extends Controller
             session()->flash('swal', [
                 'title' => 'Error al eliminar',
                 'text' => 'No se pudo eliminar la factura. Inténtalo de nuevo.',
+                'icon' => 'error',
+            ]);
+
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Restaura una factura eliminada.
+     */
+    public function restore($id)
+    {
+        try {
+            $factura = Factura::withTrashed()->findOrFail($id);
+            $factura->restore();
+
+            // Variable de sesión Swal
+            session()->flash('swal', [
+                'title' => 'Factura restaurada correctamente',
+                'text' => 'La factura se ha restaurado correctamente.',
+                'icon' => 'success',
+            ]);
+
+            return redirect()->route('admin.facturas.index')->with('success', 'Factura restaurada correctamente.');
+        } catch (\Exception $e) {
+            session()->flash('swal', [
+                'title' => 'Error al restaurar',
+                'text' => 'No se pudo restaurar la factura. Inténtalo de nuevo.',
                 'icon' => 'error',
             ]);
 

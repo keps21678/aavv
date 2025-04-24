@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('iban')->nullable(); // IBAN (encriptado)
             $table->string('titular', 255)->nullable(); // Nuevo campo
             $table->string('dni_titular', 9)->nullable(); // Nuevo campo
+            $table->softDeletes(); // Añadir soporte para Soft Deletes  
             $table->timestamps(); // created_at y updated_at
         });
     }

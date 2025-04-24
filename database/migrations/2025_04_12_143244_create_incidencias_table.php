@@ -21,6 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->text('descripcion');
             $table->date('fecha_incidencia');
+            $table->softDeletes(); // Añadir soporte para Soft Deletes  
             $table->timestamps();
         });
     }

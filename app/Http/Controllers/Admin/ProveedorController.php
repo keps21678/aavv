@@ -87,7 +87,14 @@ class ProveedorController extends Controller
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
     }
-
+    /**
+     * Display the specified resource.
+     */
+    public function show(Proveedor $proveedor)
+    {
+        //        
+        return view('admin.proveedores.show', compact('proveedor'));
+    }
     /**
      * Muestra el formulario para editar un proveedor existente.
      */
@@ -135,6 +142,17 @@ class ProveedorController extends Controller
     public function destroy(Proveedor $proveedor)
     {
         try {
+            // Comprobar si el proveedor tiene facturas asociadas
+            if ($proveedor->facturas()->exists()) {
+                session()->flash('swal', [
+                    'title' => 'Error al eliminar',
+                    'text' => 'No se puede eliminar el proveedor porque tiene facturas asociadas.',
+                    'icon' => 'error',
+                ]);
+
+                return redirect()->route('admin.proveedores.index');
+            }
+
             $proveedor->delete();
 
             // Variable de sesión Swal

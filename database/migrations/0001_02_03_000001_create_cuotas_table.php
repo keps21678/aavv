@@ -19,6 +19,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
             $table->integer('anyo')->nullable();
             $table->decimal('cantidad', 8, 2)->nullable();
+            $table->softDeletes(); // Añadir soporte para Soft Deletes
             $table->timestamps();
         });
     }

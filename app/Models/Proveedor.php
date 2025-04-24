@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Factura; // Ensure the Factura model exists in the specified namespace
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Proveedor extends Model
 {
     /** @use HasFactory<\Database\Factories\ProveedorFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'proveedores';
     protected $primaryKey = 'id';
@@ -31,8 +32,6 @@ class Proveedor extends Model
         'iban',
         'titular', // Uncomment if needed
         'dni_titular', // Uncomment if needed
-        'created_at',
-        'updated_at'
     ];
     public $timestamps = true;
     /**

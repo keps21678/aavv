@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role as ModelsRole;
 use Livewire\WithPagination;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserController extends Controller
 {
+    use SoftDeletes;
     use withPagination;
 
     public string $name = '';

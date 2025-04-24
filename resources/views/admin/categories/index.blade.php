@@ -11,7 +11,7 @@
             class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Nueva Categoría</a>
     </div>
     <br />
-    <div class="relative overflow-x-auto">
+    <div class="relative overflow-x-auto px-4">
 
         <hr class="solid">
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">

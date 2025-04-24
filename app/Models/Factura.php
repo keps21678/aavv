@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Factura extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'facturas';
     protected $primaryKey = 'id';
@@ -19,10 +21,9 @@ class Factura extends Model
         'descripcion',
         'importe',
         'estado',
-        'created_at',
-        'updated_at',
     ];
     public $timestamps = true;
+    
 
     /**
      * Relación con el modelo Proveedor.
