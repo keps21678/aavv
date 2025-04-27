@@ -6,8 +6,7 @@
         </flux:breadcrumbs>
         <div>
             <a href="{{ route('admin.incidencias.create', ['socio_id' => request('socio_id')]) }}"
-                class="btn btn-green">Nueva
-                incidencia</a>            
+                class="btn btn-green">Nueva incidencia</a>
             <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Listado de Socios/as</a>
         </div>
     </div>
@@ -23,6 +22,7 @@
                     <th scope="col" class="px-6 py-3">Tipo de Incidencia</th>
                     <th scope="col" class="px-6 py-3">Descripción</th>
                     <th scope="col" class="px-6 py-3">Fecha de Incidencia</th>
+                    <th scope="col" class="px-6 py-3">Estado</th>
                     <th scope="col" class="px-6 py-3">Creado</th>
                     <th scope="col" class="px-6 py-3">Editar</th>
                 </tr>
@@ -49,7 +49,12 @@
                         {{ $incidencia->fecha_incidencia->format('d/m/Y') }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $incidencia->created_at }}
+                        <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $incidencia->estado->color }}">
+                            {{ $incidencia->estado->nombre }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $incidencia->created_at->format('d/m/Y') }}
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
@@ -77,29 +82,30 @@
             $('#tabla').DataTable({
                 responsive: true,
                 language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
                 },
             });
         });
-            document.querySelectorAll('.delete-form').forEach(form => {
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: 'No podrás revertir esto',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
+
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'No podrás revertir esto',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
                 });
             });
+        });
     </script>
     @endpush
 </x-layouts.app>

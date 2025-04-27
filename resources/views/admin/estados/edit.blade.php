@@ -34,6 +34,11 @@
                     </flux:textarea>
                 </div>
 
+                <!-- Color del Estado -->
+                <div class='mb-4'>
+                    <flux:input label="Color del Estado" name="color" id="color" type="color"
+                        value="{{ old('color', $estado->color) }}" required />
+                </div>
                 <div class="flex justify-end">
                     <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar cambios</flux:button>
                 </div>

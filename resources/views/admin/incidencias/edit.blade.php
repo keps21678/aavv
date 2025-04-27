@@ -2,8 +2,7 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.incidencias.index')">{{ __('Incidencias') }}
-            </flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.incidencias.index')">{{ __('Incidencias') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Edición de Incidencia') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
@@ -20,6 +19,7 @@
                 @csrf
                 @method('PUT')
 
+                <!-- Socio -->
                 <div class='mb-4'>
                     <flux:select label="Socio" name="socio_id" id="socio_id" required searchable>
                         <option value="" disabled>Seleccione un socio</option>
@@ -31,18 +31,19 @@
                     </flux:select>
                 </div>
 
+                <!-- Tipo de Incidencia -->
                 <div class='mb-4'>
                     <flux:select label="Tipo de Incidencia" name="tincidencia_id" id="tincidencia_id" required>
                         <option value="" disabled>Seleccione un tipo de incidencia</option>
                         @foreach ($tincidencias as $tincidencia)
-                        <option value="{{ $tincidencia->id }}" {{ $incidencia->tincidencia_id == $tincidencia->id ?
-                            'selected' : '' }}>
+                        <option value="{{ $tincidencia->id }}" {{ $incidencia->tincidencia_id == $tincidencia->id ? 'selected' : '' }}>
                             {{ $tincidencia->nombre }}
                         </option>
                         @endforeach
                     </flux:select>
                 </div>
 
+                <!-- Descripción -->
                 <div class='mb-4'>
                     <flux:textarea label="Descripción de la incidencia" name="descripcion" id="descripcion"
                         placeholder="Escriba la descripción de la incidencia" required>
@@ -50,14 +51,23 @@
                     </flux:textarea>
                 </div>
 
+                <!-- Fecha de la Incidencia -->
                 <div class='mb-4'>
                     <flux:input label="Fecha de la incidencia" name="fecha_incidencia" id="fecha_incidencia" type="date"
                         value="{{ old('fecha_incidencia', $incidencia->fecha_incidencia ? \Carbon\Carbon::parse($incidencia->fecha_incidencia)->format('Y-m-d') : now()->format('Y-m-d')) }}" required />
-                    {{-- type="text" value="{{ old('fecha_incidencia', $incidencia->fecha_incidencia ?
-                    \Carbon\Carbon::parse($incidencia->fecha_incidencia)->format('d/m/Y') : now()->format('d/m/Y')) }}"
-                    required /> --}}
                 </div>
 
+                <!-- Estado -->
+                <div class='mb-4'>
+                    <flux:select label="Estado" name="estado_id" id="estado_id" required>
+                        <option value="" disabled>Seleccione un estado</option>
+                        @foreach ($estados as $estado)
+                        <option value="{{ $estado->id }}" {{ $incidencia->estado_id == $estado->id ? 'selected' : '' }}>
+                            {{ $estado->nombre }}
+                        </option>
+                        @endforeach
+                    </flux:select>
+                </div>
                 <div class="flex justify-end">
                     <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar cambios</flux:button>
                 </div>

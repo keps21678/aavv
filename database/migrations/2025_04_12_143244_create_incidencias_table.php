@@ -21,6 +21,10 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->text('descripcion');
             $table->date('fecha_incidencia');
+            $table->string('icono', 50)->nullable(); // Campo para el ícono
+            $table->foreignId('estado_id')
+                ->constrained('estados')
+                ->onDelete('cascade');
             $table->softDeletes(); // Añadir soporte para Soft Deletes  
             $table->timestamps();
         });

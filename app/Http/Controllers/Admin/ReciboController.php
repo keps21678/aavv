@@ -17,7 +17,7 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $recibos = Recibo::with(['socio', 'cuota'])->get();
+        $recibos = Recibo::with(['socio', 'cuota', 'tsocio'])->get();
         return view('admin.recibos.index', compact('recibos'));
     }
 
@@ -80,8 +80,9 @@ class ReciboController extends Controller
     {
         $socios = Socio::all();
         $cuotas = Cuota::all();
-        $estados = Estado::all(); // Asegúrate de que el modelo Estado existe y está configurado correctamente
-        return view('admin.recibos.edit', compact('recibo', 'socios', 'cuotas'));
+        $estados = Estado::all();
+        $tsocios = Tsocio::all();
+        return view('admin.recibos.edit', compact('recibo', 'socios', 'cuotas', 'estados', 'tsocios'));
     }
 
     /**

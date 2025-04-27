@@ -63,7 +63,7 @@
                     <flux:input wire:model="piso" label="Piso" placeholder="Escriba el piso"
                         :value="old('piso', $socio->piso)" disabled />
                     <flux:input wire:model="letra" label="Letra" placeholder="Escriba la letra"
-                        :value="old('letra', $socio->letra)" />
+                        :value="old('letra', $socio->letra)" disabled />
                     <flux:input wire:model="codigo_postal" label="Código Postal" placeholder="Escriba el código postal"
                         :value="old('codigo_postal', $socio->codigo_postal)" disabled />
                     <flux:input wire:model="poblacion" label="Población" placeholder="Escriba la población"
@@ -128,11 +128,11 @@
             </div>
             <div class="container">
                 <div class="columns-3 gap-6 mb-6">
-                    <flux:input class="mb-2" readonly variant="filled" label="IBAN" placeholder="IBAN del socio" :value="$socio->iban" />
+                    <flux:input class="mb-2" readonly variant="filled" label="IBAN" placeholder="IBAN del socio" :value="$socio->iban" disabled />
                     <flux:input class="mb-2" readonly variant="filled" label="Titular de la cuenta" placeholder="Titular"
-                        :value="$socio->titular" />
+                        :value="$socio->titular" disabled />
                     <flux:input class="mb-2" readonly variant="filled" label="DNI del Titular" placeholder="DNI"
-                        :value="$socio->dni_titular" />
+                        :value="$socio->dni_titular" disabled />
                 </div>
             </div>
             <div class="flex">

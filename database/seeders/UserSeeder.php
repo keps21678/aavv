@@ -21,8 +21,8 @@ class UserSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Kepa Viewer',
-            'email' => 'keps21678@hotmail.eus',
+            'name' => 'Begoña Fernandez',
+            'email' => 'begotxu.fg@hotmail.com',
             'password' => bcrypt('12345678'),
         ]);
 

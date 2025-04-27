@@ -20,7 +20,6 @@ class EstadoFactory extends Factory
             'nombre' => $this->faker->unique()->word(), // Genera un nombre único
             'descripcion' => $this->faker->sentence(), // Genera una descripción aleatoria
             'color' => $this->faker->hexColor(), // Genera un color hexadecimal aleatorio
-            'icono' => $this->faker->word(), // Genera un icono aleatorio
         ];
     }
 }

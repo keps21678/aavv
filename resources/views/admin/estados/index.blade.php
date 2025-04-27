@@ -17,6 +17,7 @@
                     <th scope="col" class="px-6 py-3">ID</th>
                     <th scope="col" class="px-6 py-3">Nombre</th>
                     <th scope="col" class="px-6 py-3">Descripción</th>
+                    <th scope="col" class="px-6 py-3">Color</th>
                     <th scope="col" class="px-6 py-3">Creado</th>
                     <th scope="col" class="px-6 py-3">Acciones</th>
                 </tr>
@@ -32,6 +33,9 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ $estado->descripcion }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-block w-6 h-6 rounded-full" style="background-color: {{ $estado->color }};"></span>
                     </td>
                     <td class="px-6 py-4">
                         {{ $estado->created_at->format('d/m/Y') }}

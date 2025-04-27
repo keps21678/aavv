@@ -16,7 +16,6 @@ class Estado extends Model
         'nombre',
         'descripcion',
         'color',
-        'icono',
     ];
     public $timestamps = true;
     /**
@@ -30,7 +29,6 @@ class Estado extends Model
             'nombre' => 'string',
             'descripcion' => 'string',
             'color' => 'string',
-            'icono' => 'string',
         ];
     }
     /**

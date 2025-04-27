@@ -18,6 +18,7 @@ class Incidencia extends Model
         'tincidencia_id',
         'descripcion',
         'fecha_incidencia',
+        'estado_id',
     ];
     public $timestamps = true;
     /**
@@ -32,6 +33,7 @@ class Incidencia extends Model
             'tincidencia_id' => 'integer',
             'descripcion' => 'string',
             'fecha_incidencia' => 'datetime',
+            'estado_id' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime'
         ];
@@ -45,7 +47,10 @@ class Incidencia extends Model
     {
         return $this->belongsTo(Tincidencia::class, 'tincidencia_id');
     }
-    
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'estado_id');
+    } 
     public static function validateRequest($request)
     {
         $request->validate([
@@ -53,6 +58,7 @@ class Incidencia extends Model
             'tincidencia_id' => 'required|exists:tincidencias,id',
             'descripcion' => 'required|string|max:255',
             'fecha_incidencia' => 'required|date',
+            'estado_id' => 'required|exists:estados,id',
         ]);
     }
 }
