@@ -11,7 +11,7 @@
         </flux:button>
     </div>
     <br />
-    <div class="relative overflow-x-auto px-4">
+    <div class="relative overflow-x-auto px-2">
         <hr class="solid">
         <table id="tabla" class="display text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -23,7 +23,7 @@
                     <th scope="col" class="px-2 py-3">Email</th>
                     <th scope="col" class="px-2 py-3">Movil</th>
                     <th scope="col" class="px-2 py-3">Persona Contacto</th>
-                    <th scope="col" class="px-2 py-3">Domiciliación</th> <!-- Nueva columna -->
+                    {{-- <th scope="col" class="px-2 py-3">Domiciliación</th> <!-- Nueva columna --> --}}
                     <th scope="col" class="px-2 py-3">Incidencias</th>
                     <th scope="col" class="px-2 py-3">Acciones</th>
                 </tr>
@@ -40,11 +40,11 @@
                     <td class="px-2 py-4">{{ $socio->email }}</td>
                     <td class="px-2 py-4">{{ $socio->movil }}</td>
                     <td class="px-2 py-4">{{ $socio->persona_contacto }}</td>
-                    <td class="px-2 py-4 text-center">
+                    {{-- <td class="px-2 py-4 text-center">
                         <!-- Checkbox para domiciliación -->
                         <input type="checkbox" disabled {{ $socio->domiciliacion ? 'checked' : '' }}
                         class="form-checkbox h-5 w-5 text-green-600">
-                    </td>
+                    </td> --}}
                     <td class="px-2 py-4">
                         @if ($socio->incidencias_count > 0)
                         <flux:button variant="outline"
@@ -88,7 +88,20 @@
     <script>
         $(document).ready(function () {
             $('#tabla').DataTable({
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ],
+                layout: {
+                    topStart: 'buttons',
+                    topEnd: 'search',
+                    bottom: null,
+                    bottomStart: null,
+                    bottomEnd: 'info',
+                },
                 responsive: true,
+                paging: false,
+                scrollCollapse: true,
+                scrollY: '60vh',
                 language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
                 },

@@ -47,7 +47,7 @@
         <div class="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-3">
             <!-- Card con el número de socios -->
             <div
-                class="relative flex items-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
+                class="relative flex items-center bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
                 <!-- Ícono representativo -->
                 <div class="flex items-center justify-center text-blue-600">
                     <div class="flex flex-col items-center">
@@ -100,8 +100,78 @@
             </div>
         </div>
         <div
-            class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+            class="relative h-full flex-1 overflow-hidden rounded-xl border bg-white dark:bg-gray-800 border-neutral-200 dark:border-neutral-700 px-4">
+            <table id="tabla" class="display table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr >
+                        <th >{{ __('Concepto') }}</th>
+                        <th >{{ __('Importe Total (€)') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td >{{ __('Suma de Recibos') }}</td>
+                        <td >
+                            {{ $sumaRecibos = \App\Models\Recibo::whereYear('fecha_vencimiento', now()->year)->sum('cuota_id') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >{{ __('Suma de Facturas') }}</td>
+                        <td >
+                            {{ $sumaFacturas = \App\Models\Factura::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
+                        </td>
+                    </tr>
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>{{ __('Total General') }}</td>
+                        <td>
+                            @php
+                                $totalGeneral = $sumaRecibos - $sumaFacturas;
+                            @endphp
+                            <span class="{{ $totalGeneral < 0 ? 'text-red-500 font-bold' : '' }}">
+                                {{ $totalGeneral < 0 ? '-' : '' }}{{ number_format(abs($totalGeneral), 2) }}
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
+    @push('js')
+    <script>
+        $(document).ready(function () {
+            $('#tabla').DataTable({
+                info: false,
+                ordering: false,
+                paging: false,
+                searching: false,
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
+                },
+            });
+        });
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'No podrás revertir esto',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+    @endpush
 </x-layouts.app>

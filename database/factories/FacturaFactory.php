@@ -31,7 +31,7 @@ class FacturaFactory extends Factory
             'fecha_emision' => $this->faker->date(),
             'fecha_vencimiento' => $this->faker->dateTimeBetween('now', '+30 days'),
             'descripcion' => $this->faker->sentence(), // Nuevo campo
-            'importe' => $this->faker->randomFloat(2, 100, 10000),
+            'importe' => $this->faker->randomFloat(2, 10, 100),
             'estado_id' => Estado::query()->inRandomOrder()->first()->id, // Selecciona un Estado existente de forma aleatoria
         ];
     }

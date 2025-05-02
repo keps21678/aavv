@@ -19,6 +19,14 @@
                     'label' => __('LOPD'),
                     'role' => ['admin', 'editor'],
                 ],
+                [
+                    'name' => __('Contabilidad'),
+                    'icon' => 'building-library',
+                    'url' => route('admin.contabilidad.index'),
+                    'current' => request()->routeIs('contabilidad.*'),
+                    'label' => __('Contabilidad'),
+                    'role' => ['admin', 'editor'],
+                ],
             ],
         ],
         [

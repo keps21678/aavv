@@ -2,6 +2,7 @@
 @import '../../vendor/livewire/flux/dist/flux.css';
 
 @import 'datatables.net-dt';
+@import 'datatables.net-buttons-dt';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

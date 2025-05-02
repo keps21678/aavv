@@ -15,6 +15,14 @@ use Illuminate\Http\Request;
 class ReciboController extends Controller
 {
     /**
+     * Muestra el formulario para ver un recibo específico.
+     */
+    public function show (Recibo $recibo)
+    {
+        return view('admin.recibos.show', compact('recibo'));
+    }
+    
+    /**
      * Muestra una lista de recibos.
      */
     public function index()
@@ -190,6 +198,9 @@ class ReciboController extends Controller
     public function generarRemesa()
     {
         try {
+            // Obtener el año en curso
+            $currentYear = now()->year;
+
             // Obtener los socios con domiciliación activa
             $socios = Socio::with('cuota')
                 ->where('domiciliacion', true)
@@ -197,6 +208,17 @@ class ReciboController extends Controller
 
             // Guardar los datos en la tabla recibos
             foreach ($socios as $socio) {
+                // Verificar si ya existe un recibo para el socio y el año en curso
+                $reciboExistente = Recibo::where('socio_id', $socio->id)
+                    ->whereYear('fecha_emision', $currentYear)
+                    ->exists();
+
+                if ($reciboExistente) {
+                    // Si ya existe, omitir la creación del recibo
+                    continue;
+                }
+
+                // Crear el recibo si no existe
                 Recibo::create([
                     'socio_id' => $socio->id,
                     'cuota_id' => $socio->cuota->id ?? null,
@@ -220,5 +242,13 @@ class ReciboController extends Controller
 
             return redirect()->back();
         }
+    }
+    
+    public function getTotalRecibos()
+    {
+        $currentYear = now()->year;
+
+        // Suma de importes de facturas del año en curso
+        $sumaRecibos = Recibo::whereYear('fecha_vencimiento', $currentYear)->sum('importe');      
     }
 }

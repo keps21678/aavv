@@ -13,6 +13,6 @@ class FacturaSeeder extends Seeder
     public function run(): void
     {
         // Generar 10 facturas utilizando el factory
-        Factura::factory(10)->create();
+        Factura::factory(3)->create();
     }
 }

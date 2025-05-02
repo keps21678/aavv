@@ -182,4 +182,12 @@ class FacturaController extends Controller
             return redirect()->back();
         }
     }
+
+    public function getTotalFacturas()
+    {
+        $currentYear = now()->year;
+
+        // Suma de ingresos por recibos del año en curso
+        $sumaFacturas = Factura::whereYear('fecha_vencimiento', $currentYear)->sum('cuota_id'); // Ajusta si `cuota_id` no es el importe
+    }
 }

@@ -6,6 +6,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RecibosExport;
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContabilidadController;
 use App\Http\Controllers\Admin\CuotaController;
 use App\Http\Controllers\Admin\EstadoController;
 use App\Http\Controllers\Admin\TincidenciaController;
@@ -54,8 +55,9 @@ Route::prefix('admin')->group(function () {
     Route::resource('recibos', ReciboController::class)
         ->names('admin.recibos');
 
+    Route::resource('contabilidad', ContabilidadController::class)
+        ->names('admin.contabilidad');
+
     Route::get('/generar-remesa', [ReciboController::class, 'generarRemesa'])
         ->name('recibos.generarRemesa');
-    Route::get('/generar-remesa10', [ReciboController::class, 'generarRemesa10'])
-        ->name('recibos.generarRemesa10');
 });

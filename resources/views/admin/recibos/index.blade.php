@@ -8,11 +8,8 @@
             <flux:button href="{{ route('admin.recibos.create') }}" class="btn btn-green">
                 Nuevo Recibo
             </flux:button>
-            <flux:button href="{{ route('admin.recibos.generarRemesa') }}" class="btn btn-blue-dark mr-2">
+            <flux:button id="generar-remesa" href="{{ route('admin.recibos.generarRemesa') }}" class="btn btn-blue-dark mr-2">
                 Generar remesa
-            </flux:button>
-            <flux:button href="{{ route('admin.recibos.generarRemesa10') }}" class="btn btn-blue-dark mr-2">
-                Generar remesas 10
             </flux:button>
         </div>                
     </div>
@@ -97,6 +94,58 @@
                     if (result.isConfirmed) {
                         form.submit();
                     }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('generar-remesa').addEventListener('click', function () {
+            // Mostrar un mensaje de carga mientras se genera el archivo
+            Swal.fire({
+                title: 'Generando remesa...',
+                text: 'Por favor, espera mientras se genera el archivo.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Realizar la solicitud para generar el archivo
+            fetch('{{ route('admin.recibos.generarRemesa') }}', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob(); // Descargar el archivo como blob
+                } else {
+                    throw new Error('Error al generar la remesa.');
+                }
+            })
+            .then(blob => {
+                // Crear un enlace para descargar el archivo
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'remesa_recibos.xlsx'; // Nombre del archivo
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+
+                // Cerrar el mensaje de carga
+                Swal.close();
+
+                // Recargar la página
+                location.reload();
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message,
+                    icon: 'error',
                 });
             });
         });
