@@ -4,9 +4,17 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Recibos') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <flux:button href="{{ route('admin.recibos.create') }}" class="btn btn-green">
-            Nuevo Recibo
-        </flux:button>
+        <div>
+            <flux:button href="{{ route('admin.recibos.create') }}" class="btn btn-green">
+                Nuevo Recibo
+            </flux:button>
+            <flux:button href="{{ route('admin.recibos.generarRemesa') }}" class="btn btn-blue-dark mr-2">
+                Generar remesa
+            </flux:button>
+            <flux:button href="{{ route('admin.recibos.generarRemesa10') }}" class="btn btn-blue-dark mr-2">
+                Generar remesas 10
+            </flux:button>
+        </div>                
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -17,7 +25,7 @@
                     <th scope="col" class="px-2 py-3">Nº Recibo</th>
                     <th scope="col" class="px-2 py-3">Socio</th>
                     <th scope="col" class="px-2 py-3">Cuota</th>
-                    <th scope="col" class="px-2 py-3">Importe</th>                    
+                    <th scope="col" class="px-2 py-3">Importe</th>
                     <th scope="col" class="px-2 py-3">Fecha Emisión</th>
                     <th scope="col" class="px-2 py-3">Estado</th>
                     <th scope="col" class="px-2 py-3">Fecha Vencimiento</th>
@@ -30,21 +38,26 @@
                     <td class="px-2 py-4">{{ $recibo->recibo_numero }}</td>
                     <td class="px-2 py-4">{{ $recibo->socio->nombre . ' ' . $recibo->socio->apellidos ?? 'N/A' }}</td>
                     <td class="px-2 py-4">{{ $recibo->tsocio->nombre ?? 'N/A' }}</td>
-                    <td class="px-2 py-4">{{ number_format($recibo->cuota->cantidad, 2) }} €</td>                    
-                    <td class="px-2 py-4">{{ $recibo->fecha_emision ? $recibo->fecha_emision->format('Y-m-d') : 'N/A' }}</td>
+                    <td class="px-2 py-4">{{ number_format($recibo->cuota->cantidad, 2) }} €</td>
+                    <td class="px-2 py-4">{{ $recibo->fecha_emision ? $recibo->fecha_emision->format('Y-m-d') : 'N/A' }}
+                    </td>
                     <td class="px-2 py-4">
-                        <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $recibo->estado->color }}">
+                        <span class="px-2 py-1 rounded-full text-sm text-white"
+                            style="background-color: {{ $recibo->estado->color }}">
                             {{ $recibo->estado->nombre }}
                         </span>
                     </td>
-                    <td class="px-2 py-4">{{ $recibo->fecha_vencimiento ? $recibo->fecha_vencimiento->format('Y-m-d') : 'N/A' }}</td>
+                    <td class="px-2 py-4">{{ $recibo->fecha_vencimiento ? $recibo->fecha_vencimiento->format('Y-m-d') :
+                        'N/A' }}</td>
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
-                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.recibos.show', $recibo) }}"
-                                class="btn btn-green mr-2">Consultar</flux:button>
+                            <flux:button icon:trailing="arrow-up-right"
+                                href="{{ route('admin.recibos.show', $recibo) }}" class="btn btn-green mr-2">Consultar
+                            </flux:button>
                             <flux:button variant="primary" href="{{ route('admin.recibos.edit', $recibo) }}"
                                 class="btn btn-blue">Editar</flux:button>
-                            <form class="delete-form" action="{{ route('admin.recibos.destroy', $recibo) }}" method="POST">
+                            <form class="delete-form" action="{{ route('admin.recibos.destroy', $recibo) }}"
+                                method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <flux:button wire:click="delete" variant="danger" type="submit" class="btn btn-danger">

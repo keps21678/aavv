@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Route;
+use app\Http\Middleware\RedirectIfTokenExpired;
+use app\Http\Kernel;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -11,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware('web', 'auth') //web para las vistas, auth para las rutas protegidas
+            Route::middleware('auth', 'web') //web para las vistas, auth para las rutas protegidas
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));

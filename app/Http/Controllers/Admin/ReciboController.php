@@ -8,6 +8,8 @@ use App\Models\Socio;
 use App\Models\Cuota;
 use App\Models\Estado;
 use App\Models\Tsocio;
+use App\Exports\RecibosExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class ReciboController extends Controller
@@ -175,6 +177,44 @@ class ReciboController extends Controller
             session()->flash('swal', [
                 'title' => 'Error de validación',
                 'text' => $errors,
+                'icon' => 'error',
+            ]);
+
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Genera una remesa de recibos y exporta un archivo Excel.
+     */
+    public function generarRemesa()
+    {
+        try {
+            // Obtener los socios con domiciliación activa
+            $socios = Socio::with('cuota')
+                ->where('domiciliacion', true)
+                ->get();
+
+            // Guardar los datos en la tabla recibos
+            foreach ($socios as $socio) {
+                Recibo::create([
+                    'socio_id' => $socio->id,
+                    'cuota_id' => $socio->cuota->id ?? null,
+                    'tsocio_id' => $socio->tsocio->id ?? null, // Incluye el campo tsocio_id
+                    'recibo_numero' => 'REC-' . now()->timestamp . '-' . $socio->id,
+                    'fecha_emision' => now(),
+                    'fecha_vencimiento' => now()->addDays(30), // Ejemplo: 30 días después de la emisión
+                    'estado_id' => Estado::where('nombre', 'Pendiente')->first()->id ?? null, // Estado predeterminado
+                    'descripcion' => 'Cuota ' . ($socio->cuota->anyo ?? 'N/A'),
+                ]);
+            }
+
+            // Exportar el archivo Excel
+            return Excel::download(new RecibosExport, 'remesa_recibos.xlsx');
+        } catch (\Exception $e) {
+            session()->flash('swal', [
+                'title' => 'Error al generar la remesa',
+                'text' => $e->getMessage(),
                 'icon' => 'error',
             ]);
 

@@ -14,6 +14,6 @@ class ReciboSeeder extends Seeder
     public function run(): void
     {
         // Generar 10 facturas utilizando el factory
-        Recibo::factory(10)->create();
+        //Recibo::factory(10)->create();
     }
 }

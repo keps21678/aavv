@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Recibo extends Model
 {
+    /* Campos necesarios para las remesas de recibos en Caja Rural
+    IBAN --> ESXXYYYYYYYYYYYYYYYYYYYYYYYY, lo sacamos de la tabla socios
+    Nombre del deudor: Apellidos, Nombre --> Socio->nombre, Socio->apellidos, lo sacamos de la tabla socios
+    Referencia mandato: NScocio --> Socio->id, lo sacamos de la tabla socios
+    Fecha de firma del mandato: 31/10/2009  'Para que no pida justificantes'
+    Referencia del adeudo: NSocio --> Socio->id, lo sacamos de la tabla socios
+    Tipo de adeudo: RCUR 'Explicado en la WEB de Caja Rural'
+    Concepto del adeudo: Cuota "AÑO" --> Cuota->anyo, lo sacamos de la tabla cuotas
+    Importe: Cuota que corresponda --> Cuota->cantidad, lo sacamos de la tabla cuotas
+    */
     /** @use HasFactory<\Database\Factories\ReciboFactory> */
     use HasFactory, SoftDeletes;
     protected $table = 'recibos';
