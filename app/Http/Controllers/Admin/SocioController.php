@@ -7,6 +7,7 @@ use App\Models\Socio;
 use App\Models\TSocio;
 use App\Models\Cuota;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Exists;
 use Livewire\WithPagination;
 
 class SocioController extends Controller
@@ -153,43 +154,58 @@ class SocioController extends Controller
      */
     public function update(Request $request, Socio $socio)
     {
+        if (!$request->has('baja')) {
+            $request->merge(['baja' => false]);
+        }
+        if (!$request->has('empresa')) {
+            $request->merge(['empresa' => false]);
+        }
+        if (!$request->has('domiciliacion')) {
+            $request->merge(['domiciliacion' => false]);
+        }
         try {
             // Verificar si el campo 'baja' es true
-            if ($request->input('baja')) {
-                // Realizar alguna acción específica si el socio está dado de baja                
-                $socio->incidencias()->create([
-                    'descripcion' => 'Baja',
-                    'fecha_incidencia' => now(),
-                    'tincidencia_id' => \App\Models\Tincidencia::where('nombre', 'Baja')->value('id'), // Buscar el ID de la incidencia según la descripción
-                    'socio_id' => $socio->id,
-                ]); // Generar una incidencia con el texto "Baja"
-                $request->merge(['baja' => true]); // Asegurarse de que 'baja' sea true
-            } else {
-                $socio->incidencias()->create([
-                    'descripcion' => 'Alta, tras una baja',
-                    'fecha_incidencia' => now(),
-                    'tincidencia_id' => \App\Models\Tincidencia::where('nombre', 'Alta')->value('id'), // Buscar el ID de la incidencia según la descripción
-                    'socio_id' => $socio->id,
-                ]); // Generar una incidencia con el texto "Alta"
-                $request->merge(['baja' => false]); // Asegurarse de que 'baja' sea false
+            if ($socio->baja !== $request->input('baja')) {
+                if ($request->input('baja')) {
+                    // Realizar alguna acción específica si el socio está dado de baja                
+                    $socio->incidencias()->create([
+                        'descripcion' => 'Baja',
+                        'fecha_incidencia' => now(),
+                        'tincidencia_id' => \App\Models\Tincidencia::where('nombre', 'Baja')->value('id'), // Buscar el ID de la incidencia según la descripción
+                        'socio_id' => $socio->id,
+                        'estado_id' => \App\Models\Estado::where('nombre', 'Anulado')->value('id'), // Buscar el ID del estado según la descripción
+                    ]); // Generar una incidencia con el texto "Baja"
+                    $request->merge(['baja' => true]); // Asegurarse de que 'baja' sea true
+                } else {
+                    $socio->incidencias()->create([
+                        'descripcion' => 'Alta, tras una baja',
+                        'fecha_incidencia' => now(),
+                        'tincidencia_id' => \App\Models\Tincidencia::where('nombre', 'Alta')->value('id'), // Buscar el ID de la incidencia según la descripción
+                        'socio_id' => $socio->id,
+                        'estado_id' => \App\Models\Estado::where('nombre', 'Recuperado')->value('id'), // Buscar el ID del estado según la descripción
+                    ]); // Generar una incidencia con el texto "Alta"
+                    $request->merge(['baja' => false]); // Asegurarse de que 'baja' sea false
+                }
             }
             // Verificar si el campo 'empresa' es true
-            if ($request->input('empresa')) {
-                // Realizar alguna acción específica si el socio es una empresa
-                //$socio->tipo_empresa = 'empresa'; // Registrar el tipo de empresa
-                $request->merge(['empresa' => true]); // Asegurarse de que 'empresa' sea true
-            } else {
-                //$socio->tipo_empresa = 'particular'; // Registrar el tipo de particular
-                $request->merge(['empresa' => false]); // Asegurarse de que 'empresa' sea false
+            if ($request->input('empresa') !== $socio->empresa) {
+                if ($request->input('empresa')) {
+                    // Realizar alguna acción específica si el socio es una empresa
+                    //$socio->tipo_empresa = 'empresa'; // Registrar el tipo de empresa
+                    $request->merge(['empresa' => true]); // Asegurarse de que 'empresa' sea true
+                } else {
+                    //$socio->tipo_empresa = 'particular'; // Registrar el tipo de particular
+                    $request->merge(['empresa' => false]); // Asegurarse de que 'empresa' sea false
+                }
             }
             // Verificar si el campo 'domiciliacion' es true
-            if ($request->input('domiciliacion')) {
-                // Realizar alguna acción específica si el socio tiene domiciliación
-                //$socio->tipo_domiciliacion = 'domiciliacion'; // Registrar el tipo de domiciliación
-                $request->merge(['domiciliacion' => true]); // Asegurarse de que 'domiciliacion' sea true
-            } else {
-                //$socio->tipo_domiciliacion = 'no_domiciliacion'; // Registrar el tipo de no domiciliación
-                $request->merge(['domiciliacion' => false]); // Asegurarse de que 'domiciliacion' sea false
+            if ($request->input('domiciliacion') !== $socio->domiciliacion) {
+                if ($request->input('domiciliacion')) {
+                    // Realizar alguna acción específica si el socio tiene domiciliación
+                    $request->merge(['domiciliacion' => true]); // Asegurarse de que 'domiciliacion' sea true
+                } else {
+                    $request->merge(['domiciliacion' => false]); // Asegurarse de que 'domiciliacion' sea false
+                }
             }
             // Validar los datos de entrada
             $request->validate([

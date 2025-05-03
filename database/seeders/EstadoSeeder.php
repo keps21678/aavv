@@ -56,6 +56,21 @@ class EstadoSeeder extends Seeder
             'nombre' => 'Recuperado',
             'descripcion' => 'Recuperado.',
             'color' => '#008000', // Verde oscuro
-        ]);        
+        ]);
+        Estado::factory()->create([
+            'nombre' => 'Nuevo',
+            'descripcion' => 'Nuevo.',
+            'color' => '#008000', // Verde oscuro
+        ]); 
+        Estado::factory()->create([
+            'nombre' => 'Asignado',
+            'descripcion' => 'Asignado.',
+            'color' => '#0000FF', // Verde oscuro
+        ]); 
+        Estado::factory()->create([
+            'nombre' => 'Finalizado',
+            'descripcion' => 'Finalizado.',
+            'color' => '#FFA500', // Verde oscuro
+        ]);         
     }
 }

@@ -36,6 +36,8 @@ class DatabaseSeeder extends Seeder
         
         $this->call(FacturaSeeder::class);
 
+        $this->call(IngresoSeeder::class);
+
         Category::factory(50)->create();
     }
 }

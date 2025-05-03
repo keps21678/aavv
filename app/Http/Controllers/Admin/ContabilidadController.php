@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Factura;
 use App\Models\Recibo;
+use App\Models\Ingreso;
 
 class ContabilidadController extends Controller
 {
@@ -21,6 +22,21 @@ class ContabilidadController extends Controller
         $sumaFacturas = Factura::whereYear('fecha_vencimiento', $currentYear)->sum('importe');
         $numeroFacturas = Factura::whereYear('fecha_vencimiento', $currentYear)->count();
 
-        return view('admin.contabilidad.index', compact('sumaRecibos', 'numeroRecibos', 'sumaFacturas', 'numeroFacturas'));
+        // Suma de importes y número de ingresos del año en curso
+        $numeroIngresos = Ingreso::whereYear('fecha_vencimiento', $currentYear)->count();
+        $sumaIngresos = Ingreso::whereYear('fecha_vencimiento', $currentYear)->sum('importe');
+
+        return view('admin.contabilidad.index', compact('sumaRecibos', 'numeroRecibos', 'sumaFacturas', 'numeroFacturas', 'numeroIngresos', 'sumaIngresos'));
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function show()
+    {
+        //    
+        $recibo = Recibo::all();
+        // Verifica si el recibo pertenece al usuario autenticado
+        $factura  = Factura::all();
+        return view('admin.contabilidad.show', compact('recibo', 'factura'));
     }
 }

@@ -25,7 +25,17 @@ export default defineConfig({
         certificate: {
             key: 'D:/xampp/apache/conf/ssl.key/prueba01.test.key', // Ruta al archivo de clave privada
             cert: 'D:/xampp/apache/conf/ssl.crt/prueba01.test.crt', // Ruta al archivo de certificado
-        },
-                   
+        },                   
     },
+    build: {
+        rollupOptions: {
+            output:{
+                manualChunks(id) {
+                    if (id.includes('node_modules')) {
+                        return id.toString().split('node_modules/')[1].split('/')[0].toString();
+                    }
+                }
+            }
+        }
+    }
 });

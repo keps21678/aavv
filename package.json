@@ -10,6 +10,7 @@
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
+        "datatables.net-autofill-dt": "^2.7.0",
         "datatables.net-buttons-dt": "^3.2.3",
         "datatables.net-dt": "^2.3.0",
         "datatables.net-scroller-dt": "^2.4.3",

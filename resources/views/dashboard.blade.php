@@ -110,25 +110,30 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td >{{ __('Suma de Recibos') }}</td>
-                        <td >
+                        <td>{{ __('Suma de Recibos') }}</td>
+                        <td>
                             {{ $sumaRecibos = \App\Models\Recibo::whereYear('fecha_vencimiento', now()->year)->sum('cuota_id') }}
                         </td>
                     </tr>
                     <tr>
-                        <td >{{ __('Suma de Facturas') }}</td>
-                        <td >
-                            {{ $sumaFacturas = \App\Models\Factura::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
+                        <td>{{ __('Suma de Ingresos') }}</td>
+                        <td>
+                            {{ $sumaIngresos = \App\Models\Ingreso::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
                         </td>
                     </tr>
-                    
+                    <tr>
+                        <td>{{ __('Suma de Facturas') }}</td>
+                        <td>
+                            {{ $sumaFacturas = \App\Models\Factura::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
+                        </td>
+                    </tr>                    
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>{{ __('Total General') }}</td>
                         <td>
                             @php
-                                $totalGeneral = $sumaRecibos - $sumaFacturas;
+                                $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaFacturas;
                             @endphp
                             <span class="{{ $totalGeneral < 0 ? 'text-red-500 font-bold' : '' }}">
                                 {{ $totalGeneral < 0 ? '-' : '' }}{{ number_format(abs($totalGeneral), 2) }}

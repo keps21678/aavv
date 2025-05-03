@@ -13,4 +13,6 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+@stack('css') <!-- Asegúrate de que esto esté presente -->
+
 @fluxAppearance

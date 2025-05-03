@@ -1,5 +1,5 @@
 <x-layouts.app :title="__('Lista de Socios')">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between mb-2">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Socios/as') }}</flux:breadcrumbs.item>
@@ -10,7 +10,6 @@
             Nuevo Socio
         </flux:button>
     </div>
-    <br />
     <div class="relative overflow-x-auto px-2">
         <hr class="solid">
         <table id="tabla" class="display text-left rtl:text-right text-gray-500 dark:text-gray-400">
