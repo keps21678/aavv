@@ -80,6 +80,14 @@
                     'label' => __('Cuotas'),
                     'role' => ['admin', 'editor'],
                 ],
+                [
+                    'name' => __('Proveedores'),
+                    'icon' => 'building-storefront',
+                    'url' => route('admin.proveedores.index'),
+                    'current' => request()->routeIs('proveedores.*'),
+                    'label' => __('Proveedores'),
+                    'role' => ['admin', 'editor'],
+                ],
             ],
         ],
         [
@@ -100,34 +108,18 @@
                     'current' => request()->routeIs('incidencias.*'),
                     'label' => __('Incidencias'),
                     'role' => ['admin', 'editor'],
-                ],
-                [
-                    'name' => __('Recibos'),
-                    'icon' => 'banknotes',
-                    'url' => route('admin.recibos.index'),
-                    'current' => request()->routeIs('recibos.*'),
-                    'label' => __('Recibos'),
-                    'role' => ['admin', 'editor'],
-                ],                
+                ],                               
             ],
         ],
         [
             'heading' => __('Gestión Financiera'),
-            'items' => [
+            'items' => [                
                 [
-                    'name' => __('Proveedores'),
-                    'icon' => 'building-storefront',
-                    'url' => route('admin.proveedores.index'),
-                    'current' => request()->routeIs('proveedores.*'),
-                    'label' => __('Proveedores'),
-                    'role' => ['admin', 'editor'],
-                ],
-                [
-                    'name' => __('Facturas'),
+                    'name' => __('Gastos'),
                     'icon' => 'document-text',
-                    'url' => route('admin.facturas.index'),
-                    'current' => request()->routeIs('facturas.*'),
-                    'label' => __('Facturas'),
+                    'url' => route('admin.gastos.index'),
+                    'current' => request()->routeIs('gastos.*'),
+                    'label' => __('Gastos'),
                     'role' => ['admin', 'editor'],
                 ],
                 [
@@ -138,6 +130,14 @@
                     'label' => __('Ingresos'),
                     'role' => ['admin', 'editor'],
                 ],
+                [
+                    'name' => __('Recibos'),
+                    'icon' => 'banknotes',
+                    'url' => route('admin.recibos.index'),
+                    'current' => request()->routeIs('recibos.*'),
+                    'label' => __('Recibos'),
+                    'role' => ['admin', 'editor'],
+                ], 
             ],
         ],
     ];

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Factura;
+use App\Models\Gasto;
 use App\Models\Recibo;
 use App\Models\Ingreso;
 
@@ -18,15 +18,15 @@ class ContabilidadController extends Controller
         $sumaRecibos = Recibo::whereYear('fecha_vencimiento', $currentYear)->sum('cuota_id'); // Cambia 'cuota_id' si es necesario
         $numeroRecibos = Recibo::whereYear('fecha_vencimiento', $currentYear)->count();
 
-        // Suma de importes y número de facturas del año en curso
-        $sumaFacturas = Factura::whereYear('fecha_vencimiento', $currentYear)->sum('importe');
-        $numeroFacturas = Factura::whereYear('fecha_vencimiento', $currentYear)->count();
+        // Suma de importes y número de gastos del año en curso
+        $sumaGastos = Gasto::whereYear('fecha_vencimiento', $currentYear)->sum('importe');
+        $numeroGastos = Gasto::whereYear('fecha_vencimiento', $currentYear)->count();
 
         // Suma de importes y número de ingresos del año en curso
         $numeroIngresos = Ingreso::whereYear('fecha_vencimiento', $currentYear)->count();
         $sumaIngresos = Ingreso::whereYear('fecha_vencimiento', $currentYear)->sum('importe');
 
-        return view('admin.contabilidad.index', compact('sumaRecibos', 'numeroRecibos', 'sumaFacturas', 'numeroFacturas', 'numeroIngresos', 'sumaIngresos'));
+        return view('admin.contabilidad.index', compact('sumaRecibos', 'numeroRecibos', 'sumaGastos', 'numeroGastos', 'numeroIngresos', 'sumaIngresos'));
     }
     /**
      * Display the specified resource.
@@ -36,7 +36,8 @@ class ContabilidadController extends Controller
         //    
         $recibo = Recibo::all();
         // Verifica si el recibo pertenece al usuario autenticado
-        $factura  = Factura::all();
-        return view('admin.contabilidad.show', compact('recibo', 'factura'));
+        $gasto  = Gasto::all();
+        $ingreso = Ingreso::all();
+        return view('admin.contabilidad.show', compact('recibo', 'gasto', 'ingreso'));
     }
 }

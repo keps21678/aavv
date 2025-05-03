@@ -3,42 +3,42 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Factura;
+use App\Models\Gasto;
 use App\Models\Proveedor;
 use App\Models\Estado; // Importación de la clase Estado
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FacturaController extends Controller
+class gastoController extends Controller
 {
     use SoftDeletes;
     /**
-     * Muestra una lista de facturas.
+     * Muestra una lista de gastos.
      */
     public function index()
     {
-        $facturas = Factura::with('proveedor')->paginate(10);
-        return view('admin.facturas.index', compact('facturas'));
+        $gastos = Gasto::with('proveedor')->paginate(10);
+        return view('admin.gastos.index', compact('gastos'));
     }
 
     /**
-     * Muestra el formulario para crear una nueva factura.
+     * Muestra el formulario para crear una nueva gasto.
      */
     public function create()
     {
         $proveedores = Proveedor::all();
-        return view('admin.facturas.create', compact('proveedores'));
+        return view('admin.gastos.create', compact('proveedores'));
     }
 
     /**
-     * Almacena una nueva factura en la base de datos.
+     * Almacena una nueva gasto en la base de datos.
      */
     public function store(Request $request)
     {
         try {
             $request->validate([
                 'proveedor_id' => 'required|exists:proveedores,id',
-                'numero' => 'required|string|unique:facturas,numero|max:255',
+                'numero' => 'required|string|unique:gastos,numero|max:255',
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
                 'descripcion' => 'nullable|string|max:1000',
@@ -46,16 +46,16 @@ class FacturaController extends Controller
                 'estado_id' => 'required|exists:estados,id', // Validación para que coincida con la clase Estado
             ]);
 
-            Factura::create($request->all());
+            Gasto::create($request->all());
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'Factura creada correctamente',
-                'text' => 'La factura se ha creado correctamente.',
+                'title' => 'gasto creada correctamente',
+                'text' => 'La gasto se ha creado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.facturas.index')->with('success', 'Factura creada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'gasto creada correctamente.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = collect($e->errors())->map(function ($messages, $field) {
                 return ucfirst($field) . ': ' . implode(', ', $messages);
@@ -71,31 +71,31 @@ class FacturaController extends Controller
         }
     }
     /**
-     * Muestra los detalles de una factura específica.
+     * Muestra los detalles de una gasto específica.
      */
-    public function show(Factura $factura)
+    public function show(Gasto $gasto)
     {
-        return view('admin.facturas.show', compact('factura'));
+        return view('admin.gastos.show', compact('gasto'));
     }
     /**
-     * Muestra el formulario para editar una factura existente.
+     * Muestra el formulario para editar una gasto existente.
      */
-    public function edit(Factura $factura)
+    public function edit(Gasto $gasto)
     {
         $proveedores = Proveedor::all();
         $estados = Estado::all(); // Obtiene todos los estados
-        return view('admin.facturas.edit', compact('factura', 'proveedores', 'estados'));
+        return view('admin.gastos.edit', compact('gasto', 'proveedores', 'estados'));
     }
 
     /**
-     * Actualiza una factura existente en la base de datos.
+     * Actualiza una gasto existente en la base de datos.
      */
-    public function update(Request $request, Factura $factura)
+    public function update(Request $request, Gasto $gasto)
     {
         try {
             $request->validate([
                 'proveedor_id' => 'required|exists:proveedores,id',
-                'numero' => 'required|string|unique:facturas,numero,' . $factura->id . '|max:255',
+                'numero' => 'required|string|unique:gastos,numero,' . $gasto->id . '|max:255',
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
                 'descripcion' => 'nullable|string|max:1000',
@@ -103,16 +103,16 @@ class FacturaController extends Controller
                 'estado_id' => 'required|exists:estados,id', // Validación para que coincida con la clase Estado
             ]);
 
-            $factura->update($request->all());
+            $gasto->update($request->all());
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'Factura actualizada correctamente',
-                'text' => 'La factura se ha actualizado correctamente.',
+                'title' => 'gasto actualizada correctamente',
+                'text' => 'La gasto se ha actualizado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.facturas.index')->with('success', 'Factura actualizada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'gasto actualizada correctamente.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = collect($e->errors())->map(function ($messages, $field) {
                 return ucfirst($field) . ': ' . implode(', ', $messages);
@@ -129,25 +129,25 @@ class FacturaController extends Controller
     }
 
     /**
-     * Elimina una factura de la base de datos.
+     * Elimina una gasto de la base de datos.
      */
-    public function destroy(Factura $factura)
+    public function destroy(Gasto $gasto)
     {
         try {
-            $factura->delete();
+            $gasto->delete();
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'Factura eliminada correctamente',
-                'text' => 'La factura se ha eliminado correctamente.',
+                'title' => 'gasto eliminada correctamente',
+                'text' => 'La gasto se ha eliminado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.facturas.index')->with('success', 'Factura eliminada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'gasto eliminada correctamente.');
         } catch (\Exception $e) {
             session()->flash('swal', [
                 'title' => 'Error al eliminar',
-                'text' => 'No se pudo eliminar la factura. Inténtalo de nuevo.',
+                'text' => 'No se pudo eliminar la gasto. Inténtalo de nuevo.',
                 'icon' => 'error',
             ]);
 
@@ -156,26 +156,26 @@ class FacturaController extends Controller
     }
 
     /**
-     * Restaura una factura eliminada.
+     * Restaura una gasto eliminada.
      */
     public function restore($id)
     {
         try {
-            $factura = Factura::withTrashed()->findOrFail($id);
-            $factura->restore();
+            $gasto = Gasto::withTrashed()->findOrFail($id);
+            $gasto->restore();
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'Factura restaurada correctamente',
-                'text' => 'La factura se ha restaurado correctamente.',
+                'title' => 'gasto restaurada correctamente',
+                'text' => 'La gasto se ha restaurado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.facturas.index')->with('success', 'Factura restaurada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'gasto restaurada correctamente.');
         } catch (\Exception $e) {
             session()->flash('swal', [
                 'title' => 'Error al restaurar',
-                'text' => 'No se pudo restaurar la factura. Inténtalo de nuevo.',
+                'text' => 'No se pudo restaurar la gasto. Inténtalo de nuevo.',
                 'icon' => 'error',
             ]);
 
@@ -183,11 +183,11 @@ class FacturaController extends Controller
         }
     }
 
-    public function getTotalFacturas()
+    public function getTotalgastos()
     {
         $currentYear = now()->year;
 
         // Suma de ingresos por recibos del año en curso
-        $sumaFacturas = Factura::whereYear('fecha_vencimiento', $currentYear)->sum('cuota_id'); // Ajusta si `cuota_id` no es el importe
+        $sumagastos = Gasto::whereYear('fecha_vencimiento', $currentYear)->sum('cuota_id'); // Ajusta si `cuota_id` no es el importe
     }
 }

@@ -28,7 +28,7 @@ class ProveedorController extends Controller
         $proveedores = Proveedor::where('nombre', 'LIKE', '%' . $this->search . '%')
             ->orWhere('persona_contacto', 'LIKE', '%' . $this->search . '%')
             ->orderBy('id', 'asc')
-            ->withCount('facturas')
+            ->withCount('gastos')
             ->get();
         //$socios = Socio::withCount('incidencias')->paginate(10); // Carga el conteo de incidencias
 
@@ -142,11 +142,11 @@ class ProveedorController extends Controller
     public function destroy(Proveedor $proveedor)
     {
         try {
-            // Comprobar si el proveedor tiene facturas asociadas
-            if ($proveedor->facturas()->exists()) {
+            // Comprobar si el proveedor tiene gastos asociados
+            if ($proveedor->gastos()->exists()) {
                 session()->flash('swal', [
                     'title' => 'Error al eliminar',
-                    'text' => 'No se puede eliminar el proveedor porque tiene facturas asociadas.',
+                    'text' => 'No se puede eliminar el proveedor porque tiene gastos asociados.',
                     'icon' => 'error',
                 ]);
 

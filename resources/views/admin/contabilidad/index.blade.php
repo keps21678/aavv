@@ -11,7 +11,7 @@
     <div class="rounded overflow-hidden shadow-lg text-lg">
         <div class="flex flex-col gap-6 px-4 mb-6">
             <x-auth-header :title="__('Resumen Contable del Año en Curso')"
-                :description="__('Suma de importes y número de facturas, recibos e ingresos del año en curso')" />
+                :description="__('Suma de importes y número de gastos, recibos e ingresos del año en curso')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
 
@@ -32,9 +32,9 @@
                             <td>{{ number_format($sumaRecibos, 2) }}</td>
                         </tr>
                         <tr>
-                            <td>{{ __('Facturas') }}</td>
-                            <td>{{ $numeroFacturas }}</td>
-                            <td>{{ number_format($sumaFacturas, 2) }}</td>
+                            <td>{{ __('Gastos') }}</td>
+                            <td>{{ $numeroGastos }}</td>
+                            <td>{{ number_format($sumaGastos, 2) }}</td>
                         </tr>
                         <tr>
                             <td>{{ __('Ingresos') }}</td>
@@ -48,7 +48,7 @@
                             <td></td>
                             <td>
                                 @php
-                                    $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaFacturas;
+                                    $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaGastos;
                                 @endphp
                                 <span class="{{ $totalGeneral < 0 ? 'text-red-500 font-bold' : '' }}">
                                     {{ $totalGeneral < 0 ? '-' : '' }}{{ number_format(abs($totalGeneral), 2) }}

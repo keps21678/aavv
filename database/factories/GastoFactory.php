@@ -2,19 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Factura;
+use App\Models\gasto;
 use App\Models\Proveedor;
 use App\Models\Estado;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FacturaFactory extends Factory
+class gastoFactory extends Factory
 {
     /**
      * El modelo asociado con este factory.
      *
      * @var string
      */
-    protected $model = Factura::class;
+    protected $model = Gasto::class;
 
     /**
      * Define el estado por defecto del modelo.

@@ -65,10 +65,10 @@
                 </div>
             </div>
 
-            <!-- Facturas relacionadas -->
+            <!-- gastos relacionadas -->
             <div class="mt-4">
-                @if ($proveedor->facturas->isEmpty())
-                <p class="">No hay facturas relacionadas con este proveedor.</p>
+                @if ($proveedor->gastos->isEmpty())
+                <p class="">No hay gastos relacionadas con este proveedor.</p>
                 @else
                 <div class="relative overflow-x-auto">
                     <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -84,31 +84,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($proveedor->facturas as $factura)
+                            @foreach ($proveedor->gastos as $gasto)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                <td class="px-4 py-2">{{ $factura->numero }}</td>
-                                <td class="px-4 py-2">{{ $factura->fecha_emision->format('d/m/Y') }}</td>
-                                <td class="px-4 py-2">{{ $factura->fecha_vencimiento->format('d/m/Y') }}</td>
-                                <td class="px-4 py-2">{{ $factura->descripcion }}</td>
+                                <td class="px-4 py-2">{{ $gasto->numero }}</td>
+                                <td class="px-4 py-2">{{ $gasto->fecha_emision->format('d/m/Y') }}</td>
+                                <td class="px-4 py-2">{{ $gasto->fecha_vencimiento->format('d/m/Y') }}</td>
+                                <td class="px-4 py-2">{{ $gasto->descripcion }}</td>
                                 <td class="px-2 py-4">
-                                    <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $factura->estado->color }}">
-                                        {{ $factura->estado->nombre }}
+                                    <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $gasto->estado->color }}">
+                                        {{ $gasto->estado->nombre }}
                                     </span>
                                 </td>
-                                <td class="px-2 py-4 whitespace-nowrap">{{ number_format($factura->importe, 2) }} €</td>                                
+                                <td class="px-2 py-4 whitespace-nowrap">{{ number_format($gasto->importe, 2) }} €</td>                                
                                 <td class="px-4 py-2">
                                     <div class="flex justify-end space-x-2">
                                         <!-- Botón Consultar -->
                                         <flux:button icon:trailing="arrow-up-right"
-                                            href="{{ route('admin.facturas.show', $factura) }}"
+                                            href="{{ route('admin.gastos.show', $gasto) }}"
                                             class="btn btn-green mr-2">Consultar</flux:button>
                                         <!-- Botón Editar -->
                                         <flux:button variant="primary"
-                                            href="{{ route('admin.facturas.edit', $factura) }}" class="btn btn-blue">
+                                            href="{{ route('admin.gastos.edit', $gasto) }}" class="btn btn-blue">
                                             Editar</flux:button>
                                         <!-- Botón Eliminar -->
                                         <form class="delete-form"
-                                            action="{{ route('admin.facturas.destroy', $factura) }}" method="POST">
+                                            action="{{ route('admin.gastos.destroy', $gasto) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <flux:button wire:click="delete" variant="danger" type="submit"

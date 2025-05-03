@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
-use App\Models\Factura; // Ensure the Factura model exists in the specified namespace
+use App\Models\Gasto; // Ensure the Gasto model exists in the specified namespace
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Proveedor extends Model
@@ -107,12 +107,12 @@ class Proveedor extends Model
         ]);
     }
     /**
-     * Relación con facturas.
+     * Relación con gastos.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function facturas(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function gastos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Factura::class, 'proveedor_id');
+        return $this->hasMany(Gasto::class, 'proveedor_id');
     }
 }

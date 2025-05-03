@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\IncidenciaController;
 use App\Http\Controllers\Admin\TSocioController;
 use App\Http\Controllers\Admin\SocioController;
 use App\Http\Controllers\Admin\ReciboController;
-use App\Http\Controllers\Admin\FacturaController;
+use App\Http\Controllers\Admin\GastoController;
 use App\Http\Controllers\Admin\IngresoController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\UserController;
@@ -56,8 +56,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('contabilidad', ContabilidadController::class)
         ->names('admin.contabilidad');
 
-    Route::resource('facturas', FacturaController::class)
-        ->names('admin.facturas');
+    Route::resource('gastos', GastoController::class)
+        ->names('admin.gastos');
 
     Route::resource('ingresos', IngresoController::class)
         ->names('admin.ingresos');

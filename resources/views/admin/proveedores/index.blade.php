@@ -19,7 +19,7 @@
                     <th scope="col" class="px-2 py-3">Teléfono</th>
                     <th scope="col" class="px-2 py-3">Email</th>
                     <th scope="col" class="px-2 py-3">Persona Contacto</th>
-                    <th scope="col" class="px-2 py-3">Facturas Asociadas</th> <!-- Nueva columna -->
+                    <th scope="col" class="px-2 py-3">gastos Asociadas</th> <!-- Nueva columna -->
                     <th scope="col" class="px-2 py-3">Acciones</th>
                 </tr>
             </thead>
@@ -31,7 +31,7 @@
                     <td class="px-2 py-4">{{ $proveedor->telefono }}</td>
                     <td class="px-2 py-4">{{ $proveedor->email }}</td>
                     <td class="px-2 py-4">{{ $proveedor->persona_contacto }}</td>
-                    <td class="px-2 py-4 text-center">{{ $proveedor->facturas_count }}</td> <!-- Mostrar el número de facturas -->
+                    <td class="px-2 py-4 text-center">{{ $proveedor->gastos_count }}</td> <!-- Mostrar el número de gastos -->
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.proveedores.show', $proveedor) }}"

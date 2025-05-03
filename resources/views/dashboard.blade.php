@@ -122,9 +122,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>{{ __('Suma de Facturas') }}</td>
+                        <td>{{ __('Suma de Gastos') }}</td>
                         <td>
-                            {{ $sumaFacturas = \App\Models\Factura::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
+                            {{ $sumaGastos = \App\Models\Gasto::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
                         </td>
                     </tr>                    
                 </tbody>
@@ -133,7 +133,7 @@
                         <td>{{ __('Total General') }}</td>
                         <td>
                             @php
-                                $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaFacturas;
+                                $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaGastos;
                             @endphp
                             <span class="{{ $totalGeneral < 0 ? 'text-red-500 font-bold' : '' }}">
                                 {{ $totalGeneral < 0 ? '-' : '' }}{{ number_format(abs($totalGeneral), 2) }}

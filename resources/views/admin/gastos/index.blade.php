@@ -1,11 +1,11 @@
-<x-layouts.app :title="__('Lista de Facturas')">
+<x-layouts.app :title="__('Lista de Gastos')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Facturas') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Gastos') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <flux:button href="{{ route('admin.facturas.create') }}" class="btn btn-green">
-            Nueva Factura
+        <flux:button href="{{ route('admin.gastos.create') }}" class="btn btn-green">
+            Nueva gasto
         </flux:button>
     </div>
     <br />
@@ -25,26 +25,26 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($facturas as $factura)
+                @foreach ($gastos as $gasto)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <td class="px-2 py-4">{{ $factura->numero }}</td>
-                    <td class="px-2 py-4">{{ $factura->proveedor->nombre }}</td>                    
-                    <td class="px-2 py-4">{{ $factura->descripcion }}</td>
-                    <td class="px-2 py-4">{{ $factura->fecha_emision->format('d/m/Y') }}</td>
-                    <td class="px-2 py-4">{{ $factura->fecha_vencimiento->format('d/m/Y') }}</td>
+                    <td class="px-2 py-4">{{ $gasto->numero }}</td>
+                    <td class="px-2 py-4">{{ $gasto->proveedor->nombre }}</td>                    
+                    <td class="px-2 py-4">{{ $gasto->descripcion }}</td>
+                    <td class="px-2 py-4">{{ $gasto->fecha_emision->format('d/m/Y') }}</td>
+                    <td class="px-2 py-4">{{ $gasto->fecha_vencimiento->format('d/m/Y') }}</td>
                     <td class="px-2 py-4">
-                        <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $factura->estado->color }}">
-                            {{ $factura->estado->nombre }}
+                        <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $gasto->estado->color }}">
+                            {{ $gasto->estado->nombre }}
                         </span>
                     </td>
-                    <td class="px-2 py-4 whitespace-nowrap">{{ number_format($factura->importe, 2) }} €</td>                    
+                    <td class="px-2 py-4 whitespace-nowrap">{{ number_format($gasto->importe, 2) }} €</td>                    
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
-                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.facturas.show', $factura) }}"
+                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.gastos.show', $gasto) }}"
                                 class="btn btn-green mr-2">Consultar</flux:button>
-                            <flux:button variant="primary" href="{{ route('admin.facturas.edit', $factura) }}"
+                            <flux:button variant="primary" href="{{ route('admin.gastos.edit', $gasto) }}"
                                 class="btn btn-blue">Editar</flux:button>
-                            <form class="delete-form" action="{{ route('admin.facturas.destroy', $factura) }}"
+                            <form class="delete-form" action="{{ route('admin.gastos.destroy', $gasto) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')

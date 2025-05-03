@@ -1,21 +1,21 @@
-<x-layouts.app :title="__('Edición de Factura')">
+<x-layouts.app :title="__('Edición de Gastos')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.facturas.index')">{{ __('Facturas') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Edición de Factura') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.gastos.index')">{{ __('gastos') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Edición de Gasto') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.facturas.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nueva Factura</a>
-            <a href="{{ route('admin.facturas.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Facturas</a>
+            <a href="{{ route('admin.gastos.create') }}"
+                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nuevo gasto</a>
+            <a href="{{ route('admin.gastos.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de gastos</a>
         </div>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Edición de Factura</h1>
-            <form action="{{ route('admin.facturas.update', $factura->id) }}" method="POST">
+            <h1 class="flex justify-end font-bold text-xl mb-4">Edición de gasto</h1>
+            <form action="{{ route('admin.gastos.update', $gasto->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -25,7 +25,7 @@
                         required searchable>
                         <option value="" disabled>Seleccione un proveedor</option>
                         @foreach ($proveedores as $proveedor)
-                        <option value="{{ $proveedor->id }}" {{ $factura->proveedor_id == $proveedor->id ? 'selected' :
+                        <option value="{{ $proveedor->id }}" {{ $gasto->proveedor_id == $proveedor->id ? 'selected' :
                             '' }}>
                             {{ $proveedor->nombre }}
                         </option>
@@ -33,37 +33,37 @@
                     </flux:select>
                 </div>
 
-                <!-- Número de factura -->
+                <!-- Número de gasto -->
                 <div class='mb-4'>
-                    <flux:input wire:model="numero" label="Número de Factura" name="numero" id="numero" type="text"
-                        placeholder="Ingrese el número de la factura" :value="old('numero', $factura->numero)"
+                    <flux:input wire:model="numero" label="Número de gasto" name="numero" id="numero" type="text"
+                        placeholder="Ingrese el número de la gasto" :value="old('numero', $gasto->numero)"
                         required />
                 </div>
 
-                <!-- Fecha de Emision factura -->
+                <!-- Fecha de Emision gasto -->
                 <div class='mb-4'>
-                    <flux:input label="Fecha de emisión de la factura" name="fecha_emision" id="fecha_emision" type="date"
-                        value="{{ old('fecha_emision', $factura->fecha_emision ? \Carbon\Carbon::parse($factura->fecha_emision)->format('Y-m-d') : now()->format('Y-m-d')) }}"
+                    <flux:input label="Fecha de emisión de la gasto" name="fecha_emision" id="fecha_emision" type="date"
+                        value="{{ old('fecha_emision', $gasto->fecha_emision ? \Carbon\Carbon::parse($gasto->fecha_emision)->format('Y-m-d') : now()->format('Y-m-d')) }}"
                         required />
                 </div>
-                <!-- Fecha de Vencimiento de la factura -->
+                <!-- Fecha de Vencimiento de la gasto -->
                 <div class='mb-4'>
-                    <flux:input label="Fecha vencimiento de la factura" name="fecha_vencimiento" id="fecha_vencimiento" type="date"
-                        value="{{ old('fecha_vencimiento', $factura->fecha_vencimiento ? \Carbon\Carbon::parse($factura->fecha_vencimiento)->format('Y-m-d') : now()->format('Y-m-d')) }}"
+                    <flux:input label="Fecha vencimiento de la gasto" name="fecha_vencimiento" id="fecha_vencimiento" type="date"
+                        value="{{ old('fecha_vencimiento', $gasto->fecha_vencimiento ? \Carbon\Carbon::parse($gasto->fecha_vencimiento)->format('Y-m-d') : now()->format('Y-m-d')) }}"
                         required />
                 </div>
-                <!-- Monto de factura -->
+                <!-- Monto de gasto -->
                 <div class='mb-4'>
                     <flux:input wire:model="importe" label="importe" name="importe" id="importe" type="number"
-                        step="0.01" placeholder="Ingrese el importe de la factura"
-                        :value="old('importe', $factura->importe)" required />
+                        step="0.01" placeholder="Ingrese el importe de la gasto"
+                        :value="old('importe', $gasto->importe)" required />
                 </div>
 
                 <!-- Descripción -->
                 <div class='mb-4'>
                     <flux:textarea wire:model="descripcion" label="Descripción" name="descripcion"
-                        placeholder="Escriba una descripción de la factura" required>
-                        {{ old('descripcion', $factura->descripcion) }}
+                        placeholder="Escriba una descripción de la gasto" required>
+                        {{ old('descripcion', $gasto->descripcion) }}
                     </flux:textarea>
                 </div>
 
@@ -72,7 +72,7 @@
                     <flux:select wire:model="estado_id" label="Estado" name="estado_id" id="estado_id" required>
                         <option value="" disabled>Seleccione un estado</option>
                         @foreach ($estados as $estado)
-                            <option value="{{ $estado->id }}" class="text-gray-700" {{ $factura->estado_id == $estado->id ? 'selected' : '' }}>
+                            <option value="{{ $estado->id }}" class="text-gray-700" {{ $gasto->estado_id == $estado->id ? 'selected' : '' }}>
                                 {{ $estado->nombre }}
                             </option>
                         @endforeach
