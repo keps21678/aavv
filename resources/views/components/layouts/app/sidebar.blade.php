@@ -11,22 +11,15 @@
                     'label' => __('Dashboard'),
                     'role' => ['admin', 'editor'],
                 ],
+                
                 [
-                    'name' => __('LOPD'),
+                    'name' => __('Documentación'),
                     'icon' => 'building-library',
                     'url' => route('admin.lopd.index'),
                     'current' => request()->routeIs('lopd.*'),
-                    'label' => __('LOPD'),
+                    'label' => __('Documentación'),
                     'role' => ['admin', 'editor'],
-                ],
-                [
-                    'name' => __('Contabilidad'),
-                    'icon' => 'building-library',
-                    'url' => route('admin.contabilidad.index'),
-                    'current' => request()->routeIs('contabilidad.*'),
-                    'label' => __('Contabilidad'),
-                    'role' => ['admin', 'editor'],
-                ],
+                ], 
             ],
         ],
         [
@@ -108,15 +101,31 @@
                     'current' => request()->routeIs('incidencias.*'),
                     'label' => __('Incidencias'),
                     'role' => ['admin', 'editor'],
-                ],                               
+                ],
+                [
+                    'name' => __('LOPD'),
+                    'icon' => 'document',
+                    'url' => route('admin.lopd.index'),
+                    'current' => request()->routeIs('lopd.*'),
+                    'label' => __('LOPD'),
+                    'role' => ['admin', 'editor'],
+                ], 
             ],
         ],
         [
             'heading' => __('Gestión Financiera'),
-            'items' => [                
+            'items' => [   
+                [
+                    'name' => __('Contabilidad'),
+                    'icon' => 'book-open',
+                    'url' => route('admin.contabilidad.index'),
+                    'current' => request()->routeIs('contabilidad.*'),
+                    'label' => __('Contabilidad'),
+                    'role' => ['admin', 'editor'],
+                ],             
                 [
                     'name' => __('Gastos'),
-                    'icon' => 'document-text',
+                    'icon' => 'archive-box-x-mark',
                     'url' => route('admin.gastos.index'),
                     'current' => request()->routeIs('gastos.*'),
                     'label' => __('Gastos'),
@@ -124,7 +133,7 @@
                 ],
                 [
                     'name' => __('Ingresos'),
-                    'icon' => 'book-open',
+                    'icon' => 'currency-euro',
                     'url' => route('admin.ingresos.index'),
                     'current' => request()->routeIs('ingresos.*'),
                     'label' => __('Ingresos'),
