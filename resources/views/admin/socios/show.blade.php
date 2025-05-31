@@ -1,5 +1,5 @@
-<x-layouts.app :title="__('Detalles del Socio')">
-    <div class="flex items-center justify-between mb-6">
+<x-layouts.app :title="__('Detalles del Socio/a')">
+    <div class="flex items-center justify-between mb-2">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item :href="route('admin.socios.index')">{{ __('Socios') }}</flux:breadcrumbs.item>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="rounded overflow-hidden shadow-lg text-lg">
-        <div class="flex flex-col gap-6 px-4 mb-6">
+        <div class="flex flex-col gap-6 px-4 mb-2">
             <x-auth-header :title="__('Detalles del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
                 :description="__('Datos de la cuenta')" />
             <!-- Session Status -->
@@ -74,9 +74,9 @@
             </div>
 
             <!-- Incidencias relacionadas -->
-            <div class="mt-8">
+            <div class="">
                 @if ($socio->incidencias->isEmpty())
-                <p class="">No hay incidencias relacionadas con este socio.</p>
+                <p class="">No hay incidencias relacionadas con este socio/a.</p>
                 @else
                 <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <caption class="caption-top">
@@ -95,20 +95,24 @@
                         @foreach ($socio->incidencias as $incidencia)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                             <td class="px-4 py-2" hidden>{{ $incidencia->id }}</td>
-                            <td class="px-4 py-2 w-1/4">{{ $incidencia->fecha_incidencia ? $incidencia->fecha_incidencia->format('Y/m/d') : 'N/A' }}</td>
+                            <td class="px-4 py-2 w-1/4">{{ $incidencia->fecha_incidencia ?
+                                $incidencia->fecha_incidencia->format('Y/m/d') : 'N/A' }}</td>
                             <td class="px-4 py-2">{{ $incidencia->descripcion }}</td>
-                            <td class="px-4 py-2">{{ $incidencia->updated_at ? $incidencia->updated_at->format('Y/m/d') : 'N/A' }}</td>
+                            <td class="px-4 py-2">{{ $incidencia->updated_at ? $incidencia->updated_at->format('Y/m/d')
+                                : 'N/A' }}</td>
                             <td class="px-4 py-2">
                                 <div class="flex justify-end space-x-2">
-                                    <flux:button variant="primary" href="{{ route('admin.incidencias.edit', $incidencia) }}"
-                                        class="btn btn-blue">
+                                    <flux:button variant="primary"
+                                        href="{{ route('admin.incidencias.edit', $incidencia) }}" class="btn btn-blue">
                                         Editar
                                     </flux:button>
 
-                                    <form class="delete-form" action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
+                                    <form class="delete-form"
+                                        action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar</flux:button>
+                                        <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                                        </flux:button>
                                     </form>
                                 </div>
                             </td>
@@ -116,6 +120,62 @@
                         @endforeach
                     </tbody>
                 </table>
+                @endif
+            </div>
+
+            <!-- Documentos LOPD asociados -->
+            <div class="">
+                @if ($socio->lopds && $socio->lopds->isNotEmpty())
+                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <caption class="caption-top">
+                        Documentos LOPD asociados
+                    </caption>
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th class="px-4 py-2">Categoría</th>
+                            <th class="px-4 py-2">Descripción</th>
+                            <th class="px-4 py-2">Fecha Firma</th>
+                            <th class="px-4 py-2">Archivo</th>
+                            <th class="px-4 py-2">Estado</th>
+                            <th class="px-4 py-2">Observaciones</th>
+                            <th class="px-4 py-2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($socio->lopds as $lopd)
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                            <td class="px-4 py-2">{{ $lopd->categoria->nombre ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $lopd->descripcion }}</td>
+                            <td class="px-4 py-2">{{ $lopd->fecha_firma ? $lopd->fecha_firma->format('d/m/Y') : '-' }}
+                            </td>
+                            <td class="px-4 py-2">
+                               {{ $lopd->nombre_archivo ?? '-' }}
+                            </td>
+                            <td class="px-4 py-2">{{ $lopd->estado->nombre ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $lopd->observaciones }}</td>
+                            <td class="px-4 py-2">
+                                <div class="flex justify-end space-x-2">
+                                    <flux:button icon:trailing="arrow-up-right"
+                                        href="{{ route('admin.lopd.show', $lopd) }}" class="btn btn-green">Consultar
+                                    </flux:button>
+                                    <flux:button variant="primary" href="{{ route('admin.lopd.edit', $lopd) }}"
+                                        class="btn btn-blue">Editar</flux:button>
+                                    <form class="delete-form" action="{{ route('admin.lopd.destroy', $lopd) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <flux:button variant="danger" type="submit" class="btn btn-danger">
+                                            Eliminar
+                                        </flux:button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @else
+                <p class="">No hay documentos LOPD enlazados a este socio/a.</p>
                 @endif
             </div>
         </div>
@@ -128,9 +188,10 @@
             </div>
             <div class="container">
                 <div class="columns-3 gap-6 mb-6">
-                    <flux:input class="mb-2" readonly variant="filled" label="IBAN" placeholder="IBAN del socio" :value="$socio->iban" disabled />
-                    <flux:input class="mb-2" readonly variant="filled" label="Titular de la cuenta" placeholder="Titular"
-                        :value="$socio->titular" disabled />
+                    <flux:input class="mb-2" readonly variant="filled" label="IBAN" placeholder="IBAN del socio"
+                        :value="$socio->iban" disabled />
+                    <flux:input class="mb-2" readonly variant="filled" label="Titular de la cuenta"
+                        placeholder="Titular" :value="$socio->titular" disabled />
                     <flux:input class="mb-2" readonly variant="filled" label="DNI del Titular" placeholder="DNI"
                         :value="$socio->dni_titular" disabled />
                 </div>

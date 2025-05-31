@@ -19,6 +19,7 @@
                     <th scope="col" class="px-6 py-3">Descripción</th>
                     <th scope="col" class="px-6 py-3">Color</th>
                     <th scope="col" class="px-6 py-3">Creado</th>
+                    <th class="px-6 py-3">Actualizado</th>
                     <th scope="col" class="px-6 py-3">Acciones</th>
                 </tr>
             </thead>
@@ -39,6 +40,9 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ $estado->created_at->format('d/m/Y') }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $estado->updated_at->format('d/m/Y') }}
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">

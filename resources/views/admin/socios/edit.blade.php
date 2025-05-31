@@ -21,7 +21,7 @@
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.socios.update', $socio) }}" method="POST">
                 @csrf
-                @method('PUT')                
+                @method('PUT')
                 <!-- Contenedor de tres columnas -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
                     <!-- Primera columna -->
@@ -52,7 +52,7 @@
                         <flux:input wire:model="apellidos" label="Apellidos" placeholder="Escriba los apellidos"
                             :value="old('apellidos', $socio->apellidos)" required />
                         <flux:input wire:model="dni" label="DNI" placeholder="Escriba el DNI"
-                            :value="old('dni', $socio->dni)" required />                        
+                            :value="old('dni', $socio->dni)" required />
                     </div>
 
                     <!-- Segunda columna -->
@@ -87,19 +87,20 @@
                 <div class="">
                     <div x-data="{ showIBAN: {{ old('domiciliacion', $socio->domiciliacion) ? 'true' : 'false' }} }">
                         <div class="flex items-center">
-                            <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1" {{ old('domiciliacion',
-                                $socio->domiciliacion) ? 'checked' : '' }}
+                            <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1" {{
+                                old('domiciliacion', $socio->domiciliacion) ? 'checked' : '' }}
                             class="form-checkbox h-5 w-5" @change="showIBAN = $event.target.checked">
                             <label for="domiciliacion" class="ml-2">Domiciliación</label>
                         </div>
                         <template x-if="showIBAN">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 px-2">
-                                <flux:input variant="filled" label="IBAN" placeholder="IBAN de la cuenta" type='password'
-                                    :value="old('iban', $socio->iban)" viewable />
+                                <flux:input variant="filled" label="IBAN" placeholder="IBAN de la cuenta"
+                                    type='password' :value="old('iban', $socio->iban)" viewable />
                                 <flux:input variant="filled" label="Titular de la cuenta"
-                                    placeholder="Nombre y apellidos del titular" :value="old('titular', $socio->titular)" />
-                                <flux:input variant="filled" label="DNI del titular de la cuenta" placeholder="dni_titular"
-                                    :value="old('dni_titular', $socio->dni_titular)" />
+                                    placeholder="Nombre y apellidos del titular"
+                                    :value="old('titular', $socio->titular)" />
+                                <flux:input variant="filled" label="DNI del titular de la cuenta"
+                                    placeholder="dni_titular" :value="old('dni_titular', $socio->dni_titular)" />
                             </div>
                         </template>
                     </div>
@@ -114,7 +115,7 @@
                         </option>
                         @endforeach
                     </flux:select>
-        
+
                     <!-- Cuota -->
                     <flux:select wire:model="cuotas_id" label="Cuota" name="cuota_id" id="cuota_id" required>
                         <option value="" disabled selected>Seleccionar cuota</option>
@@ -127,6 +128,33 @@
                 </div>
                 <!-- Botón de envío -->
                 <div class="flex justify-end mt-6 mb-4">
+                    <!-- Incidencias -->
+                    @if ($socio->incidencias_count > 0)
+                    <flux:button variant="outline" label="Incidencias"
+                        href="{{ route('admin.incidencias.index', ['socio_id' => $socio->id]) }}"
+                        class="btn btn-green-dark text-white font-bold py-1 px-3 rounded mr-2">
+                        {{ $socio->incidencias_count }}&nbsp;&nbsp;Incidencia/s
+                    </flux:button>
+                    @else
+                    <flux:button variant="filled"
+                        href="{{ route('admin.incidencias.create', ['socio_id' => $socio->id]) }}"
+                        class="btn btn-yellow text-white font-bold py-1 px-3 rounded mr-2">
+                        Abrir Incidencia
+                    </flux:button>
+                    @endif
+                    <!-- Documentos LOPD -->
+                    @if ($socio->lopds_count > 0)
+                    <flux:button label="Documentos LOPD"
+                        href="{{ route('admin.lopd.index', ['socio_id' => $socio->id]) }}"
+                        class="btn btn-green-dark text-white font-bold py-1 px-3 rounded mr-2">
+                        {{ $socio->lopds_count }}&nbsp;&nbsp;Documento/s
+                    </flux:button>
+                    @else
+                    <flux:button href="{{ route('admin.lopd.create', ['socio_id' => $socio->id]) }}"
+                        class="btn btn-yellow text-white font-bold py-1 px-3 rounded mr-2">
+                        Subir Documento
+                    </flux:button>
+                    @endif
                     <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar cambios</flux:button>
                 </div>
             </form>

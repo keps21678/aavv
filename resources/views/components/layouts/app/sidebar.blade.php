@@ -35,8 +35,8 @@
                 [
                     'name' => __('Categorias'),
                     'icon' => 'shield-check',
-                    'url' => route('admin.categories.index'),
-                    'current' => request()->routeIs('categories.*'),
+                    'url' => route('admin.categorias.index'),
+                    'current' => request()->routeIs('categorias.*'),
                     'label' => __('Categorías'),
                     'role' => ['admin', 'editor'],
                 ],

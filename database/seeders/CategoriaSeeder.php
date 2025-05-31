@@ -3,28 +3,28 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Category;
+use App\Models\Categoria;
 
-class CategorySeeder extends Seeder
+class CategoriaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Category::create([
+        Categoria::create([
             'nombre' => 'Consentimiento',
             'descripcion' => 'Consentimiento para el tratamiento de datos personales.',
             'color' => '#007bff', // Azul
         ]);
 
-        Category::create([
+        Categoria::create([
             'nombre' => 'Aviso',
             'descripcion' => 'Aviso de privacidad.',
             'color' => '#ffc107', // Amarillo
         ]);
 
-        Category::create([
+        Categoria::create([
             'nombre' => 'Revocación',
             'descripcion' => 'Revocación del consentimiento.',
             'color' => '#dc3545', // Rojo

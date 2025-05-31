@@ -1,5 +1,5 @@
 <x-layouts.app :title="__('Resumen Contable del Año en Curso')">
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center justify-between mb-2">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item :href="route('admin.contabilidad.index')">{{ __('Contabilidad') }}

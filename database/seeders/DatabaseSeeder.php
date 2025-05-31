@@ -38,6 +38,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(IngresoSeeder::class);
 
-        Category::factory(50)->create();
+        $this->call(CategoriaSeeder::class);
     }
 }

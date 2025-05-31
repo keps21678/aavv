@@ -125,7 +125,7 @@ class SocioController extends Controller
 
         return redirect()->route('admin.socios.index');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -141,11 +141,9 @@ class SocioController extends Controller
      */
     public function edit(Socio $socio)
     {
-        //
-        // Obtener los tipos de socios y cuotas
-        $tsocios = TSocio::all(); // Asegúrate de que el modelo TSocio existe
+        $tsocios = TSocio::all();
         $cuotas = Cuota::where('anyo', '>=', now()->year - 1)->get(); // Obtener cuotas del año actual y futuros
-
+        $socio->loadCount('incidencias')->loadCount('lopds');
         return view('admin.socios.edit', compact('socio', 'tsocios', 'cuotas'));
     }
 

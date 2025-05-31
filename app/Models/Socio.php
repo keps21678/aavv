@@ -114,4 +114,9 @@ class Socio extends Model
     {
         return $this->hasMany(Incidencia::class, 'socio_id');
     }
+
+    public function lopds()
+    {
+        return $this->hasMany(\App\Models\Lopd::class, 'socio_id');
+    }
 }

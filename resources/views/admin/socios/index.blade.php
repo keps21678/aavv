@@ -21,8 +21,7 @@
                     <th scope="col" class="px-2 py-3">Tipo Socio</th>
                     <th scope="col" class="px-2 py-3">Email</th>
                     <th scope="col" class="px-2 py-3">Movil</th>
-                    <th scope="col" class="px-2 py-3">Persona Contacto</th>
-                    {{-- <th scope="col" class="px-2 py-3">Domiciliación</th> <!-- Nueva columna --> --}}
+                    <th scope="col" class="px-2 py-3">Persona Contacto</th>                    
                     <th scope="col" class="px-2 py-3">Incidencias</th>
                     <th scope="col" class="px-2 py-3">Acciones</th>
                 </tr>
@@ -39,11 +38,6 @@
                     <td class="px-2 py-4">{{ $socio->email }}</td>
                     <td class="px-2 py-4">{{ $socio->movil }}</td>
                     <td class="px-2 py-4">{{ $socio->persona_contacto }}</td>
-                    {{-- <td class="px-2 py-4 text-center">
-                        <!-- Checkbox para domiciliación -->
-                        <input type="checkbox" disabled {{ $socio->domiciliacion ? 'checked' : '' }}
-                        class="form-checkbox h-5 w-5 text-green-600">
-                    </td> --}}
                     <td class="px-2 py-4">
                         @if ($socio->incidencias_count > 0)
                         <flux:button variant="outline"

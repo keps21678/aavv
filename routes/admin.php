@@ -5,7 +5,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use App\Exports\RecibosExport;
 
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\LopdController;
+use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\ContabilidadController;
 use App\Http\Controllers\Admin\CuotaController;
 use App\Http\Controllers\Admin\EstadoController;
@@ -23,9 +24,12 @@ use App\Http\Controllers\Admin\UserController;
 // Definimos estas rutas para "admin" en bootstrap/app.php
 
 Route::prefix('admin')->group(function () {
-    Route::resource('lopd', EstadoController::class)
+    Route::resource('lopd', LopdController::class)
         ->names('admin.lopd');
-
+    
+    Route::get('lopd/archivo/{file}', [LopdController::class, 'download'])->name('lopd.download');
+    Route::get('lopd/ver/{file}', [LopdController::class, 'view'])->name('lopd.view');
+    
     Route::resource('estados', EstadoController::class)
         ->names('admin.estados');
 
@@ -41,8 +45,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('incidencias', IncidenciaController::class)
         ->names('admin.incidencias');
 
-    Route::resource('categories', CategoryController::class)
-        ->names('admin.categories');
+    Route::resource('categorias', CategoriaController::class)
+        ->names('admin.categorias');
 
     Route::resource('proveedores', ProveedorController::class)
         ->names('admin.proveedores');
