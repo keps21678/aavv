@@ -50,12 +50,12 @@ class gastoController extends Controller
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'gasto creada correctamente',
-                'text' => 'La gasto se ha creado correctamente.',
+                'title' => 'Gasto creado correctamente',
+                'text' => 'El gasto se ha creado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.gastos.index')->with('success', 'gasto creada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'Gasto creado correctamente.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = collect($e->errors())->map(function ($messages, $field) {
                 return ucfirst($field) . ': ' . implode(', ', $messages);
@@ -107,12 +107,12 @@ class gastoController extends Controller
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'gasto actualizada correctamente',
-                'text' => 'La gasto se ha actualizado correctamente.',
+                'title' => 'Gasto actualizado correctamente',
+                'text' => 'El gasto se ha actualizado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.gastos.index')->with('success', 'gasto actualizada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'Gasto actualizado correctamente.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = collect($e->errors())->map(function ($messages, $field) {
                 return ucfirst($field) . ': ' . implode(', ', $messages);
@@ -138,16 +138,16 @@ class gastoController extends Controller
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'gasto eliminada correctamente',
-                'text' => 'La gasto se ha eliminado correctamente.',
+                'title' => 'Gasto eliminado correctamente',
+                'text' => 'El gasto se ha eliminado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.gastos.index')->with('success', 'gasto eliminada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'Gasto eliminado correctamente.');
         } catch (\Exception $e) {
             session()->flash('swal', [
                 'title' => 'Error al eliminar',
-                'text' => 'No se pudo eliminar la gasto. Inténtalo de nuevo.',
+                'text' => 'No se pudo eliminar el gasto. Inténtalo de nuevo.',
                 'icon' => 'error',
             ]);
 
@@ -166,16 +166,16 @@ class gastoController extends Controller
 
             // Variable de sesión Swal
             session()->flash('swal', [
-                'title' => 'gasto restaurada correctamente',
-                'text' => 'La gasto se ha restaurado correctamente.',
+                'title' => 'Gasto restaurado correctamente',
+                'text' => 'El gasto se ha restaurado correctamente.',
                 'icon' => 'success',
             ]);
 
-            return redirect()->route('admin.gastos.index')->with('success', 'gasto restaurada correctamente.');
+            return redirect()->route('admin.gastos.index')->with('success', 'Gasto restaurado correctamente.');
         } catch (\Exception $e) {
             session()->flash('swal', [
                 'title' => 'Error al restaurar',
-                'text' => 'No se pudo restaurar la gasto. Inténtalo de nuevo.',
+                'text' => 'No se pudo restaurar el gasto. Inténtalo de nuevo.',
                 'icon' => 'error',
             ]);
 

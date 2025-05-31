@@ -23,6 +23,9 @@ use App\Http\Controllers\Admin\UserController;
 // Definimos estas rutas para "admin" en bootstrap/app.php
 
 Route::prefix('admin')->group(function () {
+    Route::resource('lopd', EstadoController::class)
+        ->names('admin.lopd');
+
     Route::resource('estados', EstadoController::class)
         ->names('admin.estados');
 

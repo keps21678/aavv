@@ -14,8 +14,8 @@
                 [
                     'name' => __('LOPD'),
                     'icon' => 'building-library',
-                    'url' => route('admin.users.index'),
-                    'current' => request()->routeIs('users.*'),
+                    'url' => route('admin.lopd.index'),
+                    'current' => request()->routeIs('lopd.*'),
                     'label' => __('LOPD'),
                     'role' => ['admin', 'editor'],
                 ],
