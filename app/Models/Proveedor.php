@@ -115,4 +115,104 @@ class Proveedor extends Model
     {
         return $this->hasMany(Gasto::class, 'proveedor_id');
     }
+
+    // Mutadores para encriptar antes de guardar
+    public function setNifAttribute($value)
+    {
+        $this->attributes['nif'] = Crypt::encryptString($value);
+    }
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = Crypt::encryptString($value);
+    }
+    public function setTelefonoAttribute($value)
+    {
+        $this->attributes['telefono'] = Crypt::encryptString($value);
+    }
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = Crypt::encryptString($value);
+    }
+    public function setCalleAttribute($value)
+    {
+        $this->attributes['calle'] = Crypt::encryptString($value);
+    }
+    public function setPortalAttribute($value)
+    {
+        $this->attributes['portal'] = Crypt::encryptString($value);
+    }
+    public function setPisoAttribute($value)
+    {
+        $this->attributes['piso'] = Crypt::encryptString($value);
+    }
+    public function setPersonaContactoAttribute($value)
+    {
+        $this->attributes['persona_contacto'] = Crypt::encryptString($value);
+    }
+
+    // Accesores para desencriptar al obtener
+    public function getNifAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function getNombreAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function getTelefonoAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function getEmailAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function getCalleAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function getPortalAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function getPisoAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    public function getPersonaContactoAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

@@ -241,7 +241,7 @@ class SocioController extends Controller
             $socio->fill($request->all());
             // Verificar si el DNI ha cambiado y es único
             if ($socio->isDirty('dni')) {
-                $socio->dni = $request->input('dni');
+                $socio->fill(['dni' => $request->input('dni')]);
                 $socio->save();
             }
             $socio->update($request->all());
