@@ -1,3 +1,27 @@
+@if(!auth()->check())
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sesión expirada</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+    <body>
+        <script>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sesión expirada',
+                text: 'Tu sesión ha expirado o no estás autenticado. Por favor, inicia sesión de nuevo.',
+                confirmButtonText: 'Ir al inicio'
+            }).then(() => {
+                window.location.href = "{{ route('login') }}";
+            });
+        </script>
+    </body>
+    </html>
+    @php exit; @endphp
+@endif
+
 @php
     $groups = [
         [
