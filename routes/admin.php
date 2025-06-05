@@ -70,5 +70,5 @@ Route::prefix('admin')->group(function () {
         ->names('admin.ingresos');
 
     Route::get('/generar-remesa', [ReciboController::class, 'generarRemesa'])
-        ->name('recibos.generarRemesa');
+        ->name('admin.recibos.generarRemesa');
 });

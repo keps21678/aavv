@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('proveedores', function (Blueprint $table) {
             $table->id();
-            $table->string('nif', 9)->unique(); // NIF único
-            $table->string('nombre', 255); // Nombre del proveedor
-            $table->string('telefono', 15)->nullable(); // Teléfono
-            $table->string('email', 255)->nullable(); // Email
-            $table->string('calle', 255)->nullable(); // Calle
-            $table->string('portal', 10)->nullable(); // Número de portal
-            $table->string('piso', 10)->nullable(); // Piso
-            $table->string('letra', 1)->nullable(); // Letra del piso
-            $table->string('codigo_postal', 10)->nullable(); // Código postal
-            $table->string('poblacion', 255)->nullable(); // Población
-            $table->string('provincia', 255)->nullable(); // Provincia
-            $table->string('persona_contacto', 255)->nullable(); // Persona de contacto
+            $table->string('nif', 512)->unique(); // NIF único
+            $table->string('nombre', 512); // Nombre del proveedor
+            $table->string('telefono', 512)->nullable(); // Teléfono
+            $table->string('email', 512)->nullable(); // Email
+            $table->string('calle', 512)->nullable(); // Calle
+            $table->string('portal', 512)->nullable(); // Número de portal
+            $table->string('piso', 512)->nullable(); // Piso
+            $table->string('letra', 512)->nullable(); // Letra del piso
+            $table->string('codigo_postal', 512)->nullable(); // Código postal
+            $table->string('poblacion', 512)->nullable(); // Población
+            $table->string('provincia', 512)->nullable(); // Provincia
+            $table->string('persona_contacto', 512)->nullable(); // Persona de contacto
             $table->boolean('domiciliacion')->default(false); // Domiciliación
-            $table->text('iban')->nullable(); // IBAN (encriptado)
-            $table->string('titular', 255)->nullable(); // Nuevo campo
-            $table->string('dni_titular', 9)->nullable(); // Nuevo campo
+            $table->text('iban', 512)->nullable(); // IBAN (encriptado)
+            $table->string('titular', 512)->nullable(); // Nuevo campo
+            $table->string('dni_titular', 512)->nullable(); // Nuevo campo
             $table->softDeletes(); // Añadir soporte para Soft Deletes  
             $table->timestamps(); // created_at y updated_at
         });

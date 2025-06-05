@@ -8,7 +8,7 @@
             <flux:button href="{{ route('admin.recibos.create') }}" class="btn btn-green">
                 Nuevo Recibo
             </flux:button>
-            <flux:button id="generar-remesa" href="{{ route('admin.recibos.generarRemesa') }}" class="btn btn-blue-dark mr-2">
+            <flux:button id="generar-remesa" class="btn btn-blue-dark mr-2">
                 Generar remesa
             </flux:button>
         </div>                
@@ -72,9 +72,22 @@
     <script>
         $(document).ready(function () {
             $('#tabla').DataTable({
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ],
+                layout: {
+                    topStart: 'buttons',
+                    topEnd: 'search',
+                    bottom: null,
+                    bottomStart: null,
+                    bottomEnd: 'info',
+                },
                 responsive: true,
+                paging: false,
+                scrollCollapse: true,
+                scrollY: '60vh',
                 language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
                 },
             });
         });
@@ -121,7 +134,7 @@
                 if (response.ok) {
                     return response.blob(); // Descargar el archivo como blob
                 } else {
-                    throw new Error('Error al generar la remesa.');
+                    throw new Error('Error al generar la remesa. ' + response.statusText);
                 }
             })
             .then(blob => {

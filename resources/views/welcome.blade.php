@@ -51,7 +51,7 @@
                     <h1 class="mb-1 font-medium">Bienvenido a la Asociación vecinos de tu barrio</h1>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
                         Tu AAVV tienes varias actividades y proyectos en marcha. Si quieres saber más: <br>Uneté.</p>
-                    <ul class="flex flex-col mb-4 lg:mb-6">
+                    {{-- <ul class="flex flex-col mb-4 lg:mb-6">
                         <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:top-1/2 before:bottom-0 before:left-[0.4rem] before:absolute">
                             <span class="relative py-1 bg-white dark:bg-[#161615]">
                                 <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
@@ -113,7 +113,7 @@
                                 Deploy now
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
                 <div class="bg-[#fff2f2] dark:bg-[#00001dc0] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
                     {{-- Laravel Logo --}}

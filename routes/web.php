@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-use App\Http\Controllers\ReciboController;
-
 Route::get('/', function () {
     return view('welcome');
 })->name('home');

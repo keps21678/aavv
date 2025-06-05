@@ -95,8 +95,21 @@
     @push('js')
     <script>
         $(document).ready(function () {                
-            $('#tabla').DataTable({
+           $('#tabla').DataTable({
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ],
+                layout: {
+                    topStart: 'buttons',
+                    topEnd: 'search',
+                    bottom: null,
+                    bottomStart: null,
+                    bottomEnd: 'info',
+                },
                 responsive: true,
+                paging: false,
+                scrollCollapse: true,
+                scrollY: '60vh',
                 language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
                 },

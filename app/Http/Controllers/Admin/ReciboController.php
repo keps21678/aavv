@@ -53,15 +53,21 @@ class ReciboController extends Controller
                 'socio_id' => 'required|exists:socios,id',
                 'tsocio_id' => 'required|exists:cuotas,id',
                 'cuota_id' => 'required|numeric|min:0',
-                'recibo_numero' => 'nullable|string|max:255|unique:recibos,recibo_numero', // Validación para el número de recibo único
-                // Asegúrate de que el número de recibo sea único en la tabla recibos
+                'recibo_numero' => 'nullable|string|max:255|unique:recibos,recibo_numero',
                 'fecha_emision' => 'required|date',
                 'fecha_vencimiento' => 'required|date|after_or_equal:fecha_emision',
-                'estado_id' => 'required|exists:estados,id', // Validación para que coincida con la tabla estados
+                'estado_id' => 'required|exists:estados,id',
                 'descripcion' => 'nullable|string|max:1000',
             ]);
 
-            Recibo::create($request->all());
+            $data = $request->all();
+
+            // Si recibo_numero está vacío, generar uno automáticamente
+            if (empty($data['recibo_numero'])) {
+                $data['recibo_numero'] = 'REC-' . now()->format('YmdHis') . '-' . rand(10000, 99999);
+            }
+
+            Recibo::create($data);
 
             session()->flash('swal', [
                 'title' => 'Recibo creado correctamente',
