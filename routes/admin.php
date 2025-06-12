@@ -6,6 +6,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RecibosExport;
 
 use App\Http\Controllers\Admin\LopdController;
+use App\Http\Controllers\Admin\DocumentacionController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\ContabilidadController;
 use App\Http\Controllers\Admin\CuotaController;
@@ -26,10 +27,18 @@ use App\Http\Controllers\Admin\UserController;
 Route::prefix('admin')->group(function () {
     Route::resource('lopd', LopdController::class)
         ->names('admin.lopd');
-    
+
     Route::get('lopd/archivo/{file}', [LopdController::class, 'download'])->name('lopd.download');
     Route::get('lopd/ver/{file}', [LopdController::class, 'view'])->name('lopd.view');
-    
+
+
+    Route::resource('documentacion', DocumentacionController::class)
+        ->names('admin.documentacion');
+    Route::get('documentacion/view/{file}', [DocumentacionController::class, 'view'])
+        ->name('documentacion.view');
+    Route::get('documentacion/download/{file}', [DocumentacionController::class, 'download'])
+        ->name('documentacion.download');
+
     Route::resource('estados', EstadoController::class)
         ->names('admin.estados');
 

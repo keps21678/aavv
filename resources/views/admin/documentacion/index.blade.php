@@ -1,10 +1,10 @@
-<x-layouts.app :title="__('Documentación LOPD')">
+<x-layouts.app :title="__('Documentación')">
     <div class="flex items-center justify-between mb-2">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Documentos LOPD') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Documentación') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <flux:button href="{{ route('admin.lopd.create') }}" class="btn btn-green">
+        <flux:button href="{{ route('admin.documentacion.create') }}" class="btn btn-green">
             Nuevo Documento
         </flux:button>
     </div>
@@ -13,8 +13,6 @@
         <table id="tabla" class="display text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th class="px-2 py-3">Nº Socio</th>
-                    <th class="px-2 py-3">Socio</th>
                     <th class="px-2 py-3">Categoría</th>
                     <th class="px-2 py-3">Descripción</th>
                     <th class="px-2 py-3">Fecha Firma</th>
@@ -25,34 +23,29 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($lopds as $lopd)
+                @foreach ($documentos as $documento)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <td class="px-2 py-4">
-                        {{ $lopd->socio->nsocio ?? '-' }}
+                    <td class="px-2 py-4">{{ $documento->categoria->nombre ?? '-' }}</td>
+                    <td class="px-2 py-4">{{ $documento->descripcion }}</td>
+                    <td class="px-2 py-4">{{ $documento->fecha_firma ? $documento->fecha_firma->format('d/m/Y') : '-' }}
                     </td>
-                    <td class="px-2 py-4">
-                        {{ ($lopd->socio->apellidos ?? '') . ', ' . ($lopd->socio->nombre ?? '-') }}
-                    </td>
-                    <td class="px-2 py-4">{{ $lopd->categoria->nombre ?? '-' }}</td>
-                    <td class="px-2 py-4">{{ $lopd->descripcion }}</td>
-                    <td class="px-2 py-4">{{ $lopd->fecha_firma ? $lopd->fecha_firma->format('d/m/Y') : '-' }}</td>
-                    <td class="px-2 py-4">
-                        {{ $lopd->nombre_archivo }}                        
-                    </td>
+                    <td class="px-2 py-4">{{ $documento->nombre_archivo }}</td>
                     <td class="px-6 py-4">
                         <span class="px-2 py-1 rounded-full text-sm text-white"
-                            style="background-color: {{ $lopd->estado->color }}">
-                            {{ $lopd->estado->nombre }}
+                            style="background-color: {{ $documento->estado->color }}">
+                            {{ $documento->estado->nombre }}
                         </span>
                     </td>
-                    <td class="px-2 py-4">{{ $lopd->observaciones }}</td>
+                    <td class="px-2 py-4">{{ $documento->observaciones }}</td>
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
-                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.lopd.show', $lopd) }}"
-                                class="btn btn-green">Consultar</flux:button>
-                            <flux:button variant="primary" href="{{ route('admin.lopd.edit', $lopd) }}"
+                            <flux:button icon:trailing="arrow-up-right"
+                                href="{{ route('admin.documentacion.show', $documento) }}" class="btn btn-green">
+                                Consultar</flux:button>
+                            <flux:button variant="primary" href="{{ route('admin.documentacion.edit', $documento) }}"
                                 class="btn btn-blue">Editar</flux:button>
-                            <form class="delete-form" action="{{ route('admin.lopd.destroy', $lopd) }}" method="POST">
+                            <form class="delete-form" action="{{ route('admin.documentacion.destroy', $documento) }}"
+                                method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <flux:button variant="danger" type="submit" class="btn btn-danger">
