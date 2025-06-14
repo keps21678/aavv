@@ -2,16 +2,16 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.proveedores.index')">{{ __('Proveedores') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Nuevo Proveedor') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.proveedores.index')">{{ __('Providers') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('New Provider') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.proveedores.index') }}" class="btn btn-green-dark">Listado de Proveedores</a>
+            <a href="{{ route('admin.proveedores.index') }}" class="btn btn-green-dark">{{ __('Provider List') }}</a>
         </div>
     </div>
     <div class="rounded overflow-hidden shadow-lg">
         <div class="flex flex-col gap-6">
-            <x-auth-header :title="__('Nuevo Proveedor')" :description="__('Introduce los detalles para crear el proveedor')" />
+            <x-auth-header :title="__('New Provider')" :description="__('Enter the details to create the provider')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.proveedores.store') }}" method="POST">

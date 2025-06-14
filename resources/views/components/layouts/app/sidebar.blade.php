@@ -1,191 +1,194 @@
-@if(!auth()->check())
 <!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Sesión expirada</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-
-<body>
-    <script>
-        Swal.fire({
-                icon: 'warning',
-                title: 'Sesión expirada',
-                text: 'Tu sesión ha expirado o no estás autenticado. Por favor, inicia sesión de nuevo.',
-                confirmButtonText: 'Ir al inicio'
-            }).then(() => {
-                window.location.href = "{{ route('login') }}";
-            });
-    </script>
-</body>
-
-</html>
-@php exit; @endphp
-@endif
-
-@php
-$groups = [
-[
-'heading' => __('Plataforma'),
-'items' => [
-[
-'name' => __('Dashboard'),
-'icon' => 'home',
-'url' => route('dashboard'),
-'current' => request()->routeIs('dashboard'),
-'label' => __('Dashboard'),
-'role' => ['admin', 'editor'],
-],
-
-[
-'name' => __('Documentación'),
-'icon' => 'building-library',
-'url' => route('admin.documentacion.index'),
-'current' => request()->routeIs('lopd.*'),
-'label' => __('Documentación'),
-'role' => ['admin', 'editor'],
-],
-],
-],
-[
-'heading' => __('Configuración'),
-'items' => [
-[
-'name' => __('Categorias'),
-'icon' => 'shield-check',
-'url' => route('admin.categorias.index'),
-'current' => request()->routeIs('categorias.*'),
-'label' => __('Categorías'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Usuarios'),
-'icon' => 'user-group',
-'url' => route('admin.users.index'),
-'current' => request()->routeIs('users.*'),
-'label' => __('Usuarios'),
-'role' => ['admin', 'editor', 'user'],
-],
-[
-'name' => __('Tipos de incidencias'),
-'icon' => 'tag',
-'url' => route('admin.tincidencias.index'),
-'current' => request()->routeIs('tipos_incidencia.*'),
-'label' => __('Tipos de incidencias'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Estados'),
-'icon' => 'check-circle',
-'url' => route('admin.estados.index'),
-'current' => request()->routeIs('estados.*'),
-'label' => __('Estados'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Tipos de socios/as'),
-'icon' => 'user-circle',
-'url' => route('admin.tsocios.index'),
-'current' => request()->routeIs('tsocios.*'),
-'label' => __('Tipos de socios/as'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Cuotas'),
-'icon' => 'currency-euro',
-'url' => route('admin.cuotas.index'),
-'current' => request()->routeIs('cuotas.*'),
-'label' => __('Cuotas'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Proveedores'),
-'icon' => 'building-storefront',
-'url' => route('admin.proveedores.index'),
-'current' => request()->routeIs('proveedores.*'),
-'label' => __('Proveedores'),
-'role' => ['admin', 'editor'],
-],
-],
-],
-[
-'heading' => __('Gestión Socios'),
-'items' => [
-[
-'name' => __('Socios'),
-'icon' => 'users',
-'url' => route('admin.socios.index'),
-'current' => request()->routeIs('socios.*'),
-'label' => __('Socios'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Incidencias'),
-'icon' => 'question-mark-circle',
-'url' => route('admin.incidencias.index'),
-'current' => request()->routeIs('incidencias.*'),
-'label' => __('Incidencias'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('LOPD'),
-'icon' => 'book-open-text',
-'url' => route('admin.lopd.index'),
-'current' => request()->routeIs('lopd.*'),
-'label' => __('LOPD'),
-'role' => ['admin', 'editor'],
-],
-],
-],
-[
-'heading' => __('Gestión Financiera'),
-'items' => [
-[
-'name' => __('Contabilidad'),
-'icon' => 'book-open',
-'url' => route('admin.contabilidad.index'),
-'current' => request()->routeIs('contabilidad.*'),
-'label' => __('Contabilidad'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Gastos'),
-'icon' => 'archive-box-x-mark',
-'url' => route('admin.gastos.index'),
-'current' => request()->routeIs('gastos.*'),
-'label' => __('Gastos'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Ingresos'),
-'icon' => 'currency-euro',
-'url' => route('admin.ingresos.index'),
-'current' => request()->routeIs('ingresos.*'),
-'label' => __('Ingresos'),
-'role' => ['admin', 'editor'],
-],
-[
-'name' => __('Recibos'),
-'icon' => 'banknotes',
-'url' => route('admin.recibos.index'),
-'current' => request()->routeIs('recibos.*'),
-'label' => __('Recibos'),
-'role' => ['admin', 'editor'],
-],
-],
-],
-];
-@endphp
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html
+    lang="{{ auth()->check() ? (auth()->user()->language ?? app()->getLocale()) : str_replace('_', '-', app()->getLocale()) }}"
+    class="dark">
 
 <head>
     @include('partials.head')
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800 text-lg">
+    @if(!auth()->check())
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ __('Session expired') }}</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+
+    <body>
+        <script>
+            Swal.fire({
+                    icon: 'warning',
+                    title: '{{ __('Session expired') }}',
+                    text: '{{ __('Your session has expired or you are not authenticated. Please log in again.') }}',
+                    confirmButtonText: '{{ __('Go to home') }}'
+                }).then(() => {
+                    window.location.href = "{{ route('login') }}";
+                });
+        </script>
+    </body>
+
+    </html>
+    @php exit; @endphp
+    @endif
+
+    @php
+    $groups = [
+    [
+    'heading' => __('Plataforma'),
+    'items' => [
+    [
+    'name' => __('Dashboard'),
+    'icon' => 'home',
+    'url' => route('dashboard'),
+    'current' => request()->routeIs('dashboard'),
+    'label' => __('Dashboard'),
+    'role' => ['admin', 'editor'],
+    ],
+
+    [
+    'name' => __('Documentación'),
+    'icon' => 'building-library',
+    'url' => route('admin.documentacion.index'),
+    'current' => request()->routeIs('lopd.*'),
+    'label' => __('Documentación'),
+    'role' => ['admin', 'editor'],
+    ],
+    ],
+    ],
+    [
+    'heading' => __('Configuration'),
+    'items' => [
+    [
+    'name' => __('Categories'),
+    'icon' => 'shield-check',
+    'url' => route('admin.categorias.index'),
+    'current' => request()->routeIs('categorias.*'),
+    'label' => __('Categories'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Users'),
+    'icon' => 'user-group',
+    'url' => route('admin.users.index'),
+    'current' => request()->routeIs('users.*'),
+    'label' => __('Users'),
+    'role' => ['admin', 'editor', 'user'],
+    ],
+    [
+    'name' => __('Incident Types'),
+    'icon' => 'tag',
+    'url' => route('admin.tincidencias.index'),
+    'current' => request()->routeIs('tipos_incidencia.*'),
+    'label' => __('Incident Types'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('States'),
+    'icon' => 'check-circle',
+    'url' => route('admin.estados.index'),
+    'current' => request()->routeIs('estados.*'),
+    'label' => __('States'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Types of Members'),
+    'icon' => 'user-circle',
+    'url' => route('admin.tsocios.index'),
+    'current' => request()->routeIs('tsocios.*'),
+    'label' => __('Types of Members'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Cuotas'),
+    'icon' => 'currency-euro',
+    'url' => route('admin.cuotas.index'),
+    'current' => request()->routeIs('cuotas.*'),
+    'label' => __('Fees'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Providers'),
+    'icon' => 'building-storefront',
+    'url' => route('admin.proveedores.index'),
+    'current' => request()->routeIs('proveedores.*'),
+    'label' => __('Providers'),
+    'role' => ['admin', 'editor'],
+    ],
+    ],
+    ],
+    [
+    'heading' => __('Members Management'),
+    'items' => [
+    [
+    'name' => __('Members'),
+    'icon' => 'users',
+    'url' => route('admin.socios.index'),
+    'current' => request()->routeIs('socios.*'),
+    'label' => __('Members'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Incidences'),
+    'icon' => 'question-mark-circle',
+    'url' => route('admin.incidencias.index'),
+    'current' => request()->routeIs('incidencias.*'),
+    'label' => __('Incidences'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('LOPD'),
+    'icon' => 'book-open-text',
+    'url' => route('admin.lopd.index'),
+    'current' => request()->routeIs('lopd.*'),
+    'label' => __('LOPD'),
+    'role' => ['admin', 'editor'],
+    ],
+    ],
+    ],
+    [
+    'heading' => __('Financial Management'),
+    'items' => [
+    [
+    'name' => __('Accounting'),
+    'icon' => 'book-open',
+    'url' => route('admin.contabilidad.index'),
+    'current' => request()->routeIs('contabilidad.*'),
+    'label' => __('Accounting'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Expenses'),
+    'icon' => 'archive-box-x-mark',
+    'url' => route('admin.gastos.index'),
+    'current' => request()->routeIs('gastos.*'),
+    'label' => __('Expenses'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Incomes'),
+    'icon' => 'currency-euro',
+    'url' => route('admin.ingresos.index'),
+    'current' => request()->routeIs('ingresos.*'),
+    'label' => __('Income'),
+    'role' => ['admin', 'editor'],
+    ],
+    [
+    'name' => __('Receipts'),
+    'icon' => 'banknotes',
+    'url' => route('admin.recibos.index'),
+    'current' => request()->routeIs('recibos.*'),
+    'label' => __('Receipts'),
+    'role' => ['admin', 'editor'],
+    ],
+    ],
+    ],
+    ];
+    @endphp
+
     <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 

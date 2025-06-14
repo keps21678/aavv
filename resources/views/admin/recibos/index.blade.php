@@ -1,15 +1,15 @@
-<x-layouts.app :title="__('Lista de Recibos')">
+<x-layouts.app :title="__('Receipt List')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Recibos') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Receipts') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
             <flux:button href="{{ route('admin.recibos.create') }}" class="btn btn-green">
-                Nuevo Recibo
+                {{ __('New Receipt') }}
             </flux:button>
             <flux:button id="generar-remesa" class="btn btn-blue-dark mr-2">
-                Generar remesa
+                {{ __('Generate Remittance') }}
             </flux:button>
         </div>                
     </div>

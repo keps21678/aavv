@@ -2,16 +2,16 @@
     <div class="flex items-center justify-between mb-2">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.gastos.index')">{{ __('gastos') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Detalles del gasto') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.gastos.index')">{{ __('Expenses') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Expense Details') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <a href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">Volver al Listado</a>
     </div>
 
-    <div class="rounded overflow-hidden shadow-lg text-lg">
+    <div class="rounded overflow-hidden shadow-lg text-lg  bg-white dark:bg-gray-800 py-4">
         <div class="flex flex-col gap-6 px-4 mb-6">
-            <x-auth-header :title="__('Detalles de la gasto: ' . $gasto->numero)"
-                :description="__('Información detallada de la gasto')" />
+            <x-auth-header :title="__('Detalles del gasto: ' . $gasto->numero)"
+                :description="__('Información detallada del gasto')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
 
@@ -33,14 +33,20 @@
                 <div class="flex flex-col gap-6">
                     <flux:input wire:model="importe" label="Importe" placeholder="Importe de la gasto"
                         :value="old('importe', number_format($gasto->importe, 2))" disabled />
-                        <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $gasto->estado->color }}">
-                            {{ $gasto->estado->nombre }}
-                        </span>
+                    <span class="px-2 py-1 rounded-full text-sm text-white"
+                        style="background-color: {{ $gasto->estado->color }}">
+                        {{ $gasto->estado->nombre }}
+                    </span>
                     <flux:textarea wire:model="descripcion" label="Descripción" placeholder="Descripción de la gasto"
                         disabled>{{ old('descripcion', $gasto->descripcion) }}</flux:textarea>
                     <flux:input wire:model="proveedor" label="Proveedor" placeholder="Proveedor asociado"
                         :value="old('proveedor', $gasto->proveedor->nombre ?? 'N/A')" disabled />
                 </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 mt-6">
+                <a href="{{ route('admin.gastos.edit', $gasto) }}" class="btn btn-blue">Editar</a>
+                <a href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">Volver</a>
             </div>
         </div>
     </div>

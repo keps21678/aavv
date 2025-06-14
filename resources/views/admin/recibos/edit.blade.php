@@ -2,20 +2,20 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.recibos.index')">{{ __('Recibos') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Edición de Recibo') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.recibos.index')">{{ __('Receipts') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Edit Receipt') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
             <a href="{{ route('admin.recibos.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nuevo Recibo</a>
+                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">{{ __('New Receipt') }}</a>
             <a href="{{ route('admin.recibos.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Recibos</a>
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Receipt List') }}</a>
         </div>
     </div>
 
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Edición de Recibo</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Edit Receipt') }}</h1>
             <form action="{{ route('admin.recibos.update', $recibo->id) }}" method="POST">
                 @csrf
                 @method('PUT')

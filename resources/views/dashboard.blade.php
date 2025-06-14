@@ -101,6 +101,7 @@
         </div>
         <div
             class="relative h-full flex-1 overflow-hidden rounded-xl border bg-white dark:bg-gray-800 border-neutral-200 dark:border-neutral-700 px-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-4">{{ __('Financial Summary') }}</h2>
             <table id="tabla" class="display table-auto w-full border-collapse border border-gray-300">
                 <thead>
                     <tr >

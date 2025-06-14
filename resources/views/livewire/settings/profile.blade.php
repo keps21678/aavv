@@ -9,6 +9,7 @@ use Livewire\Volt\Component;
 new class extends Component {
     public string $name = '';
     public string $email = '';
+    public string $language = '';
 
     /**
      * Mount the component.
@@ -17,6 +18,7 @@ new class extends Component {
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->language = Auth::user()->language ?? app()->getLocale();
     }
 
     /**
@@ -28,7 +30,6 @@ new class extends Component {
 
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
-
             'email' => [
                 'required',
                 'string',
@@ -37,15 +38,23 @@ new class extends Component {
                 'max:255',
                 Rule::unique(User::class)->ignore($user->id)
             ],
+            'language' => ['required', 'string'],
         ]);
 
-        $user->fill($validated);
+        $user->fill([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'language' => $validated['language'], // Guardar idioma en la base de datos del usuario
+        ]);
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
+
+        // Opcional: cambiar el idioma de la app en la sesión actual
+        app()->setLocale($user->language);
 
         $this->dispatch('profile-updated', name: $user->name);
     }
@@ -59,7 +68,6 @@ new class extends Component {
 
         if ($user->hasVerifiedEmail()) {
             $this->redirectIntended(default: route('dashboard', absolute: false));
-
             return;
         }
 
@@ -68,6 +76,14 @@ new class extends Component {
         Session::flash('status', 'verification-link-sent');
     }
 }; ?>
+
+@php
+// Obtener los idiomas disponibles en resources/lang
+$langPath = resource_path('lang');
+$idiomas = collect(scandir($langPath))
+->filter(fn($dir) => is_dir($langPath . DIRECTORY_SEPARATOR . $dir) && !in_array($dir, ['.', '..']))
+->values();
+@endphp
 
 <section class="w-full">
     @include('partials.settings-heading')
@@ -79,24 +95,36 @@ new class extends Component {
             <div>
                 <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
 
-                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
-                    <div>
-                        <flux:text class="mt-4">
-                            {{ __('Your email address is unverified.') }}
+                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&
+                !auth()->user()->hasVerifiedEmail())
+                <div>
+                    <flux:text class="mt-4">
+                        {{ __('Your email address is unverified.') }}
 
-                            <flux:link class="text-sm cursor-pointer" wire:click.prevent="resendVerificationNotification">
-                                {{ __('Click here to re-send the verification email.') }}
-                            </flux:link>
-                        </flux:text>
+                        <flux:link class="text-sm cursor-pointer" wire:click.prevent="resendVerificationNotification">
+                            {{ __('Click here to re-send the verification email.') }}
+                        </flux:link>
+                    </flux:text>
 
-                        @if (session('status') === 'verification-link-sent')
-                            <flux:text class="mt-2 font-medium !dark:text-green-400 !text-green-600">
-                                {{ __('A new verification link has been sent to your email address.') }}
-                            </flux:text>
-                        @endif
-                    </div>
+                    @if (session('status') === 'verification-link-sent')
+                    <flux:text class="mt-2 font-medium !dark:text-green-400 !text-green-600">
+                        {{ __('A new verification link has been sent to your email address.') }}
+                    </flux:text>
+                    @endif
+                </div>
                 @endif
             </div>
+
+            <!-- Selector de idioma -->
+            <div>
+                <flux:select wire:model.defer="language" :label="__('Language')" id="language" name="language"
+                    class="w-full">
+                    @foreach($idiomas as $language)
+                    <option value="{{ $language }}">{{ $language }}</option>
+                    @endforeach
+                </flux:select>
+            </div>
+            <!-- Fin selector de idioma -->
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">

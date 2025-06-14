@@ -19,26 +19,23 @@
                     <th scope="col" class="px-6 py-3">
                         ID
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        Name
+                    <th scope="col" class="px-6 py-3">                        
+                        {{ __('Name') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Rol
+                        {{ __('Role') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Email
+                        {{ __('Email') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Encrypted Password
+                        {{ __('Created At') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Created At
+                        {{ __('Updated At') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Updated At
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Editar
+                        {{ __('Actions') }}
                     </th>
                 </tr>
             </thead>
@@ -58,9 +55,6 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ $user->email }}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{ $user->password }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $user->created_at }}
@@ -119,14 +113,14 @@
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: 'No podrás revertir esto',
+                        title: {{ __('Are you sure?') }},
+                        text: {{ __('You won\'t be able to revert this!') }},
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
+                        confirmButtonText: {{ __('Yes, delete it!') }},
+                        cancelButtonText: {{ __('Cancel') }}
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form.submit();

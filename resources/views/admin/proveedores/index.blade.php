@@ -2,10 +2,10 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Proveedores') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Providers') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <flux:button href="{{ route('admin.proveedores.create') }}" class="btn btn-green">
-            Nuevo Proveedor
+            {{ __('New Provider') }}
         </flux:button>
     </div>
     <br />

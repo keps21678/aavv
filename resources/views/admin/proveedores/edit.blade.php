@@ -63,14 +63,14 @@
                 </div>
                 <div class="">
                     <div x-data="{ showIBAN: {{ old('domiciliacion', $proveedor->domiciliacion) ? 'true' : 'false' }} }">
-                        <div class="flex items-center">
+                        <div class="flex items-center ms-4 mt-4">
                             <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1" 
                                 {{ old('domiciliacion', $proveedor->domiciliacion) ? 'checked' : '' }}
                                 class="form-checkbox h-5 w-5" @change="showIBAN = $event.target.checked">
                             <label for="domiciliacion" class="ml-2">Domiciliación</label>
                         </div>
                         <template x-if="showIBAN">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 px-2">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2 px-2">
                                 <flux:input variant="filled" label="IBAN" placeholder="IBAN de la cuenta" type="password"
                                     :value="old('iban', $proveedor->iban)" viewable />
                                 <flux:input variant="filled" label="Titular de la cuenta"

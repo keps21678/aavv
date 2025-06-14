@@ -2,16 +2,16 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.recibos.index')">{{ __('Recibos') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Crear un nuevo recibo') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.recibos.index')">{{ __('Receipts') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Create a new receipt') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.recibos.index') }}" class="btn btn-green-dark">Listado de Recibos</a>
+            <a href="{{ route('admin.recibos.index') }}" class="btn btn-green-dark">{{ __('Receipt List') }}</a>
         </div>
     </div>
     <div class="max-w-xl mx-auto rounded overflow-hidden shadow-lg">
-        <div class="flex flex-col gap-6">
-            <x-auth-header :title="__('Crear un nuevo recibo')" :description="__('Introduce los detalles del recibo')" />
+        <div class="flex flex-col gap-6 p-4">
+            <x-auth-header :title="__('Create a new receipt')" :description="__('Enter the receipt details')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.recibos.store') }}" method="POST">
@@ -78,7 +78,7 @@
 
                 <!-- Botón de envío -->
                 <div class="flex justify-end mt-6">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar Recibo</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save Receipt') }}</flux:button>
                 </div>
             </form>
         </div>

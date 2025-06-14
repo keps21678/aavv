@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('language')->default('es_ES'); // Añadir columna para el idioma con valor por defecto
             $table->rememberToken();
             $table->softDeletes(); // Añadir soporte para Soft Deletes
             $table->timestamps();
