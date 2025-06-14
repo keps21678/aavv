@@ -104,25 +104,25 @@
             <table id="tabla" class="display table-auto w-full border-collapse border border-gray-300">
                 <thead>
                     <tr >
-                        <th >{{ __('Concepto') }}</th>
-                        <th >{{ __('Importe Total (€)') }}</th>
+                        <th >{{ __('Concept') }}</th>
+                        <th >{{ __('Total Amount (€)') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ __('Suma de Recibos') }}</td>
+                        <td>{{ __('Total receipts') }}</td>
                         <td>
                             {{ $sumaRecibos = \App\Models\Recibo::whereYear('fecha_vencimiento', now()->year)->sum('cuota_id') }}
                         </td>
                     </tr>
                     <tr>
-                        <td>{{ __('Suma de Ingresos') }}</td>
+                        <td>{{ __('Total income') }}</td>
                         <td>
                             {{ $sumaIngresos = \App\Models\Ingreso::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
                         </td>
                     </tr>
                     <tr>
-                        <td>{{ __('Suma de Gastos') }}</td>
+                        <td>{{ __('Total expenses') }}</td>
                         <td>
                             {{ $sumaGastos = \App\Models\Gasto::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
                         </td>
@@ -130,7 +130,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>{{ __('Total General') }}</td>
+                        <td>{{ __('Grand Total') }}</td>
                         <td>
                             @php
                                 $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaGastos;
