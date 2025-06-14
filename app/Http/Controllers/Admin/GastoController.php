@@ -9,7 +9,7 @@ use App\Models\Estado; // Importación de la clase Estado
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class gastoController extends Controller
+class GastoController extends Controller
 {
     use SoftDeletes;
     /**
@@ -27,7 +27,8 @@ class gastoController extends Controller
     public function create()
     {
         $proveedores = Proveedor::all();
-        return view('admin.gastos.create', compact('proveedores'));
+        $estados = Estado::all(); // Obtiene todos los estados
+        return view('admin.gastos.create', compact('proveedores', 'estados')); // <--- AÑADE 'estados' aquí
     }
 
     /**

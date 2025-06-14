@@ -17,11 +17,11 @@ class ReciboController extends Controller
     /**
      * Muestra el formulario para ver un recibo específico.
      */
-    public function show (Recibo $recibo)
+    public function show(Recibo $recibo)
     {
         return view('admin.recibos.show', compact('recibo'));
     }
-    
+
     /**
      * Muestra una lista de recibos.
      */
@@ -241,7 +241,7 @@ class ReciboController extends Controller
             return Excel::download(new RecibosExport, 'remesa_recibos.xlsx');
         } catch (\Exception $e) {
             session()->flash('swal', [
-                'title' => 'Error al generar la remesa',
+                'title' => 'Error al generar la remesa! <br/>',
                 'text' => $e->getMessage(),
                 'icon' => 'error',
             ]);
@@ -249,12 +249,12 @@ class ReciboController extends Controller
             return redirect()->back();
         }
     }
-    
+
     public function getTotalRecibos()
     {
         $currentYear = now()->year;
 
         // Suma de importes de facturas del año en curso
-        $sumaRecibos = Recibo::whereYear('fecha_vencimiento', $currentYear)->sum('importe');      
+        $sumaRecibos = Recibo::whereYear('fecha_vencimiento', $currentYear)->sum('importe');
     }
 }

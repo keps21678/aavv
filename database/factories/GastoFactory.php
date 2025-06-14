@@ -7,7 +7,7 @@ use App\Models\Proveedor;
 use App\Models\Estado;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class gastoFactory extends Factory
+class GastoFactory extends Factory
 {
     /**
      * El modelo asociado con este factory.
@@ -24,8 +24,8 @@ class gastoFactory extends Factory
     public function definition(): array
     {
         return [
-            'proveedor_id' => Proveedor::query()->exists() 
-                ? Proveedor::query()->inRandomOrder()->first()->id 
+            'proveedor_id' => Proveedor::query()->exists()
+                ? Proveedor::query()->inRandomOrder()->first()->id
                 : throw new \Exception('No existen proveedores en la base de datos.'),
             'numero' => $this->faker->unique()->numerify('FAC-#####'),
             'fecha_emision' => $this->faker->date(),

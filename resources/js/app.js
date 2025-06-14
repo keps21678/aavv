@@ -4,7 +4,7 @@ window._ = _;
 import jQuery from 'jquery';
 window.$ = jQuery;
 
-import DataTable from 'datatables.net';
+import DataTable from 'datatables.net-dt';
 window.DataTable = DataTable;
 
 import jszip from 'jszip';
