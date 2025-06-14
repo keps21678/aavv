@@ -18,12 +18,16 @@ class UserSeeder extends Seeder
             'name' => 'Kepa Aburto',
             'email' => 'keps21678@hotmail.com',
             'password' => bcrypt('12345678'),
+            'language' => 'es_ES',
+            'appearance' => 'system', // Default appearance
         ]);
 
         User::factory()->create([
             'name' => 'Begoña Fernandez',
             'email' => 'begotxu.fg@hotmail.com',
             'password' => bcrypt('12345678'),
+            'language' => 'es_ES',
+            'appearance' => 'system', // Default appearance
         ]);
 
         User::factory(3)->create();

@@ -19,7 +19,7 @@
                     <th scope="col" class="px-6 py-3">
                         ID
                     </th>
-                    <th scope="col" class="px-6 py-3">                        
+                    <th scope="col" class="px-6 py-3">
                         {{ __('Name') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -27,6 +27,12 @@
                     </th>
                     <th scope="col" class="px-6 py-3">
                         {{ __('Email') }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ __('Language') }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ __('Appearance') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
                         {{ __('Created At') }}
@@ -57,6 +63,12 @@
                         {{ $user->email }}
                     </td>
                     <td class="px-6 py-4">
+                        {{ $user->language ?? '-' }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ ucfirst($user->appearance ?? '-') }}
+                    </td>
+                    <td class="px-6 py-4">
                         {{ $user->created_at }}
                     </td>
                     <td class="px-6 py-4">
@@ -64,11 +76,6 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
-                            {{-- <bootstrap:button variant="primary"
-                                href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary">Edit
-                            </bootstrap:button> --}}
-                            {{-- <a href="{{ route('admin.categories.edit', $category) }}"
-                                class="btn btn-blue justify-end">Editar</a> --}}
                             <flux:button variant="primary" href="{{ route('admin.users.edit', $user) }}"
                                 class="btn btn-blue">Editar</flux:button>
 
