@@ -1,87 +1,110 @@
 <x-layouts.app :title="__('Detalles del Socio/a')">
-    <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center justify-between mb-4">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item :href="route('admin.socios.index')">{{ __('Socios') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Detalles del Socio') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Volver al Listado</a>
+        <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Listado de Socios</a>
     </div>
-
-    <div class="rounded overflow-hidden shadow-lg text-lg">
-        <div class="flex flex-col gap-6 px-4 mb-2">
-            <x-auth-header :title="__('Detalles del socio/a: ' . $socio->nombre . ' ' . $socio->apellidos)"
-                :description="__('Datos de la cuenta')" />
-            <!-- Session Status -->
-            <x-auth-session-status class="text-center" :status="session('status')" />
-
-            <!-- Contenedor de tres columnas -->
+    <div class="rounded overflow-hidden shadow-lg bg-white dark:bg-gray-800">
+        <div class="px-6 py-4">
+            <h1 class="font-bold text-xl mb-4">Detalles del Socio/a: {{ $socio->apellidos }}, {{ $socio->nombre }}</h1>                            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Primera columna -->
-                <div class="flex flex-col gap-6">
-                    <flux:input wire:model="nsocio" label="Número de Socio" placeholder="Escriba el número de socio"
-                        :value="old('nsocio', $socio->nsocio)" disabled />
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <flux:checkbox wire:model="empresa" label="Empresa" :checked="old('empresa', $socio->empresa)"
-                            class="col" disabled />
-                        <flux:checkbox wire:model="baja" label="Baja" :checked="old('baja', $socio->baja)" class="col"
-                            disabled />
+                <!-- Columna 1 -->
+                <div>
+                    <div class="mb-4">
+                        <strong>Nº Socio:</strong>
+                        <span>{{ $socio->nsocio }}</span>
                     </div>
-                    <flux:input wire:model="nombre" label="Nombre" placeholder="Escriba el nombre"
-                        :value="old('nombre', $socio->nombre)" disabled />
-                    <flux:input wire:model="apellidos" label="Apellidos" placeholder="Escriba los apellidos"
-                        :value="old('apellidos', $socio->apellidos)" disabled />
-                    <flux:input wire:model="dni" label="DNI" placeholder="Escriba el DNI"
-                        :value="old('dni', $socio->dni)" disabled />
-                    <flux:checkbox wire:model="domiciliacion" label="Domiciliación"
-                        :checked="old('domiciliacion', $socio->domiciliacion)" class="col" disabled />
-                    @if ($socio->domiciliacion)
-                    <flux:modal.trigger name="edit-profile" class="place-items-stretch">
-                        <flux:button icon:trailing="eye" variant="outline" class="col">
-                            Ver IBAN
-                        </flux:button>
-                    </flux:modal.trigger>
-                    @endif
+                    <div class="mb-4">
+                        <strong>Nombre:</strong>
+                        <span>{{ $socio->nombre }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Apellidos:</strong>
+                        <span>{{ $socio->apellidos }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>DNI:</strong>
+                        <span>{{ $socio->dni }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Email:</strong>
+                        <span>{{ $socio->email }}</span>
+                    </div>
                 </div>
-
-                <!-- Segunda columna -->
-                <div class="flex flex-col gap-6">
-                    <flux:input wire:model="telefono" label="Teléfono" placeholder="Escriba el teléfono"
-                        :value="old('telefono', $socio->telefono)" disabled />
-                    <flux:input wire:model="movil" label="Móvil" placeholder="Escriba el móvil"
-                        :value="old('movil', $socio->movil)" disabled />
-                    <flux:input wire:model="email" label="Correo Electrónico"
-                        placeholder="Escriba el correo electrónico" :value="old('email', $socio->email)" disabled />
-                    <flux:input wire:model="calle" label="Calle" placeholder="Escriba la calle"
-                        :value="old('calle', $socio->calle)" disabled />
-                    <flux:input wire:model="portal" label="Portal" placeholder="Escriba el portal"
-                        :value="old('portal', $socio->portal)" disabled />
+                <!-- Columna 2 -->
+                <div>
+                    <div class="mb-4">                        
+                        <flux:checkbox wire:model="empresa" label="Empresa"
+                        :checked="old('empresa', $socio->empresa)" class="col" disabled />
+                    </div>
+                    <div class="mb-4">
+                        <flux:checkbox wire:model="baja" label="Baja"
+                        :checked="old('baja', $socio->baja)" class="col" disabled />
+                    </div>
+                    <div class="mb-4">
+                        <strong>Domiciliación:</strong>
+                        <span>{{ $socio->domiciliacion ? 'Sí' : 'No' }}</span>
+                        @if ($socio->domiciliacion)
+                        <br />
+                        <flux:modal.trigger name="edit-profile" class="ml-2">
+                            <flux:button icon:trailing="eye" variant="outline">
+                                Ver IBAN
+                            </flux:button>
+                        </flux:modal.trigger>
+                        @endif
+                    </div>
+                    <div class="mb-4">
+                        <strong>Teléfono:</strong>
+                        <span>{{ $socio->telefono }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Móvil:</strong>
+                        <span>{{ $socio->movil }}</span>
+                    </div>
                 </div>
-
-                <!-- Tercera columna -->
-                <div class="flex flex-col gap-6">
-                    <flux:input wire:model="piso" label="Piso" placeholder="Escriba el piso"
-                        :value="old('piso', $socio->piso)" disabled />
-                    <flux:input wire:model="letra" label="Letra" placeholder="Escriba la letra"
-                        :value="old('letra', $socio->letra)" disabled />
-                    <flux:input wire:model="codigo_postal" label="Código Postal" placeholder="Escriba el código postal"
-                        :value="old('codigo_postal', $socio->codigo_postal)" disabled />
-                    <flux:input wire:model="poblacion" label="Población" placeholder="Escriba la población"
-                        :value="old('poblacion', $socio->poblacion)" disabled />
-                    <flux:input wire:model="provincia" label="Provincia" placeholder="Escriba la provincia"
-                        :value="old('provincia', $socio->provincia)" disabled />
+                <!-- Columna 3 -->
+                <div>                    
+                    <div class="mb-4">
+                        <strong>Calle:</strong>
+                        <span>{{ $socio->calle }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Portal:</strong>
+                        <span>{{ $socio->portal }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Piso:</strong>
+                        <span>{{ $socio->piso }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Letra:</strong>
+                        <span>{{ $socio->letra }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Código Postal:</strong>
+                        <span>{{ $socio->codigo_postal }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Población:</strong>
+                        <span>{{ $socio->poblacion }}</span>
+                    </div>
+                    <div class="mb-4">
+                        <strong>Provincia:</strong>
+                        <span>{{ $socio->provincia }}</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Incidencias relacionadas -->
-            <div class="">
+            <div class="mt-8">
+                <strong>Incidencias/Observaciones relacionadas:</strong>
                 @if ($socio->incidencias->isEmpty())
-                <p class="">No hay incidencias relacionadas con este socio/a.</p>
+                <p class="mt-2">No hay incidencias relacionadas con este socio/a.</p>
                 @else
-                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <caption class="caption-top">
-                        Incidencias/Observaciones relacionadas
-                    </caption>
+                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th class="px-4 py-2" hidden>ID</th>
@@ -106,7 +129,6 @@
                                         href="{{ route('admin.incidencias.edit', $incidencia) }}" class="btn btn-blue">
                                         Editar
                                     </flux:button>
-
                                     <form class="delete-form"
                                         action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
                                         @csrf
@@ -124,12 +146,10 @@
             </div>
 
             <!-- Documentos LOPD asociados -->
-            <div class="">
+            <div class="mt-8">
+                <strong>Documentos LOPD asociados:</strong>
                 @if ($socio->lopds && $socio->lopds->isNotEmpty())
-                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <caption class="caption-top">
-                        Documentos LOPD asociados
-                    </caption>
+                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th class="px-4 py-2">Categoría</th>
@@ -148,9 +168,7 @@
                             <td class="px-4 py-2">{{ $lopd->descripcion }}</td>
                             <td class="px-4 py-2">{{ $lopd->fecha_firma ? $lopd->fecha_firma->format('d/m/Y') : '-' }}
                             </td>
-                            <td class="px-4 py-2">
-                               {{ $lopd->nombre_archivo ?? '-' }}
-                            </td>
+                            <td class="px-4 py-2">{{ $lopd->nombre_archivo ?? '-' }}</td>
                             <td class="px-4 py-2">{{ $lopd->estado->nombre ?? '-' }}</td>
                             <td class="px-4 py-2">{{ $lopd->observaciones }}</td>
                             <td class="px-4 py-2">
@@ -175,26 +193,29 @@
                     </tbody>
                 </table>
                 @else
-                <p class="">No hay documentos LOPD enlazados a este socio/a.</p>
+                <p class="mt-2">No hay documentos LOPD enlazados a este socio/a.</p>
                 @endif
+            </div>
+
+            <div class="flex justify-end space-x-2 mt-6">
+                <a href="{{ route('admin.socios.edit', $socio) }}" class="btn btn-blue">Editar</a>
+                <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Volver</a>
             </div>
         </div>
     </div>
 
-    <flux:modal name="edit-profile" class="md:w-96">
+    <flux:modal name="edit-profile" class="w-1/3 md:w-1/3">
         <div class="space-y-6">
             <div>
                 <flux:heading size="lg">IBAN</flux:heading>
             </div>
-            <div class="container">
-                <div class="columns-3 gap-6 mb-6">
-                    <flux:input class="mb-2" readonly variant="filled" label="IBAN" placeholder="IBAN del socio"
-                        :value="$socio->iban" disabled />
-                    <flux:input class="mb-2" readonly variant="filled" label="Titular de la cuenta"
-                        placeholder="Titular" :value="$socio->titular" disabled />
-                    <flux:input class="mb-2" readonly variant="filled" label="DNI del Titular" placeholder="DNI"
-                        :value="$socio->dni_titular" disabled />
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <flux:input class="mb-2" readonly variant="filled" label="IBAN" placeholder="IBAN del socio"
+                    :value="$socio->iban" disabled />
+                <flux:input class="mb-2" readonly variant="filled" label="Titular de la cuenta" placeholder="Titular"
+                    :value="$socio->titular" disabled />
+                <flux:input class="mb-2" readonly variant="filled" label="DNI del Titular" placeholder="DNI"
+                    :value="$socio->dni_titular" disabled />
             </div>
             <div class="flex">
                 <flux:spacer />
