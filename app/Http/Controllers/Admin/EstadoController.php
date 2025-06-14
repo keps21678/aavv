@@ -13,7 +13,7 @@ class EstadoController extends Controller
      */
     public function index()
     {
-        $estados = Estado::paginate(10);
+        $estados = Estado::all()->sortBy('id');
         return view('admin.estados.index', compact('estados'));
     }
 

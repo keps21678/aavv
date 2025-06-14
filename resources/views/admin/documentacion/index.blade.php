@@ -14,11 +14,9 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th class="px-2 py-3">Categoría</th>
-                    <th class="px-2 py-3">Descripción</th>
-                    <th class="px-2 py-3">Fecha Firma</th>
-                    <th class="px-2 py-3">Archivo</th>
                     <th class="px-2 py-3">Estado</th>
-                    <th class="px-2 py-3">Observaciones</th>
+                    <th class="px-2 py-3">Archivo</th>
+                    <th class="px-2 py-3">Descripción</th>
                     <th class="px-2 py-3">Acciones</th>
                 </tr>
             </thead>
@@ -26,17 +24,26 @@
                 @foreach ($documentos as $documento)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                     <td class="px-2 py-4">{{ $documento->categoria->nombre ?? '-' }}</td>
-                    <td class="px-2 py-4">{{ $documento->descripcion }}</td>
-                    <td class="px-2 py-4">{{ $documento->fecha_firma ? $documento->fecha_firma->format('d/m/Y') : '-' }}
-                    </td>
-                    <td class="px-2 py-4">{{ $documento->nombre_archivo }}</td>
-                    <td class="px-6 py-4">
-                        <span class="px-2 py-1 rounded-full text-sm text-white"
-                            style="background-color: {{ $documento->estado->color }}">
-                            {{ $documento->estado->nombre }}
+                    <td class="px-2 py-4">
+                        @if($documento->estado)
+                        <span class="px-2 py-1 rounded-full text-white"
+                            style="background-color: {{ $documento->estado->color ?? '#808080' }};">
+                            {{ $documento->estado->nombre ?? 'Sin estado' }}
                         </span>
+                        @else
+                        <span class="px-2 py-1 rounded-full text-gray-500 bg-gray-200">
+                            Sin estado
+                        </span>
+                        @endif
                     </td>
-                    <td class="px-2 py-4">{{ $documento->observaciones }}</td>
+                    <td class="px-2 py-4">
+                        <flux:button icon:trailing="arrow-up-right"
+                            href="{{ route('documentacion.view', basename($documento->archivo)) }}" target="_blank"
+                            class="text-blue-600 underline mr-2">
+                            {{ $documento->nombre_archivo ?? 'Ver archivo' }}
+                        </flux:button>
+                    </td>
+                    <td class="px-2 py-4">{{ $documento->descripcion }}</td>
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right"

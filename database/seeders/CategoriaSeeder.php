@@ -29,5 +29,10 @@ class CategoriaSeeder extends Seeder
             'descripcion' => 'Revocación del consentimiento.',
             'color' => '#dc3545', // Rojo
         ]);
+        Categoria::create([
+            'nombre' => 'Plantilla',
+            'descripcion' => 'Plantilla de documentos.',
+            'color' => '#28a745', // Verde claro
+        ]);
     }
 }

@@ -31,7 +31,7 @@ class DocumentacionController extends Controller
                 return $query->where('categoria_id', $categoriaId);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
 
         return view('admin.documentacion.index', compact('documentos'));
     }
@@ -155,7 +155,8 @@ class DocumentacionController extends Controller
         if (!Storage::disk('private')->exists($path)) {
             abort(404);
         }
-        $documento = Documentacion::where('archivo', $path)->first();
+        // Buscar el registro Documentacion por el nombre del archivo almacenado
+        $documento = \App\Models\Documentacion::where('archivo', $path)->first();
         $nombreDescarga = $documento && $documento->nombre_archivo ? $documento->nombre_archivo : basename($file);
 
         $fullPath = Storage::disk('private')->path($path);

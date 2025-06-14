@@ -11,9 +11,6 @@ class EstadoSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-
-    /* Nomenclatura Incial de los iconos es la de heroicons */
-
     public function run(): void
     {
         //
@@ -61,16 +58,31 @@ class EstadoSeeder extends Seeder
             'nombre' => 'Nuevo',
             'descripcion' => 'Nuevo.',
             'color' => '#008000', // Verde oscuro
-        ]); 
+        ]);
         Estado::factory()->create([
             'nombre' => 'Asignado',
             'descripcion' => 'Asignado.',
             'color' => '#0000FF', // Verde oscuro
-        ]); 
+        ]);
         Estado::factory()->create([
             'nombre' => 'Finalizado',
             'descripcion' => 'Finalizado.',
             'color' => '#FFA500', // Verde oscuro
-        ]);         
+        ]);
+        Estado::factory()->create([
+            'nombre' => 'Vigente',
+            'descripcion' => 'Vigente.',
+            'color' => '#008000', // Verde claro
+        ]);
+        Estado::factory()->create([
+            'nombre' => 'Caducado',
+            'descripcion' => 'Caducado.',
+            'color' => '#FFA500', // Naranja
+        ]);
+        Estado::factory()->create([
+            'nombre' => 'Revocado',
+            'descripcion' => 'Revocado.',
+            'color' => '#8B0000', // Rojo oscuro
+        ]);
     }
 }
