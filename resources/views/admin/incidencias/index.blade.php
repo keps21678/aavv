@@ -5,9 +5,9 @@
             <flux:breadcrumbs.item>{{ __('Incidencias') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.incidencias.create', ['socio_id' => request('socio_id')]) }}"
-                class="btn btn-green">Nueva incidencia</a>
-            <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Listado de Socios/as</a>
+            <flux:button href="{{ route('admin.incidencias.create', ['socio_id' => request('socio_id')]) }}"
+                class="btn btn-green">{{ __('New Incident') }}</flux:button>
+            <flux:button href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">{{ __('Member List') }}</flux:button>
         </div>
     </div>
     <br />
@@ -16,15 +16,15 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">Nº Socio</th>
-                    <th scope="col" class="px-6 py-3">Nombre</th>
-                    <th scope="col" class="px-6 py-3">Apellidos</th>
-                    <th scope="col" class="px-6 py-3">Tipo de Incidencia</th>
-                    <th scope="col" class="px-6 py-3">Descripción</th>
-                    <th scope="col" class="px-6 py-3">Fecha de Incidencia</th>
-                    <th scope="col" class="px-6 py-3">Estado</th>
-                    <th scope="col" class="px-6 py-3">Creado</th>
-                    <th scope="col" class="px-6 py-3">Editar</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Member No.') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Name') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Last Name') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Incident Type') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Description') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Incident Date') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('State') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Created At') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>

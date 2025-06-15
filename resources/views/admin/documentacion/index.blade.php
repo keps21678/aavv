@@ -5,7 +5,7 @@
             <flux:breadcrumbs.item>{{ __('Documentación') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <flux:button href="{{ route('admin.documentacion.create') }}" class="btn btn-green">
-            Nuevo Documento
+            {{ __('New Document') }}
         </flux:button>
     </div>
     <div class="relative overflow-x-auto px-2">
@@ -13,11 +13,11 @@
         <table id="tabla" class="display text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th class="px-2 py-3">Categoría</th>
-                    <th class="px-2 py-3">Estado</th>
-                    <th class="px-2 py-3">Archivo</th>
-                    <th class="px-2 py-3">Descripción</th>
-                    <th class="px-2 py-3">Acciones</th>
+                    <th class="px-2 py-3">{{ __('Category') }}</th>
+                    <th class="px-2 py-3">{{ __('State') }}</th>
+                    <th class="px-2 py-3">{{ __('File') }}</th>
+                    <th class="px-2 py-3">{{ __('Description') }}</th>
+                    <th class="px-2 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>

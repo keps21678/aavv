@@ -5,7 +5,7 @@
             <flux:breadcrumbs.item>{{ __('Gastos') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <flux:button href="{{ route('admin.gastos.create') }}" class="btn btn-green">
-            Nueva gasto
+            {{ __('New Expense') }}
         </flux:button>
     </div>
     <br />
@@ -14,14 +14,14 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-2 py-3">Número</th>
-                    <th scope="col" class="px-2 py-3">Proveedor</th>
-                    <th scope="col" class="px-2 py-3">Descripción</th>                    
-                    <th scope="col" class="px-2 py-3">Fecha Emisión</th>
-                    <th scope="col" class="px-2 py-3">Fecha Vencimiento</th>
-                    <th scope="col" class="px-2 py-3">Estado</th>
-                    <th scope="col" class="px-2 py-3">Importe</th>                    
-                    <th scope="col" class="px-2 py-3">Acciones</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Number') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Provider') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Description') }}</th>                    
+                    <th scope="col" class="px-2 py-3">{{ __('Issue Date') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Due Date') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('State') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Amount') }}</th>                    
+                    <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>

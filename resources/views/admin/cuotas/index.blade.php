@@ -5,9 +5,9 @@
             <flux:breadcrumbs.item>{{ __('Cuotas') }}
             </flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
-        <a href="{{ route('admin.cuotas.create') }}" class="btn btn-green">Nueva cuota</a>
+        <flux:button href="{{ route('admin.cuotas.create') }}" class="btn btn-green">
+            {{ __('New Fee') }}
+        </flux:button>
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -16,24 +16,12 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Tipo Cuota/Socio
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Año
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Cantidad (€)
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Created At
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Updated At
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Editar
-                    </th>
+                    <th scope="col" class="px-6 py-3">{{ __('Type Of Fee/Member') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Year') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Amount (€)') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Created At') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Updated At') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Editar') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,9 +49,11 @@
                             </bootstrap:button> --}}
                             {{-- <a href="{{ route('admin.categories.edit', $category) }}"
                                 class="btn btn-blue justify-end">Editar</a> --}}
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.cuotas.edit', $cuota) }}"
                                 class="btn btn-blue">Editar</flux:button>
-
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.cuotas.destroy', $cuota) }}"
                                 method="POST">
                                 @csrf
@@ -71,6 +61,7 @@
                                 <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

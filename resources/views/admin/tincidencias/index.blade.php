@@ -2,12 +2,11 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Tipos de incidencia') }}
+            <flux:breadcrumbs.item>{{ __('Incident Types') }}
             </flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
-        <flux:button href="{{ route('admin.tincidencias.create') }}" class="btn btn-green">Nuevo tipo de incidencia
+        <flux:button href="{{ route('admin.tincidencias.create') }}" class="btn btn-green">
+            {{ __('New Incident Type') }}
         </flux:button>
     </div>
     <br />
@@ -18,7 +17,7 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        ID
+                        {{ __('ID') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
                         {{ __('Name') }}
@@ -57,11 +56,6 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
-                            {{-- <bootstrap:button variant="primary"
-                                href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary">Edit
-                            </bootstrap:button> --}}
-                            {{-- <a href="{{ route('admin.categories.edit', $category) }}"
-                                class="btn btn-blue justify-end">Editar</a> --}}
                             @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.tincidencias.edit', $tincidencia) }}"
                                 class="btn btn-blue">{{ __('Edit') }}</flux:button>

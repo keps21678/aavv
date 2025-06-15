@@ -4,8 +4,9 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Categorías') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.categorias.create') }}"
-            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">Nueva Categoría</a>
+        <flux:button href="{{ route('admin.categorias.create') }}" class="btn btn-green">
+            {{ __('New Category') }}
+        </flux:button>        
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -13,13 +14,13 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th class="px-6 py-3">ID</th>
-                    <th class="px-6 py-3">Nombre</th>
-                    <th class="px-6 py-3">Descripción</th>
-                    <th class="px-6 py-3">Color</th>
-                    <th class="px-6 py-3">Creado</th>
-                    <th class="px-6 py-3">Actualizado</th>
-                    <th class="px-6 py-3">Acciones</th>
+                    <th class="px-6 py-3">{{ __('ID') }}</th>
+                    <th class="px-6 py-3">{{ __('Name') }}</th>
+                    <th class="px-6 py-3">{{ __('Description') }}</th>
+                    <th class="px-6 py-3">{{ __('Color') }}</th>
+                    <th class="px-6 py-3">{{ __('Created At') }}</th>
+                    <th class="px-6 py-3">{{ __('Updated At') }}</th>
+                    <th class="px-6 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>

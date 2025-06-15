@@ -7,7 +7,7 @@
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
         <flux:button href="{{ route('register') }}" class="btn btn-green">
-            Nuevo usuario
+            {{ __('New User') }}
         </flux:button>
     </div>
     <br />
@@ -17,7 +17,7 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        ID
+                        {{ __('ID') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
                         {{ __('Name') }}

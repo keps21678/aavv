@@ -4,9 +4,9 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Estados') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <div>
-            <a href="{{ route('admin.estados.create') }}" class="btn btn-green">Nuevo Estado</a>
-        </div>
+        <flux:button href="{{ route('admin.estados.create') }}" class="btn btn-green">
+            {{ __('New State') }}
+        </flux:button>
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -14,13 +14,13 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">ID</th>
-                    <th scope="col" class="px-6 py-3">Nombre</th>
-                    <th scope="col" class="px-6 py-3">Descripción</th>
-                    <th scope="col" class="px-6 py-3">Color</th>
-                    <th scope="col" class="px-6 py-3">Creado</th>
-                    <th class="px-6 py-3">Actualizado</th>
-                    <th scope="col" class="px-6 py-3">Acciones</th>
+                    <th scope="col" class="px-6 py-3">{{ __('ID') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Name') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Description') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Color') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Created At') }}</th>
+                    <th class="px-6 py-3">{{ __('Updated At') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,16 +46,19 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.estados.edit', $estado) }}"
                                 class="btn btn-blue">
                                 Editar
                             </flux:button>
-
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.estados.destroy', $estado) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar</flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

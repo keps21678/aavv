@@ -2,12 +2,11 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Tipos de socios/as') }}
+            <flux:breadcrumbs.item>{{ __('Member Types') }}
             </flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
-        <flux:button href="{{ route('admin.tsocios.create') }}" class="btn btn-green">Nuevo tipo de socios/as
+        <flux:button href="{{ route('admin.tsocios.create') }}" class="btn btn-green">
+            {{ __('New Member Type') }}
         </flux:button>
     </div>
     <br />
@@ -17,22 +16,22 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        ID
+                        {{ __('ID') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Nombre
+                        {{ __('Name') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Descripcion
+                        {{ __('Description') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Created At
+                        {{ __('Created At') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Updated At
+                        {{ __('Updated At') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Editar
+                        {{ __('Actions') }}
                     </th>
                 </tr>
             </thead>
@@ -56,21 +55,19 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
-                            {{-- <bootstrap:button variant="primary"
-                                href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary">Edit
-                            </bootstrap:button> --}}
-                            {{-- <a href="{{ route('admin.categories.edit', $category) }}"
-                                class="btn btn-blue justify-end">Editar</a> --}}
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.tsocios.edit', $tsocio) }}"
-                                class="btn btn-blue">Editar</flux:button>
-
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.tsocios.destroy', $tsocio) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                                <flux:button variant="danger" type="submit" class="btn btn-danger">{{ __('Delete') }}
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

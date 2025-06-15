@@ -4,10 +4,8 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Socios/as') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
         <flux:button href="{{ route('admin.socios.create') }}" class="btn btn-green">
-            Nuevo Socio
+            {{ __('New Member') }}
         </flux:button>
     </div>
     <div class="relative overflow-x-auto px-2">
@@ -15,15 +13,15 @@
         <table id="tabla" class="display text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-2 py-3">Socio</th>
-                    <th scope="col" class="px-2 py-3">Nombre</th>
-                    <th scope="col" class="px-2 py-3">Apellidos</th>
-                    <th scope="col" class="px-2 py-3">Tipo Socio</th>
-                    <th scope="col" class="px-2 py-3">Email</th>
-                    <th scope="col" class="px-2 py-3">Movil</th>
-                    <th scope="col" class="px-2 py-3">Persona Contacto</th>                    
-                    <th scope="col" class="px-2 py-3">Incidencias</th>
-                    <th scope="col" class="px-2 py-3">Acciones</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Member Number') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Name') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Last Name') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Member Type') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Email') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Mobile') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Contact Person') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Incidents') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>

@@ -5,7 +5,7 @@
             <flux:breadcrumbs.item>{{ __('Documentos LOPD') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <flux:button href="{{ route('admin.lopd.create') }}" class="btn btn-green">
-            Nuevo Documento
+            {{ __('New Document') }}
         </flux:button>
     </div>
     <div class="relative overflow-x-auto px-2">
