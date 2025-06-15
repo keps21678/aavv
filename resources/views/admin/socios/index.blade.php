@@ -54,20 +54,7 @@
                         @endif
                     </td>
                     <td class="px-2 py-4">
-                        <div class="flex justify-end space-x-2">
-                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.socios.show', $socio) }}"
-                                class="btn btn-green mr-2">Consultar</flux:button>
-                            <flux:button variant="primary" href="{{ route('admin.socios.edit', $socio) }}"
-                                class="btn btn-blue">Editar</flux:button>
-                            <form class="delete-form" action="{{ route('admin.socios.destroy', $socio) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <flux:button wire:click="delete" variant="danger" type="submit" class="btn btn-danger">
-                                    Eliminar
-                                </flux:button>
-                            </form>
-                        </div>
+                        <x-layouts.socio.actions :socio="$socio" />
                     </td>
                 </tr>
                 @endforeach
@@ -104,14 +91,13 @@
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: 'No podrás revertir esto',
-                        icon: 'warning',
-                        showCancelButton: true,
+                        title: {!! json_encode(__('Are you sure?')) !!},
+                        text: {!! json_encode(__('You won\'t be able to revert this!')) !!},
+                        icon: 'warning',showCancelButton: true,                        
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar'
+                        confirmButtonText: {!! json_encode(__('Yes, delete it!')) !!},
+                        cancelButtonText: {!! json_encode(__('Cancel')) !!}
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form.submit();

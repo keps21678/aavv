@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware('auth', 'web', 'RedirectIfTokenExpired') //web para las vistas, auth para las rutas protegidas
+            Route::middleware('auth', 'web') //web para las vistas, auth para las rutas protegidas
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));

@@ -14,14 +14,14 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th class="px-2 py-3">Nº Socio</th>
-                    <th class="px-2 py-3">Socio</th>
-                    <th class="px-2 py-3">Categoría</th>
-                    <th class="px-2 py-3">Descripción</th>
-                    <th class="px-2 py-3">Fecha Firma</th>
-                    <th class="px-2 py-3">Archivo</th>
-                    <th class="px-2 py-3">Estado</th>
-                    <th class="px-2 py-3">Observaciones</th>
-                    <th class="px-2 py-3">Acciones</th>
+                    <th class="px-2 py-3">{{ __('Member') }}</th>
+                    <th class="px-2 py-3">{{ __('Category') }}</th>
+                    <th class="px-2 py-3">{{ __('Description') }}</th>
+                    <th class="px-2 py-3">{{ __('Emision date') }}</th>
+                    <th class="px-2 py-3">{{ __('File') }}</th>
+                    <th class="px-2 py-3">{{ __('Status') }}</th>
+                    <th class="px-2 py-3">{{ __('Observations') }}</th>
+                    <th class="px-2 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,16 +49,20 @@
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.lopd.show', $lopd) }}"
-                                class="btn btn-green">Consultar</flux:button>
+                                class="btn btn-green">{{ __('Consult') }}</flux:button>
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.lopd.edit', $lopd) }}"
-                                class="btn btn-blue">Editar</flux:button>
-                            <form class="delete-form" action="{{ route('admin.lopd.destroy', $lopd) }}" method="POST">
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
+                            @endhasanyrole
+                            @hasrole('admin')
+                                <form class="delete-form" action="{{ route('admin.lopd.destroy', $lopd) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <flux:button variant="danger" type="submit" class="btn btn-danger">
-                                    Eliminar
+                                    {{ __('Delete') }}
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

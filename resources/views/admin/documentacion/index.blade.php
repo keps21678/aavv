@@ -49,8 +49,11 @@
                             <flux:button icon:trailing="arrow-up-right"
                                 href="{{ route('admin.documentacion.show', $documento) }}" class="btn btn-green">
                                 Consultar</flux:button>
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.documentacion.edit', $documento) }}"
                                 class="btn btn-blue">Editar</flux:button>
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.documentacion.destroy', $documento) }}"
                                 method="POST">
                                 @csrf
@@ -59,6 +62,7 @@
                                     Eliminar
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

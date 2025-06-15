@@ -173,7 +173,7 @@
     'icon' => 'currency-euro',
     'url' => route('admin.ingresos.index'),
     'current' => request()->routeIs('ingresos.*'),
-    'label' => __('Income'),
+    'label' => __('Incomes'),
     'role' => ['admin', 'editor'],
     ],
     [
@@ -217,7 +217,7 @@
             </flux:navlist.item> --}}
 
             <flux:navlist.item icon="building-library" :href="route('admin.documentacion.index')" target="_self">
-                {{ __('Documentación') }}
+                {{ __('Documentation') }}
             </flux:navlist.item>
         </flux:navlist>
 

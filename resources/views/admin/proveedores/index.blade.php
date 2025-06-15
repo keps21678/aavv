@@ -14,13 +14,13 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-2 py-3">NIF</th>
-                    <th scope="col" class="px-2 py-3">Nombre</th>
-                    <th scope="col" class="px-2 py-3">Teléfono</th>
-                    <th scope="col" class="px-2 py-3">Email</th>
-                    <th scope="col" class="px-2 py-3">Persona Contacto</th>
-                    <th scope="col" class="px-2 py-3">gastos Asociadas</th> <!-- Nueva columna -->
-                    <th scope="col" class="px-2 py-3">Acciones</th>
+                    <th scope="col" class="px-2 py-3">{{ __('VAT') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Name') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Phone') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Email') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Contact Person') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Associated Expenses') }}</th> <!-- Nueva columna -->
+                    <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,21 +31,27 @@
                     <td class="px-2 py-4">{{ $proveedor->telefono }}</td>
                     <td class="px-2 py-4">{{ $proveedor->email }}</td>
                     <td class="px-2 py-4">{{ $proveedor->persona_contacto }}</td>
-                    <td class="px-2 py-4 text-center">{{ $proveedor->gastos_count }}</td> <!-- Mostrar el número de gastos -->
+                    <td class="px-2 py-4 text-center">{{ $proveedor->gastos_count }}</td>
+                    <!-- Mostrar el número de gastos -->
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
-                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.proveedores.show', $proveedor) }}"
-                                class="btn btn-green mr-2">Consultar</flux:button>
+                            <flux:button icon:trailing="arrow-up-right"
+                                href="{{ route('admin.proveedores.show', $proveedor) }}" class="btn btn-green mr-2">{{
+                                __('Consult') }}</flux:button>
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.proveedores.edit', $proveedor) }}"
-                                class="btn btn-blue">Editar</flux:button>
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.proveedores.destroy', $proveedor) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <flux:button wire:click="delete" variant="danger" type="submit" class="btn btn-danger">
-                                    Eliminar
+                                    {{ __('Delete') }}
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>
@@ -76,18 +82,18 @@
                 },
             });
         });
-        document.querySelectorAll('.delete-form').forEach(form => {
+        // Confirmación de eliminación con SweetAlert2
+            document.querySelectorAll('.delete-form').forEach(form => {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: 'No podrás revertir esto',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar'
+                    title: {!! json_encode(__('Are you sure?')) !!},
+                        text: {!! json_encode(__('You won\'t be able to revert this!')) !!},
+                        icon: 'warning',showCancelButton: true,                        
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: {!! json_encode(__('Yes, delete it!')) !!},
+                        cancelButtonText: {!! json_encode(__('Cancel')) !!}
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();

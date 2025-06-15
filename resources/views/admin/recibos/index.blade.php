@@ -19,14 +19,14 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-2 py-3">Nº Recibo</th>
-                    <th scope="col" class="px-2 py-3">Socio</th>
-                    <th scope="col" class="px-2 py-3">Cuota</th>
-                    <th scope="col" class="px-2 py-3">Importe</th>
-                    <th scope="col" class="px-2 py-3">Fecha Emisión</th>
-                    <th scope="col" class="px-2 py-3">Estado</th>
-                    <th scope="col" class="px-2 py-3">Fecha Vencimiento</th>
-                    <th scope="col" class="px-2 py-3">Acciones</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Receipt Number') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Member') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Fee') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Amount') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Issue Date') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Status') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Due Date') }}</th>
+                    <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,18 +49,22 @@
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right"
-                                href="{{ route('admin.recibos.show', $recibo) }}" class="btn btn-green mr-2">Consultar
+                                href="{{ route('admin.recibos.show', $recibo) }}" class="btn btn-green mr-2">{{ __('Consult') }}
                             </flux:button>
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.recibos.edit', $recibo) }}"
-                                class="btn btn-blue">Editar</flux:button>
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.recibos.destroy', $recibo) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <flux:button wire:click="delete" variant="danger" type="submit" class="btn btn-danger">
-                                    Eliminar
+                                    {{ __('Delete') }}
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

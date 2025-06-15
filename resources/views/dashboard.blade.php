@@ -26,7 +26,7 @@
                 <div class="flex items-center mx-auto text-blue-600">
                     <flux:icon.users class="h-6 w-6 mr-2" />
                     <!-- Contenido de la tarjeta -->
-                    <h2 class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 mr-2">Número de Socios Activos:
+                    <h2 class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 mr-2">Número de Socios:
                     </h2>
                     <p class="text-2xl font-extrabold  text-gray-900 dark:text-gray-100">
                         {{ \App\Models\Socio::count() }}
@@ -50,7 +50,7 @@
                 class="relative flex items-center bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 shadow">
                 <!-- Ícono representativo -->
                 <div class="flex items-center justify-center text-blue-600">
-                    <div class="flex flex-col items-center">
+                    <div class="flex flex-col items-center p-4">
                         <!-- Contenido de la tarjeta -->
                         <div class="flex items-center justify-center text-blue-600 mt-4">
                             <flux:icon.users class="h-6 w-6 mr-2" />
@@ -60,6 +60,7 @@
                                 {{ \App\Models\Socio::where('domiciliacion', true)->count() }}
                             </p>
                         </div>
+
                         <div class="flex items-center justify-center text-blue-600 mt-4">
                             <flux:icon.users class="h-6 w-6 mr-2" />
                             <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Socios sin Domiciliación:
@@ -68,16 +69,16 @@
                                 {{ \App\Models\Socio::where('domiciliacion', false)->count() }}
                             </p>
                         </div>
-                        <a href="{{ route('admin.incidencias.index') }}" class="hover:underline">
-                        <div class="flex items-center justify-center text-blue-600 mt-4">                            
-                                <flux:icon.question-mark-circle class="h-6 w-6 mr-2" />
-                                <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Número de Incidencias
-                                    Totales: </h2>
-                                <p class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 ml-2">
-                                    {{ \App\Models\Incidencia::count() }}
-                                </p>                            
+
+                        <div class="flex items-center justify-center text-blue-600 mt-4">
+                            <flux:icon.question-mark-circle class="h-6 w-6 mr-2" />
+                            <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Incidencias
+                                Totales: </h2>
+                            <p class="text-2xl font-extrabold text-gray-900 dark:text-gray-100 ml-2">
+                                {{ \App\Models\Incidencia::count() }}
+                            </p>
                         </div>
-                    </a>
+
                     </div>
                 </div>
             </div>
@@ -104,41 +105,43 @@
             <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-4">{{ __('Financial Summary') }}</h2>
             <table id="tabla" class="display table-auto w-full border-collapse border border-gray-300">
                 <thead>
-                    <tr >
-                        <th >{{ __('Concept') }}</th>
-                        <th >{{ __('Total Amount (€)') }}</th>
+                    <tr>
+                        <th>{{ __('Concept') }}</th>
+                        <th>{{ __('Total Amount (€)') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{ __('Total receipts') }}</td>
                         <td>
-                            {{ $sumaRecibos = \App\Models\Recibo::whereYear('fecha_vencimiento', now()->year)->sum('cuota_id') }}
+                            {{ $sumaRecibos = \App\Models\Recibo::whereYear('fecha_vencimiento',
+                            now()->year)->sum('cuota_id') }}
                         </td>
                     </tr>
                     <tr>
                         <td>{{ __('Total income') }}</td>
                         <td>
-                            {{ $sumaIngresos = \App\Models\Ingreso::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
+                            {{ $sumaIngresos = \App\Models\Ingreso::whereYear('fecha_vencimiento',
+                            now()->year)->sum('importe') }}
                         </td>
                     </tr>
                     <tr>
                         <td>{{ __('Total expenses') }}</td>
                         <td>
-                            {{ $sumaGastos = \App\Models\Gasto::whereYear('fecha_vencimiento', now()->year)->sum('importe') }}
+                            {{ $sumaGastos = \App\Models\Gasto::whereYear('fecha_vencimiento',
+                            now()->year)->sum('importe') }}
                         </td>
-                    </tr>                    
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>{{ __('Grand Total') }}</td>
                         <td>
                             @php
-                                $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaGastos;
+                            $totalGeneral = $sumaRecibos + $sumaIngresos - $sumaGastos;
                             @endphp
                             <span class="{{ $totalGeneral < 0 ? 'text-red-500 font-bold' : '' }}">
-                                {{ $totalGeneral < 0 ? '-' : '' }}{{ number_format(abs($totalGeneral), 2) }}
-                            </span>
+                                {{ $totalGeneral < 0 ? '-' : '' }}{{ number_format(abs($totalGeneral), 2) }} </span>
                         </td>
                     </tr>
                 </tfoot>

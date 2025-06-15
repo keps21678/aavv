@@ -42,8 +42,11 @@
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.gastos.show', $gasto) }}"
                                 class="btn btn-green mr-2">Consultar</flux:button>
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.gastos.edit', $gasto) }}"
                                 class="btn btn-blue">Editar</flux:button>
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.gastos.destroy', $gasto) }}"
                                 method="POST">
                                 @csrf
@@ -52,6 +55,7 @@
                                     Eliminar
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

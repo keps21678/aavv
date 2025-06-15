@@ -21,19 +21,19 @@
                         ID
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Nombre
+                        {{ __('Name') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Descripcion
+                        {{ __('Description') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Created At
+                        {{ __('Created At') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Updated At
+                        {{ __('Updated At') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Editar
+                        {{ __('Actions') }}
                     </th>
                 </tr>
             </thead>
@@ -62,16 +62,19 @@
                             </bootstrap:button> --}}
                             {{-- <a href="{{ route('admin.categories.edit', $category) }}"
                                 class="btn btn-blue justify-end">Editar</a> --}}
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.tincidencias.edit', $tincidencia) }}"
-                                class="btn btn-blue">Editar</flux:button>
-
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.tincidencias.destroy', $tincidencia) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                                <flux:button variant="danger" type="submit" class="btn btn-danger">{{ __('Delete') }}
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
                 </tr>

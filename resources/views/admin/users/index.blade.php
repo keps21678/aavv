@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Usuarios/as') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('User/s') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
             Create Category</bootstrap:button> --}}
@@ -76,15 +76,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
-                            <flux:button variant="primary" href="{{ route('admin.users.edit', $user) }}"
-                                class="btn btn-blue">Editar</flux:button>
-
-                            <form class="delete-form" action="{{ route('admin.users.destroy', $user) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
-                                </flux:button>
-                            </form>
+                            <x-layouts.user.actions :user="$user" />
                         </div>
                     </td>
                 </tr>
@@ -115,19 +107,18 @@
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Traducción al español
                 },
             });
-        });
+        
             document.querySelectorAll('.delete-form').forEach(form => {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     Swal.fire({
-                        title: {{ __('Are you sure?') }},
-                        text: {{ __('You won\'t be able to revert this!') }},
-                        icon: 'warning',
-                        showCancelButton: true,
+                        title: {!! json_encode(__('Are you sure?')) !!},
+                        text: {!! json_encode(__('You won\'t be able to revert this!')) !!},
+                        icon: 'warning',showCancelButton: true,                        
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: {{ __('Yes, delete it!') }},
-                        cancelButtonText: {{ __('Cancel') }}
+                        confirmButtonText: {!! json_encode(__('Yes, delete it!')) !!},
+                        cancelButtonText: {!! json_encode(__('Cancel')) !!}
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form.submit();
@@ -135,6 +126,7 @@
                     });
                 });
             });
+        });
     </script>
     @endpush
 </x-layouts.app>

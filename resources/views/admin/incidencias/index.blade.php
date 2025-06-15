@@ -58,10 +58,12 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
+                            @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.incidencias.edit', $incidencia) }}"
                                 class="btn btn-blue">
                                 Editar</flux:button>
-
+                            @endhasanyrole
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.incidencias.destroy', $incidencia) }}"
                                 method="POST">
                                 @csrf
@@ -69,6 +71,7 @@
                                 <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
                                 </flux:button>
                             </form>
+                            @endhasrole 
                         </div>
                     </td>
                 </tr>

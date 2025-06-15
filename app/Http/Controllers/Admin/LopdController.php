@@ -31,7 +31,7 @@ class LopdController extends Controller
                 return $query->where('socio_id', $socioId);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
 
         return view('admin.lopd.index', compact('lopds'));
     }
