@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TSocio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TSocioController extends Controller
 {
@@ -13,7 +14,17 @@ class TSocioController extends Controller
      */
     public function index()
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los tipos de socios
         $tsocios = TSocio::orderBy('id', 'asc')->get();
 
         return view('admin.tsocios.index', compact('tsocios'));
@@ -24,7 +35,17 @@ class TSocioController extends Controller
      */
     public function create()
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.tsocios.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Mostrar el formulario para crear un nuevo tipo de socio
         return view('admin.tsocios.create');
     }
 
@@ -33,7 +54,17 @@ class TSocioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.tsocios.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Validar los datos de entrada
         $request->validate([
             'nombre' => 'required|string|min:5|max:255',
             'descripcion' => 'required|string|min:5|max:255',
@@ -53,6 +84,16 @@ class TSocioController extends Controller
      */
     public function show(TSocio $tSocio)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         //
     }
 
@@ -61,6 +102,16 @@ class TSocioController extends Controller
      */
     public function edit(TSocio $tsocio)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.tsocios.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         //
         return view('admin.tsocios.edit', compact('tsocio'));
     }
@@ -70,6 +121,16 @@ class TSocioController extends Controller
      */
     public function update(Request $request, TSocio $tsocio)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.tsocios.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         //
         $request->validate([
             'nombre' => 'required|string|min:5|max:255',
@@ -91,7 +152,17 @@ class TSocioController extends Controller
      */
     public function destroy(TSocio $tsocio)
     {
-        //        
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.tsocios.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Verificar si el tipo de socio/a tiene usuarios asociados
         if ($tsocio->socios()->count() > 0) {
             // Verificar si el tipo de socio/a tiene usuarios asociados
             session()->flash('swal', [

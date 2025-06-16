@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tincidencia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TincidenciaController extends Controller
 {
@@ -13,7 +14,17 @@ class TincidenciaController extends Controller
      */
     public function index()
     {
-        // $categories = Category::all();
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los tipos de incidencias
         $tincidencias = Tincidencia::orderBy('id', 'asc')->get();
 
         return view('admin.tincidencias.index', compact('tincidencias'));
@@ -24,7 +35,17 @@ class TincidenciaController extends Controller
      */
     public function create()
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.tincidencias.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Mostrar el formulario para crear un nuevo tipo de incidencia
         return view('admin.tincidencias.create');
     }
 
@@ -33,7 +54,17 @@ class TincidenciaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.tincidencias.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Validar los datos de entrada
         $request->validate([
             'nombre' => 'required|string|min:5|max:255',
             'descripcion' => 'required|string|min:5|max:255',
@@ -53,6 +84,16 @@ class TincidenciaController extends Controller
      */
     public function show(Tincidencia $tincidencia)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         //        
     }
 
@@ -61,7 +102,17 @@ class TincidenciaController extends Controller
      */
     public function edit(Tincidencia $tincidencia)
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.tincidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Mostrar el formulario para editar el tipo de incidencia
         return view('admin.tincidencias.edit', compact('tincidencia'));
     }
 
@@ -70,7 +121,16 @@ class TincidenciaController extends Controller
      */
     public function update(Request $request, Tincidencia $tincidencia)
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.tincidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         $request->validate([
             'nombre' => 'required|string|min:5|max:255',
             'descripcion' => 'required|string|min:5|max:255',
@@ -91,6 +151,17 @@ class TincidenciaController extends Controller
      */
     public function destroy(Tincidencia $tincidencia)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.tincidencias.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Verificar si el tipo de incidencia existe
         try {
             // Verificar si el tipo de incidencia está asociado a alguna incidencia
             if ($tincidencia->incidencias()->exists()) {

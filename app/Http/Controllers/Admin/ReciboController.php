@@ -11,6 +11,7 @@ use App\Models\Tsocio;
 use App\Exports\RecibosExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReciboController extends Controller
 {
@@ -19,6 +20,17 @@ class ReciboController extends Controller
      */
     public function show(Recibo $recibo)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Cargar las relaciones necesarias para el recibo
         return view('admin.recibos.show', compact('recibo'));
     }
 
@@ -27,6 +39,17 @@ class ReciboController extends Controller
      */
     public function index()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los recibos con sus relaciones
         $recibos = Recibo::with(['socio', 'cuota', 'tsocio'])->get();
         return view('admin.recibos.index', compact('recibos'));
     }
@@ -36,6 +59,17 @@ class ReciboController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.recibos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener los datos necesarios para el formulario de creación
         $socios = Socio::all();
         $cuotas = Cuota::all();
         $tsocios = Tsocio::all();
@@ -48,6 +82,17 @@ class ReciboController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.recibos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Intentar validar y almacenar el recibo
         try {
             $request->validate([
                 'socio_id' => 'required|exists:socios,id',
@@ -94,6 +139,17 @@ class ReciboController extends Controller
      */
     public function edit(Recibo $recibo)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.recibos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener los datos necesarios para el formulario de edición
         $socios = Socio::all();
         $cuotas = Cuota::all();
         $estados = Estado::all();
@@ -106,6 +162,17 @@ class ReciboController extends Controller
      */
     public function update(Request $request, Recibo $recibo)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.recibos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos del formulario
         try {
             $request->validate([
                 'socio_id' => 'required|exists:socios,id',
@@ -146,6 +213,17 @@ class ReciboController extends Controller
      */
     public function destroy(Recibo $recibo)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.recibos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Intentar eliminar el recibo
         try {
             $recibo->delete();
 
@@ -174,6 +252,17 @@ class ReciboController extends Controller
      */
     public function restore($id)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.recibos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Intentar restaurar el recibo eliminado
         try {
             $recibo = Recibo::withTrashed()->findOrFail($id);
             $recibo->restore();

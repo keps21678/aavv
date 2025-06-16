@@ -7,8 +7,8 @@ use App\Models\Socio;
 use App\Models\TSocio;
 use App\Models\Cuota;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Exists;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class SocioController extends Controller
 {
@@ -25,6 +25,16 @@ class SocioController extends Controller
      */
     public function index()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         // Obtener los socios segun la busqueda, necesario pasara a la vista
         // de LiveWire
         $socios = Socio::where('nombre', 'LIKE', '%' . $this->search . '%')
@@ -54,6 +64,16 @@ class SocioController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.socios.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
         $socio = new Socio();
         $socio->nsocio = Socio::max('nsocio') + 1; // Generar el número de socio automáticamente
 
@@ -69,6 +89,16 @@ class SocioController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.socios.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
         $validatedData = $request->validate([
             'nsocio' => 'required|integer|unique:socios,nsocio',
             'nombre' => 'required|string|max:255',
@@ -132,6 +162,16 @@ class SocioController extends Controller
      */
     public function show(Socio $socio)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         //        
         return view('admin.socios.show', compact('socio'));
     }
@@ -141,6 +181,16 @@ class SocioController extends Controller
      */
     public function edit(Socio $socio)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.socios.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         $tsocios = TSocio::all();
         $cuotas = Cuota::where('anyo', '>=', now()->year - 1)->get(); // Obtener cuotas del año actual y futuros
         $socio->loadCount('incidencias')->loadCount('lopds');
@@ -152,6 +202,16 @@ class SocioController extends Controller
      */
     public function update(Request $request, Socio $socio)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.socios.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         if (!$request->has('baja')) {
             $request->merge(['baja' => false]);
         }
@@ -279,6 +339,16 @@ class SocioController extends Controller
      */
     public function destroy(Socio $socio)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.socios.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
         //
         $socio->delete();
         // variable de sesión

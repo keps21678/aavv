@@ -82,8 +82,7 @@
                 </tr>
                 @endforeach
             </tbody>
-        </table>
-        {{ $users->links() }}
+        </table>        
     </div>
     @push('js')
     <script>

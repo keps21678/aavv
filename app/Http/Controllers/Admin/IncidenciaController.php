@@ -10,6 +10,7 @@ use App\Models\Socio;
 use App\Models\TIncidencia;
 use App\Models\Estado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IncidenciaController extends Controller
 {
@@ -27,12 +28,23 @@ class IncidenciaController extends Controller
      */
     public function index(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener las incidencias filtradas por socio_id si se proporciona
         $socioId = $request->input('socio_id');
         $incidencias = Incidencia::when($socioId, function ($query, $socioId) {
             return $query->where('socio_id', $socioId);
         })
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
 
         return view('admin.incidencias.index', compact('incidencias'));
     }
@@ -42,6 +54,17 @@ class IncidenciaController extends Controller
      */
     public function create(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.incidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los socios, tipos de incidencia y estados
         $socios = Socio::all(); // Obtener todos los socios
         $tincidencias = TIncidencia::all(); // Obtener todos los tipos de incidencia
         $estados = Estado::all(); // Obtener todos los estados
@@ -55,6 +78,17 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.incidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos de la solicitud
         $request->validate([
             'socio_id' => 'required|exists:socios,id',
             'tincidencia_id' => 'required|exists:tincidencias,id',
@@ -79,6 +113,17 @@ class IncidenciaController extends Controller
      */
     public function edit(Incidencia $incidencia)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.incidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los socios, tipos de incidencia y estados
         $socios = Socio::all(); // Obtener todos los socios
         $tincidencias = Tincidencia::all(); // Obtener todos los tipos de incidencia
         $estados = Estado::all(); // Obtener todos los estados
@@ -91,6 +136,17 @@ class IncidenciaController extends Controller
      */
     public function update(Request $request, Incidencia $incidencia)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.incidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos de la solicitud
         $request->validate([
             'socio_id' => 'required|exists:socios,id',
             'tincidencia_id' => 'required|exists:tincidencias,id',
@@ -115,6 +171,17 @@ class IncidenciaController extends Controller
      */
     public function destroy(Incidencia $incidencia)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.incidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Eliminar la incidencia
         $incidencia->delete();
 
         session()->flash('swal', [

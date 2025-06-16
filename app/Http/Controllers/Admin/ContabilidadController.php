@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Gasto;
 use App\Models\Recibo;
@@ -12,6 +13,17 @@ class ContabilidadController extends Controller
 {
     public function index()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener el año actual
         $currentYear = now()->year;
 
         // Suma de importes y número de recibos del año en curso
@@ -33,7 +45,17 @@ class ContabilidadController extends Controller
      */
     public function show()
     {
-        //    
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los recibos
         $recibo = Recibo::all();
         // Verifica si el recibo pertenece al usuario autenticado
         $gasto  = Gasto::all();

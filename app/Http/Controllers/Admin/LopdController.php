@@ -10,6 +10,7 @@ use App\Models\Estado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class LopdController extends Controller
 {
@@ -18,6 +19,17 @@ class LopdController extends Controller
      */
     public function show(Lopd $lopd)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Cargar las relaciones necesarias
         return view('admin.lopd.show', compact('lopd'));
     }
     /**
@@ -25,6 +37,17 @@ class LopdController extends Controller
      */
     public function index(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Filtrar los documentos LOPD por socio si se proporciona un ID de socio
         $socioId = $request->input('socio_id');
         $lopds = Lopd::with(['socio', 'categoria', 'estado'])
             ->when($socioId, function ($query, $socioId) {
@@ -41,6 +64,17 @@ class LopdController extends Controller
      */
     public function create(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.users.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los socios, categorías y estados
         $socios = Socio::all();
         $categorias = Categoria::all();
         $estados = Estado::all();
@@ -54,6 +88,17 @@ class LopdController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.users.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos del formulario
         $request->validate([
             'socio_id' => 'required|exists:socios,id',
             'categoria_id' => 'required|exists:categorias,id',
@@ -89,6 +134,17 @@ class LopdController extends Controller
      */
     public function edit(Lopd $lopd)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.users.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los socios, categorías y estados
         $socios = Socio::all();
         $categorias = Categoria::all();
         $estados = Estado::all();
@@ -101,6 +157,17 @@ class LopdController extends Controller
      */
     public function update(Request $request, Lopd $lopd)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.users.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos del formulario
         $request->validate([
             'socio_id' => 'required|exists:socios,id',
             'categoria_id' => 'required|exists:categorias,id',
@@ -136,6 +203,16 @@ class LopdController extends Controller
      */
     public function destroy(Lopd $lopd)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.users.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         // Eliminar el archivo asociado si existe
         if ($lopd->archivo && Storage::disk('private')->exists($lopd->archivo)) {
             Storage::disk('private')->delete($lopd->archivo);
@@ -157,6 +234,17 @@ class LopdController extends Controller
      */
     public function download($file)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Verificar si el archivo existe en el almacenamiento privado
         $path = 'lopd/' . $file;
         if (!Storage::disk('private')->exists($path)) {
             abort(404);
@@ -174,6 +262,17 @@ class LopdController extends Controller
      */
     public function view($file)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Verificar si el archivo existe en el almacenamiento privado
         $path = 'lopd/' . $file;
         if (!Storage::disk('private')->exists($path)) {
             abort(404);

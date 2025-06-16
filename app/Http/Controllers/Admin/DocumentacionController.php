@@ -9,6 +9,7 @@ use App\Models\Estado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentacionController extends Controller
 {
@@ -17,6 +18,16 @@ class DocumentacionController extends Controller
      */
     public function show(Documentacion $documentacion)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         return view('admin.documentacion.show', compact('documentacion'));
     }
 
@@ -25,6 +36,16 @@ class DocumentacionController extends Controller
      */
     public function index(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         $categoriaId = $request->input('categoria_id');
         $documentos = Documentacion::with(['categoria', 'estado'])
             ->when($categoriaId, function ($query, $categoriaId) {
@@ -41,6 +62,17 @@ class DocumentacionController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.documentacion.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+
         $categorias = Categoria::all();
         $estados = Estado::all();
 
@@ -52,6 +84,17 @@ class DocumentacionController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.documentacion.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+
         $request->validate([
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string|max:255',
@@ -86,6 +129,16 @@ class DocumentacionController extends Controller
      */
     public function edit(Documentacion $documentacion)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.documentacion.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         $categorias = Categoria::all();
         $estados = Estado::all();
 
@@ -97,6 +150,16 @@ class DocumentacionController extends Controller
      */
     public function update(Request $request, Documentacion $documentacion)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.documentacion.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         $request->validate([
             'categoria_id' => 'required|exists:categorias,id',
             'descripcion' => 'required|string|max:255',
@@ -131,6 +194,17 @@ class DocumentacionController extends Controller
      */
     public function destroy(Documentacion $documentacion)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.documentacion.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Verificar si el documento tiene un archivo asociado y eliminarlo
         if ($documentacion->archivo && Storage::disk('private')->exists($documentacion->archivo)) {
             Storage::disk('private')->delete($documentacion->archivo);
         }
@@ -151,6 +225,17 @@ class DocumentacionController extends Controller
      */
     public function download($file)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('admin.documentacion.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Verificar si el archivo existe en el almacenamiento privado
         $path = 'documentacion/' . $file;
         if (!Storage::disk('private')->exists($path)) {
             abort(404);
@@ -168,6 +253,17 @@ class DocumentacionController extends Controller
      */
     public function view($file)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('admin.documentacion.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Verificar si el archivo existe en el almacenamiento privado
         $path = 'documentacion/' . $file;
         if (!Storage::disk('private')->exists($path)) {
             abort(404);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Ingreso;
 use App\Models\Proveedor;
@@ -21,7 +22,18 @@ class IngresoController extends Controller
      */
     public function index()
     {
-        $ingresos = Ingreso::with('proveedor')->withTrashed()->paginate(10); // Incluye los eliminados
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener los ingresos paginados, incluyendo los eliminados
+        $ingresos = Ingreso::with('proveedor')->withTrashed()->get(); // Incluye los eliminados
         return view('admin.ingresos.index', compact('ingresos'));
     }
 
@@ -30,6 +42,17 @@ class IngresoController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.ingresos.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Obtener todos los proveedores y estados para el formulario de creación
         $proveedores = Proveedor::all();
         $estados = Estado::all();
         return view('admin.ingresos.create', compact('proveedores', 'estados'));
@@ -40,6 +63,17 @@ class IngresoController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.ingresos.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Validar los datos del formulario
         try {
             $request->validate([
                 'proveedor_id' => 'required|exists:proveedores,id',
@@ -80,6 +114,17 @@ class IngresoController extends Controller
      */
     public function show(Ingreso $ingreso)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener el ingreso con su proveedor y estado
         return view('admin.ingresos.show', compact('ingreso'));
     }
 
@@ -88,6 +133,17 @@ class IngresoController extends Controller
      */
     public function edit(Ingreso $ingreso)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.ingresos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los proveedores y estados para el formulario de edición
         $proveedores = Proveedor::all();
         $estados = Estado::all();
         return view('admin.ingresos.edit', compact('ingreso', 'proveedores', 'estados'));
@@ -98,6 +154,17 @@ class IngresoController extends Controller
      */
     public function update(Request $request, Ingreso $ingreso)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.ingresos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos del formulario
         try {
             $request->validate([
                 'proveedor_id' => 'required|exists:proveedores,id',
@@ -138,6 +205,17 @@ class IngresoController extends Controller
      */
     public function destroy(Ingreso $ingreso)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.ingresos.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Eliminar el ingreso
         try {
             $ingreso->delete();
 
@@ -164,6 +242,17 @@ class IngresoController extends Controller
      */
     public function restore($id)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.ingresos.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Restaurar el ingreso eliminado
         try {
             $ingreso = Ingreso::withTrashed()->findOrFail($id);
             $ingreso->restore();

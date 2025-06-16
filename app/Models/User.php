@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'language', // Añadir el campo de idioma
+        'appearance', // Añadir el campo de apariencia
     ];
 
     /**

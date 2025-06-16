@@ -8,6 +8,7 @@ use App\Models\Proveedor;
 use App\Models\Estado; // Importación de la clase Estado
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class GastoController extends Controller
 {
@@ -17,7 +18,18 @@ class GastoController extends Controller
      */
     public function index()
     {
-        $gastos = Gasto::with('proveedor')->paginate(10);
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener los gastos con sus proveedores y paginarlos            
+        $gastos = Gasto::with('proveedor')->get();
         return view('admin.gastos.index', compact('gastos'));
     }
 
@@ -26,6 +38,17 @@ class GastoController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.gastos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Cargar los proveedores y estados para el formulario de creación
         $proveedores = Proveedor::all();
         $estados = Estado::all(); // Obtiene todos los estados
         return view('admin.gastos.create', compact('proveedores', 'estados')); // <--- AÑADE 'estados' aquí
@@ -36,6 +59,17 @@ class GastoController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.gastos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Cargar el proveedor relacionado con el gasto
         try {
             $request->validate([
                 'proveedor_id' => 'required|exists:proveedores,id',
@@ -76,6 +110,17 @@ class GastoController extends Controller
      */
     public function show(Gasto $gasto)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Cargar el proveedor relacionado con el gasto
         return view('admin.gastos.show', compact('gasto'));
     }
     /**
@@ -83,6 +128,17 @@ class GastoController extends Controller
      */
     public function edit(Gasto $gasto)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.gastos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Cargar el proveedor relacionado con el gasto
         $proveedores = Proveedor::all();
         $estados = Estado::all(); // Obtiene todos los estados
         return view('admin.gastos.edit', compact('gasto', 'proveedores', 'estados'));
@@ -93,6 +149,17 @@ class GastoController extends Controller
      */
     public function update(Request $request, Gasto $gasto)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.gastos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Cargar el proveedor relacionado con el gasto
         try {
             $request->validate([
                 'proveedor_id' => 'required|exists:proveedores,id',
@@ -134,6 +201,17 @@ class GastoController extends Controller
      */
     public function destroy(Gasto $gasto)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.gastos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Elimina el gasto de la base de datos
         try {
             $gasto->delete();
 
@@ -161,6 +239,17 @@ class GastoController extends Controller
      */
     public function restore($id)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole(['admin'])) {
+            return redirect()->route('admin.gastos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Restaura el gasto eliminado
         try {
             $gasto = Gasto::withTrashed()->findOrFail($id);
             $gasto->restore();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Estado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EstadoController extends Controller
 {
@@ -13,6 +14,17 @@ class EstadoController extends Controller
      */
     public function index()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener todos los estados ordenados por ID
         $estados = Estado::all()->sortBy('id');
         return view('admin.estados.index', compact('estados'));
     }
@@ -22,6 +34,17 @@ class EstadoController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.estados.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Mostrar el formulario de creación de estado
         return view('admin.estados.create');
     }
 
@@ -30,6 +53,18 @@ class EstadoController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.estados.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+
+        // Validar los datos del formulario
         try {
             $request->validate([
                 'nombre' => 'required|string|max:255|unique:estados,nombre',
@@ -62,6 +97,17 @@ class EstadoController extends Controller
      */
     public function edit(Estado $estado)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.estados.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        
         return view('admin.estados.edit', compact('estado'));
     }
 
@@ -70,6 +116,17 @@ class EstadoController extends Controller
      */
     public function update(Request $request, Estado $estado)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.estados.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos del formulario
         try {
             $request->validate([
                 'nombre' => 'required|string|max:255|unique:estados,nombre,' . $estado->id,
@@ -102,6 +159,17 @@ class EstadoController extends Controller
      */
     public function destroy(Estado $estado)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.estados.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        
         try {
             $estado->delete();
 
@@ -128,6 +196,17 @@ class EstadoController extends Controller
      */
     public function restore($id)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.estados.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+
         try {
             $estado = Estado::withTrashed()->findOrFail($id);
             $estado->restore();

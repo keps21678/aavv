@@ -442,5 +442,6 @@
     "Login to your account": "Inicia sesión en tu cuenta",
     "Your session has expired or you are not authenticated. Please log in again.": "Tu sesión ha expirado o no estás autenticado. Por favor, inicia sesión de nuevo.",
     "You are not authenticated. Please log in to access this page.": "No estás autenticado. Por favor, inicia sesión para acceder a esta página.",
-    "You are not authorized to access this page.": "No estás autorizado para acceder a esta página."
+    "You are not authorized to access this page.": "No estás autorizado para acceder a esta página.",
+    "Access Denied": "Acceso Denegado"
 }

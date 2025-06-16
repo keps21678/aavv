@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Cuota;
 use App\Models\TSocio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class CuotaController extends Controller
 {
@@ -14,7 +16,16 @@ class CuotaController extends Controller
      */
     public function index()
     {
-        //
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         // Obtener todas las cuotas
         //$cuotas = Cuota::orderBy('created_at', 'desc')->paginate(10);
         $cuotas = Cuota::with('tsocio')
@@ -37,6 +48,16 @@ class CuotaController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.cuotas.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
         //
         $tsocios = TSocio::orderBy('id', 'desc')->get();
         // Crear una nueva cuota
@@ -50,6 +71,16 @@ class CuotaController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.cuotas.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
         try {
             // Validar los datos de la solicitud
             $request->validate([
@@ -112,6 +143,16 @@ class CuotaController extends Controller
      */
     public function show(Cuota $cuota)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         //
     }
 
@@ -120,6 +161,16 @@ class CuotaController extends Controller
      */
     public function edit(Cuota $cuota)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.categorias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         // 
         // Obtener los tipos de socio
         $tsocios = TSocio::orderBy('id', 'desc')->get();
@@ -132,6 +183,16 @@ class CuotaController extends Controller
      */
     public function update(Request $request, Cuota $cuota)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.categorias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         try {
             // Validar los datos de la solicitud con mensajes personalizados
             $request->validate([
@@ -192,6 +253,17 @@ class CuotaController extends Controller
      */
     public function destroy(Cuota $cuota)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.cuotas.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Intentar eliminar la cuota
         try {
             // Verificar si la cuota está asociada a algún socio
             if ($cuota->socios()->exists()) {

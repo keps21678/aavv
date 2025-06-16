@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Livewire\WithPagination;
 
@@ -23,6 +24,16 @@ class ProveedorController extends Controller
      */
     public function index()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         // Obtener los proveedores segun la busqueda, necesario pasara a la vista
         // de LiveWire
         $proveedores = Proveedor::where('nombre', 'LIKE', '%' . $this->search . '%')
@@ -39,11 +50,7 @@ class ProveedorController extends Controller
                 'icon' => 'info',
             ]);
         }
-        // $users = User::orderBy('id', 'desc')->get();
-        // Obtener todos los usuarios con sus roles
-        // $users = User::with('roles')->orderBy('id', 'asc')->get();
-
-        // Pasar los usuarios a la vista
+        // Pasar los proveedores a la vista
         return view('admin.proveedores.index', compact('proveedores'));
     }
 
@@ -52,6 +59,17 @@ class ProveedorController extends Controller
      */
     public function create()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.proveedores.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Mostrar el formulario para crear un nuevo proveedor
         return view('admin.proveedores.create');
     }
 
@@ -60,6 +78,17 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.proveedores.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Validar los datos del proveedor
         try {
             $this->validateProveedor($request);
 
@@ -92,6 +121,16 @@ class ProveedorController extends Controller
      */
     public function show(Proveedor $proveedor)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('dashboard')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
         //        
         return view('admin.proveedores.show', compact('proveedor'));
     }
@@ -100,6 +139,17 @@ class ProveedorController extends Controller
      */
     public function edit(Proveedor $proveedor)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.proveedores.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Mostrar el formulario para editar un proveedor existente
         return view('admin.proveedores.edit', compact('proveedor'));
     }
 
@@ -108,6 +158,17 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, Proveedor $proveedor)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.proveedores.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Validar los datos del proveedor
         try {
             $this->validateProveedor($request);
 
@@ -141,6 +202,17 @@ class ProveedorController extends Controller
      */
     public function destroy(Proveedor $proveedor)
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.proveedores.index')
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
+        }
+        // Verificar si el proveedor tiene gastos asociados
         try {
             // Comprobar si el proveedor tiene gastos asociados
             if ($proveedor->gastos()->exists()) {
