@@ -5,9 +5,11 @@
             <flux:breadcrumbs.item>{{ __('Member Types') }}
             </flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasanyrole('admin|editor')
         <flux:button href="{{ route('admin.tsocios.create') }}" class="btn btn-green">
             {{ __('New Member Type') }}
         </flux:button>
+        @endhasanyrole
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -15,24 +17,14 @@
         <table id="tabla" class="display w-full text-left rtl:text-right text-gray-500 dark:text-gray-400" id="tabla">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('ID') }}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Name') }}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Description') }}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Created At') }}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Updated At') }}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Actions') }}
-                    </th>
+                    <th scope="col" class="px-6 py-3">{{ __('ID') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Name') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Description') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Created At') }}</th>
+                    <th scope="col" class="px-6 py-3">{{ __('Updated At') }}</th>
+                    @hasanyrole('admin|editor')
+                    <th scope="col" class="px-6 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -53,12 +45,13 @@
                     <td class="px-6 py-4">
                         {{ $tsocio->updated_at }}
                     </td>
+                    @hasanyrole('admin|editor')
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
-                            @hasanyrole('admin|editor')
+                            
                             <flux:button variant="primary" href="{{ route('admin.tsocios.edit', $tsocio) }}"
                                 class="btn btn-blue">{{ __('Edit') }}</flux:button>
-                            @endhasanyrole
+                            
                             @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.tsocios.destroy', $tsocio) }}"
                                 method="POST">
@@ -70,6 +63,7 @@
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

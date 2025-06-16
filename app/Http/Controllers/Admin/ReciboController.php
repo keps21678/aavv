@@ -29,7 +29,7 @@ class ReciboController extends Controller
                 'text' => __('You are not authorized to access this page.'),
                 'icon' => 'error',
             ]);
-        }
+        }                
         // Cargar las relaciones necesarias para el recibo
         return view('admin.recibos.show', compact('recibo'));
     }
@@ -61,7 +61,7 @@ class ReciboController extends Controller
     {
         // Verificar si el usuario tiene el rol de admin
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
-        if (!Auth::user()->hasRole(['admin'])) {
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.recibos.index')
             ->with('swal', [
                 'title' => __('Access Denied'),
@@ -84,7 +84,7 @@ class ReciboController extends Controller
     {
         // Verificar si el usuario tiene el rol de admin
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
-        if (!Auth::user()->hasRole(['admin'])) {
+        if (!Auth::user()->hhasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.recibos.index')
             ->with('swal', [
                 'title' => __('Access Denied'),
@@ -292,6 +292,17 @@ class ReciboController extends Controller
      */
     public function generarRemesa()
     {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
+            return redirect()->route('admin.recibos.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Intentar generar la remesa de recibos
         try {
             // Obtener el año en curso
             $currentYear = now()->year;

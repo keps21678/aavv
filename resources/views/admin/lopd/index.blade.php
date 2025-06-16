@@ -4,9 +4,11 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Documentos LOPD') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasanyrole('admin|editor')
         <flux:button href="{{ route('admin.lopd.create') }}" class="btn btn-green">
             {{ __('New Document') }}
         </flux:button>
+        @endhasanyrole
     </div>
     <div class="relative overflow-x-auto px-2">
         <hr class="solid">
@@ -21,7 +23,9 @@
                     <th class="px-2 py-3">{{ __('File') }}</th>
                     <th class="px-2 py-3">{{ __('Status') }}</th>
                     <th class="px-2 py-3">{{ __('Observations') }}</th>
+                    @hasanyrole('admin|editor|viewer')
                     <th class="px-2 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +50,7 @@
                         </span>
                     </td>
                     <td class="px-2 py-4">{{ $lopd->observaciones }}</td>
+                    @hasanyrole('admin|editor|viewer')
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.lopd.show', $lopd) }}"
@@ -65,6 +70,7 @@
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

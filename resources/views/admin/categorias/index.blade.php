@@ -4,9 +4,11 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Categorías') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasrole('admin')
         <flux:button href="{{ route('admin.categorias.create') }}" class="btn btn-green">
             {{ __('New Category') }}
-        </flux:button>        
+        </flux:button>  
+        @endhasrole      
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -20,7 +22,9 @@
                     <th class="px-6 py-3">{{ __('Color') }}</th>
                     <th class="px-6 py-3">{{ __('Created At') }}</th>
                     <th class="px-6 py-3">{{ __('Updated At') }}</th>
+                    @hasanyrole('admin|editor')
                     <th class="px-6 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -44,10 +48,12 @@
                     <td class="px-6 py-4">
                         {{ $categoria->updated_at }}
                     </td>
+                    @hasanyrole('admin|editor')
                     <td class="px-6 py-4">
-                        <div class="flex justify-end space-x-2">
+                        <div class="flex justify-end space-x-2">                            
                             <flux:button variant="primary" href="{{ route('admin.categorias.edit', $categoria) }}"
-                                class="btn btn-blue">Editar</flux:button>
+                                class="btn btn-blue">Editar</flux:button>                           
+                            @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.categorias.destroy', $categoria) }}"
                                 method="POST">
                                 @csrf
@@ -55,8 +61,10 @@
                                 <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
                                 </flux:button>
                             </form>
+                            @endhasrole
                         </div>
                     </td>
+                     @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

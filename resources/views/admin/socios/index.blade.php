@@ -4,9 +4,11 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Socios/as') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasanyrole('admin|editor')
         <flux:button href="{{ route('admin.socios.create') }}" class="btn btn-green">
             {{ __('New Member') }}
         </flux:button>
+        @endhasanyrole
     </div>
     <div class="relative overflow-x-auto px-2">
         <hr class="solid">
@@ -21,7 +23,9 @@
                     <th scope="col" class="px-2 py-3">{{ __('Mobile') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Contact Person') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Incidents') }}</th>
+                    @hasanyrole('admin|editor|viewer')
                     <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -40,20 +44,31 @@
                         @if ($socio->incidencias_count > 0)
                         <flux:button variant="outline"
                             href="{{ route('admin.incidencias.index', ['socio_id' => $socio->id]) }}"
-                            class="btn btn-green-dark text-white font-bold py-1 px-3 rounded">
+                            class="btn btn-yellow text-white font-bold py-1 px-3 rounded">
                             {{ $socio->incidencias_count }}&nbsp;&nbsp;Incidencia/s
                         </flux:button>
                         @else
-                        <flux:button variant="filled"
-                            href="{{ route('admin.incidencias.create', ['socio_id' => $socio->id]) }}"
-                            class="btn btn-yellow text-white font-bold py-1 px-3 rounded">
-                            Abrir Incidencia
-                        </flux:button>
+                            @if (auth()->user()->hasRole('admin|editor'))
+                                <flux:button variant="filled"
+                                    href="{{ route('admin.incidencias.create', ['socio_id' => $socio->id]) }}"
+                                    class="btn btn-green-dark text-white font-bold py-1 px-3 rounded">
+                                    {{__('Open an Incident') }}
+                                </flux:button>                        
+                            @else
+                                <flux:button variant="outline"
+                                    href="{{ route('admin.incidencias.index', ['socio_id' => $socio->id]) }}"
+                                    class="btn btn-green-dark text-white font-bold py-1 px-3 rounded">
+                                    {{ $socio->incidencias_count }}&nbsp;&nbsp;Incidencia/s
+                                </flux:button>
+                            @endif
+
                         @endif
                     </td>
+                    @hasanyrole('admin|editor|viewer')
                     <td class="px-2 py-4">
                         <x-layouts.socio.actions :socio="$socio" />
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

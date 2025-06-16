@@ -141,7 +141,7 @@
                     <flux:button variant="filled"
                         href="{{ route('admin.incidencias.create', ['socio_id' => $socio->id]) }}"
                         class="btn btn-yellow text-white font-bold py-1 px-3 rounded mr-2">
-                        Abrir Incidencia
+                        {{ __('Open Incident') }}
                     </flux:button>
                     @endif
                     <!-- Documentos LOPD -->

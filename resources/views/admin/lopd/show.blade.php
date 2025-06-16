@@ -25,7 +25,7 @@
                         disabled />
                         <flux:button href="{{ route('admin.socios.show', $lopd->socio_id) }}" 
                         icon:trailing="arrow-up-right" class="btn btn-green">                            
-                        Consultar socio
+                        {{ __('Member Details') }}
                     </flux:button>
                     </flux:input.group>
                     <flux:input label="Categoría" :value="$lopd->categoria->nombre ?? '-'" disabled />
@@ -43,17 +43,25 @@
                         {{ $lopd->nombre_archivo }}
                         <flux:button href="{{ route('lopd.view', basename($lopd->archivo)) }}" target="_blank"
                             rel="noopener" class="btn btn-blue ml-2">
-                            Ver archivo
+                            {{ __('View file') }}
                         </flux:button>
                         <flux:button href="{{ route('lopd.download', basename($lopd->archivo)) }}" target="_blank"
                             rel="noopener" class="btn btn-green">
-                            Descargar
+                            {{ __('Download') }}
                         </flux:button>
                         @else
                         <span>-</span>
                         @endif
                     </div>
                 </div>
+            </div>
+            <div class="flex justify-end space-x-2 mt-6">
+                @hasanyrole('admin|editor')
+                <flux:button href="{{ route('admin.lopd.edit', $lopd) }}" class="btn btn-blue">{{
+                    __('Edit') }}</flux:button>
+                @endhasanyrole
+                <flux:button href="{{ route('admin.lopd.index') }}" class="btn btn-green-dark">{{ __('Back') }}
+                </flux:button>
             </div>
         </div>
     </div>

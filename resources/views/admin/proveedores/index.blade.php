@@ -4,9 +4,11 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Providers') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasrole('admin')
         <flux:button href="{{ route('admin.proveedores.create') }}" class="btn btn-green">
             {{ __('New Provider') }}
         </flux:button>
+        @endhasrole
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -19,8 +21,10 @@
                     <th scope="col" class="px-2 py-3">{{ __('Phone') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Email') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Contact Person') }}</th>
-                    <th scope="col" class="px-2 py-3">{{ __('Associated Expenses') }}</th> <!-- Nueva columna -->
+                    <th scope="col" class="px-2 py-3">{{ __('Associated Expenses') }}</th>
+                    @hasanyrole('admin|editor|viewer')
                     <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +36,7 @@
                     <td class="px-2 py-4">{{ $proveedor->email }}</td>
                     <td class="px-2 py-4">{{ $proveedor->persona_contacto }}</td>
                     <td class="px-2 py-4 text-center">{{ $proveedor->gastos_count }}</td>
-                    <!-- Mostrar el número de gastos -->
+                    @hasanyrole('admin|editor|viewer')
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right"
@@ -54,6 +58,7 @@
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

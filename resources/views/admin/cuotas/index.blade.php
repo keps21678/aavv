@@ -5,9 +5,11 @@
             <flux:breadcrumbs.item>{{ __('Fees') }}
             </flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasanyrole('admin|editor')
         <flux:button href="{{ route('admin.cuotas.create') }}" class="btn btn-green">
             {{ __('New Fee') }}
         </flux:button>
+        @endhasanyrole
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -21,7 +23,9 @@
                     <th scope="col" class="px-6 py-3">{{ __('Amount (€)') }}</th>
                     <th scope="col" class="px-6 py-3">{{ __('Created At') }}</th>
                     <th scope="col" class="px-6 py-3">{{ __('Updated At') }}</th>
-                    <th scope="col" class="px-6 py-3">{{ __('Editar') }}</th>
+                    @hasanyrole('admin|editor')
+                    <th scope="col" class="px-6 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -42,17 +46,11 @@
                     <td class="px-6 py-4">
                         {{ $cuota->updated_at }}
                     </td>
+                    @hasanyrole('admin|editor')
                     <td class="px-6 py-4">
-                        <div class="flex justify-end space-x-2">
-                            {{-- <bootstrap:button variant="primary"
-                                href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary">Edit
-                            </bootstrap:button> --}}
-                            {{-- <a href="{{ route('admin.categories.edit', $category) }}"
-                                class="btn btn-blue justify-end">Editar</a> --}}
-                            @hasanyrole('admin|editor')
+                        <div class="flex justify-end space-x-2">                            
                             <flux:button variant="primary" href="{{ route('admin.cuotas.edit', $cuota) }}"
-                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
-                            @endhasanyrole
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>                           
                             @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.cuotas.destroy', $cuota) }}"
                                 method="POST">
@@ -63,6 +61,7 @@
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

@@ -5,7 +5,7 @@
             <flux:breadcrumbs.item :href="route('admin.gastos.index')">{{ __('Expenses') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Expense Details') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <flux:button href="{{ route('admin.gastos.index') }}" class="btn btn-green">
+        <flux:button href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">
             {{ __('Back to List') }}
         </flux:button>
     </div>
@@ -41,14 +41,28 @@
                     </span>
                     <flux:textarea wire:model="descripcion" label="Descripción" placeholder="Descripción de la gasto"
                         disabled>{{ old('descripcion', $gasto->descripcion) }}</flux:textarea>
-                    <flux:input wire:model="proveedor" label="Proveedor" placeholder="Proveedor asociado"
-                        :value="old('proveedor', $gasto->proveedor->nombre ?? 'N/A')" disabled />
+                            
+                    <flux:input.group label="Proveedor">
+                        <flux:input
+                            :value="($gasto->proveedor->nif ?? '') . ' - ' . ($gasto->proveedor->nombre ?? '')"
+                            disabled />
+                        <flux:button href="{{ route('admin.proveedores.show', $gasto->proveedor_id) }}"
+                            icon:trailing="arrow-up-right" class="btn btn-green">
+                            {{ __('Provider Details') }}
+                        </flux:button>
+                    </flux:input.group>
                 </div>
             </div>
 
             <div class="flex justify-end space-x-2 mt-6">
-                <a href="{{ route('admin.gastos.edit', $gasto) }}" class="btn btn-blue">Editar</a>
-                <a href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">Volver</a>
+                @hasanyrole('admin|editor')
+                <flux:button href="{{ route('admin.gastos.edit', $gasto) }}" class="btn btn-blue">
+                    {{ __('Edit') }}
+                </flux:button>
+                @endhasanyrole
+                <flux:button href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">
+                    {{ __('Back') }}
+                </flux:button>
             </div>
         </div>
     </div>

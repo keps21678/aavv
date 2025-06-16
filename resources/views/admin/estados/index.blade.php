@@ -4,9 +4,11 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Estados') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasrole('admin')
         <flux:button href="{{ route('admin.estados.create') }}" class="btn btn-green">
             {{ __('New State') }}
         </flux:button>
+        @endhasrole
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -20,7 +22,9 @@
                     <th scope="col" class="px-6 py-3">{{ __('Color') }}</th>
                     <th scope="col" class="px-6 py-3">{{ __('Created At') }}</th>
                     <th class="px-6 py-3">{{ __('Updated At') }}</th>
+                    @hasanyrole('admin|editor')
                     <th scope="col" class="px-6 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -44,14 +48,13 @@
                     <td class="px-6 py-4">
                         {{ $estado->updated_at->format('d/m/Y') }}
                     </td>
+                    @hasanyrole('admin|editor')
                     <td class="px-6 py-4">
-                        <div class="flex justify-end space-x-2">
-                            @hasanyrole('admin|editor')
+                        <div class="flex justify-end space-x-2">                            
                             <flux:button variant="primary" href="{{ route('admin.estados.edit', $estado) }}"
                                 class="btn btn-blue">
                                 Editar
-                            </flux:button>
-                            @endhasanyrole
+                            </flux:button>                            
                             @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.estados.destroy', $estado) }}" method="POST">
                                 @csrf
@@ -61,6 +64,7 @@
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

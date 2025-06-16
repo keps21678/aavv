@@ -4,9 +4,11 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Incomes') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasanyrole('admin|editor')
         <flux:button href="{{ route('admin.ingresos.create') }}" class="btn btn-green">
             {{ __('New Income') }}
         </flux:button>
+        @endhasanyrole
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -20,8 +22,10 @@
                     <th scope="col" class="px-2 py-3">{{ __('Issue Date') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Due Date') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Status') }}</th>
-                    <th scope="col" class="px-2 py-3">{{ __('Amount') }}</th>                    
+                    <th scope="col" class="px-2 py-3">{{ __('Amount') }}</th>
+                    @hasanyrole('admin|editor|viewer')                    
                     <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +41,8 @@
                             {{ $ingreso->estado->nombre }}
                         </span>
                     </td>
-                    <td class="px-2 py-4 whitespace-nowrap">{{ number_format($ingreso->importe, 2) }} €</td>                    
+                    <td class="px-2 py-4 whitespace-nowrap">{{ number_format($ingreso->importe, 2) }} €</td>
+                    @hasanyrole('admin|editor|viewer')
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.ingresos.show', $ingreso) }}"
@@ -58,6 +63,7 @@
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

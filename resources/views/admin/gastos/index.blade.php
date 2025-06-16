@@ -4,9 +4,11 @@
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Gastos') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
+        @hasanyrole('admin|editor')
         <flux:button href="{{ route('admin.gastos.create') }}" class="btn btn-green">
             {{ __('New Expense') }}
         </flux:button>
+        @endhasanyrole
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">
@@ -20,8 +22,10 @@
                     <th scope="col" class="px-2 py-3">{{ __('Issue Date') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Due Date') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('State') }}</th>
-                    <th scope="col" class="px-2 py-3">{{ __('Amount') }}</th>                    
+                    <th scope="col" class="px-2 py-3">{{ __('Amount') }}</th> 
+                    @hasanyrole('admin|editor|viewer')                   
                     <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -37,14 +41,15 @@
                             {{ $gasto->estado->nombre }}
                         </span>
                     </td>
-                    <td class="px-2 py-4 whitespace-nowrap">{{ number_format($gasto->importe, 2) }} €</td>                    
+                    <td class="px-2 py-4 whitespace-nowrap">{{ number_format($gasto->importe, 2) }} €</td>
+                    @hasanyrole('admin|editor|viewer')
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.gastos.show', $gasto) }}"
-                                class="btn btn-green mr-2">Consultar</flux:button>
+                                class="btn btn-green mr-2">{{ __('Consult') }}</flux:button>
                             @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.gastos.edit', $gasto) }}"
-                                class="btn btn-blue">Editar</flux:button>
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
                             @endhasanyrole
                             @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.gastos.destroy', $gasto) }}"
@@ -52,12 +57,13 @@
                                 @csrf
                                 @method('DELETE')
                                 <flux:button wire:click="delete" variant="danger" type="submit" class="btn btn-danger">
-                                    Eliminar
+                                    {{ __('Delete') }}
                                 </flux:button>
                             </form>
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

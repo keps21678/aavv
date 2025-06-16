@@ -5,8 +5,10 @@
             <flux:breadcrumbs.item>{{ __('Incidencias') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
+            @hasanyrole('admin|editor')
             <flux:button href="{{ route('admin.incidencias.create', ['socio_id' => request('socio_id')]) }}"
                 class="btn btn-green">{{ __('New Incident') }}</flux:button>
+            @endhasanyrole            
             <flux:button href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">{{ __('Member List') }}</flux:button>
         </div>
     </div>
@@ -24,7 +26,9 @@
                     <th scope="col" class="px-6 py-3">{{ __('Incident Date') }}</th>
                     <th scope="col" class="px-6 py-3">{{ __('State') }}</th>
                     <th scope="col" class="px-6 py-3">{{ __('Created At') }}</th>
+                    @hasanyrole('admin|editor|viewer')
                     <th scope="col" class="px-6 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -56,24 +60,28 @@
                     <td class="px-6 py-4">
                         {{ $incidencia->created_at->format('d/m/Y') }}
                     </td>
+                    @hasanyrole('admin|editor|viewer')
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
+                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.incidencias.show', $incidencia) }}"
+                                class="btn btn-green">{{ __('Consult') }}</flux:button>
                             @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.incidencias.edit', $incidencia) }}"
                                 class="btn btn-blue">
-                                Editar</flux:button>
+                                {{ __('Edit') }}</flux:button>
                             @endhasanyrole
                             @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.incidencias.destroy', $incidencia) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                                <flux:button variant="danger" type="submit" class="btn btn-danger">{{ __('Delete') }}
                                 </flux:button>
                             </form>
                             @endhasrole 
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

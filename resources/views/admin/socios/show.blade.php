@@ -101,107 +101,145 @@
             </div>
 
             <!-- Incidencias relacionadas -->
-            <div class="mt-8">
-                <strong>Incidencias/Observaciones relacionadas:</strong>
+            <div class="mt-8">                                
                 @if ($socio->incidencias->isEmpty())
                 <p class="mt-2">No hay incidencias relacionadas con este socio/a.</p>
                 @else
-                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th class="px-4 py-2" hidden>ID</th>
-                            <th class="px-4 py-2 w-1/4">Fecha</th>
-                            <th class="px-4 py-2">Descripción</th>
-                            <th class="px-4 py-2">Añadido/Modificado el</th>
-                            <th class="px-4 py-2">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($socio->incidencias as $incidencia)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                            <td class="px-4 py-2" hidden>{{ $incidencia->id }}</td>
-                            <td class="px-4 py-2 w-1/4">{{ $incidencia->fecha_incidencia ?
-                                $incidencia->fecha_incidencia->format('Y/m/d') : 'N/A' }}</td>
-                            <td class="px-4 py-2">{{ $incidencia->descripcion }}</td>
-                            <td class="px-4 py-2">{{ $incidencia->updated_at ? $incidencia->updated_at->format('Y/m/d')
-                                : 'N/A' }}</td>
-                            <td class="px-4 py-2">
-                                <div class="flex justify-end space-x-2">
-                                    <flux:button variant="primary"
-                                        href="{{ route('admin.incidencias.edit', $incidencia) }}" class="btn btn-blue">
-                                        Editar
-                                    </flux:button>
-                                    <form class="delete-form"
-                                        action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
+                <button type="button" class="mb-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded text-sm font-semibold" 
+                    onclick="document.getElementById('incidencias-table').classList.toggle('hidden')">
+                    {{ __('Mostrar/Ocultar incidencias') }}
+                </button>
+                <span class="ms-4 mt-2 inline-block">
+                    {{ $socio->incidencias->count() > 0 ? $socio->incidencias->count() . ' incidencia(s) relacionada(s).' : '' }}
+                </span>                
+                <div id="incidencias-table" class="hidden">
+                    <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th class="px-4 py-2" hidden>{{ __('ID') }}</th>
+                                <th class="px-4 py-2 w-1/4">{{ __('Date') }}</th>
+                                <th class="px-4 py-2">{{ __('Description') }}</th>
+                                <th class="px-4 py-2">{{ __('Added/Modified on') }}</th>
+                                @hasanyrole('admin|editor|viewer')
+                                <th class="px-4 py-2">{{ __('Actions') }}</th>
+                                @endhasanyrole
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($socio->incidencias as $incidencia)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                <td class="px-4 py-2" hidden>{{ $incidencia->id }}</td>
+                                <td class="px-4 py-2 w-1/4">{{ $incidencia->fecha_incidencia ?
+                                    $incidencia->fecha_incidencia->format('Y/m/d') : 'N/A' }}</td>
+                                <td class="px-4 py-2">{{ $incidencia->descripcion }}</td>
+                                <td class="px-4 py-2">{{ $incidencia->updated_at ? $incidencia->updated_at->format('Y/m/d')
+                                    : 'N/A' }}</td>
+                                @hasanyrole('admin|editor|viewer')
+                                <td class="px-4 py-2">
+                                    <div class="flex justify-end space-x-2">
+                                        <flux:button icon:trailing="arrow-up-right"
+                                            href="{{ route('admin.incidencias.show', $incidencia) }}"
+                                            class="btn btn-green">Consultar</flux:button>
+                                            @hasanyrole('admin|editor')
+                                        <flux:button variant="primary"
+                                            href="{{ route('admin.incidencias.edit', $incidencia) }}" class="btn btn-blue">
+                                            {{ __('Edit') }}
                                         </flux:button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                        @endhasanyrole
+                                        @hasrole('admin')
+                                        <form class="delete-form"
+                                            action="{{ route('admin.incidencias.destroy', $incidencia) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <flux:button variant="danger" type="submit" class="btn btn-danger">{{ __('Delete') }}
+                                            </flux:button>
+                                        </form>
+                                        @endhasrole
+                                    </div>                                
+                                </td>
+                                @endhasanyrole
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 @endif
             </div>
 
             <!-- Documentos LOPD asociados -->
-            <div class="mt-8">
-                <strong>Documentos LOPD asociados:</strong>
+            <div class="mt-8">                
                 @if ($socio->lopds && $socio->lopds->isNotEmpty())
-                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th class="px-4 py-2">Categoría</th>
-                            <th class="px-4 py-2">Descripción</th>
-                            <th class="px-4 py-2">Fecha Firma</th>
-                            <th class="px-4 py-2">Archivo</th>
-                            <th class="px-4 py-2">Estado</th>
-                            <th class="px-4 py-2">Observaciones</th>
-                            <th class="px-4 py-2">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($socio->lopds as $lopd)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                            <td class="px-4 py-2">{{ $lopd->categoria->nombre ?? '-' }}</td>
-                            <td class="px-4 py-2">{{ $lopd->descripcion }}</td>
-                            <td class="px-4 py-2">{{ $lopd->fecha_firma ? $lopd->fecha_firma->format('d/m/Y') : '-' }}
-                            </td>
-                            <td class="px-4 py-2">{{ $lopd->nombre_archivo ?? '-' }}</td>
-                            <td class="px-4 py-2">{{ $lopd->estado->nombre ?? '-' }}</td>
-                            <td class="px-4 py-2">{{ $lopd->observaciones }}</td>
-                            <td class="px-4 py-2">
-                                <div class="flex justify-end space-x-2">
-                                    <flux:button icon:trailing="arrow-up-right"
-                                        href="{{ route('admin.lopd.show', $lopd) }}" class="btn btn-green">Consultar
-                                    </flux:button>
-                                    <flux:button variant="primary" href="{{ route('admin.lopd.edit', $lopd) }}"
-                                        class="btn btn-blue">Editar</flux:button>
-                                    <form class="delete-form" action="{{ route('admin.lopd.destroy', $lopd) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <flux:button variant="danger" type="submit" class="btn btn-danger">
-                                            Eliminar
+                <button type="button" class="mb-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded text-sm font-semibold"
+                    onclick="document.getElementById('lopd-table').classList.toggle('hidden')">
+                    {{ __('Mostrar/Ocultar documentos LOPD') }}
+                </button>
+                <span class="ms-4 mt-2 inline-block">
+                    {{ $socio->lopds->count() > 0 ? $socio->lopds->count() . ' documento(s) LOPD asociado(s).' : '' }}
+                </span>
+                <div id="lopd-table" class="hidden">
+                    <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th class="px-4 py-2">Categoría</th>
+                                <th class="px-4 py-2">Descripción</th>
+                                <th class="px-4 py-2">Fecha Firma</th>
+                                <th class="px-4 py-2">Archivo</th>
+                                <th class="px-4 py-2">Estado</th>
+                                <th class="px-4 py-2">Observaciones</th>
+                                @hasanyrole('admin|editor|viewer')
+                                <th class="px-4 py-2">Acciones</th>
+                                @endhasanyrole
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($socio->lopds as $lopd)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                <td class="px-4 py-2">{{ $lopd->categoria->nombre ?? '-' }}</td>
+                                <td class="px-4 py-2">{{ $lopd->descripcion }}</td>
+                                <td class="px-4 py-2">{{ $lopd->fecha_firma ? $lopd->fecha_firma->format('d/m/Y') : '-' }}</td>
+                                <td class="px-4 py-2">{{ $lopd->nombre_archivo ?? '-' }}</td>
+                                <td class="px-4 py-2">{{ $lopd->estado->nombre ?? '-' }}</td>
+                                <td class="px-4 py-2">{{ $lopd->observaciones }}</td>
+                                @hasanyrole('admin|editor|viewer')
+                                <td class="px-4 py-2">
+                                    <div class="flex justify-end space-x-2">
+                                        <flux:button icon:trailing="arrow-up-right"
+                                            href="{{ route('admin.lopd.show', $lopd) }}" class="btn btn-green">Consultar
                                         </flux:button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                        @hasanyrole('admin|editor')
+                                        <flux:button variant="primary" href="{{ route('admin.lopd.edit', $lopd) }}"
+                                            class="btn btn-blue">Editar</flux:button>
+                                        @endhasanyrole
+                                        @hasrole('admin')
+                                        <form class="delete-form" action="{{ route('admin.lopd.destroy', $lopd) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <flux:button variant="danger" type="submit" class="btn btn-danger">
+                                                Eliminar
+                                            </flux:button>
+                                        </form>
+                                        @endhasrole
+                                    </div>
+                                </td>
+                                @endhasanyrole
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 @else
                 <p class="mt-2">No hay documentos LOPD enlazados a este socio/a.</p>
                 @endif
             </div>
 
             <div class="flex justify-end space-x-2 mt-6">
-                <a href="{{ route('admin.socios.edit', $socio) }}" class="btn btn-blue">Editar</a>
-                <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">Volver</a>
+                @hasanyrole('admin|editor')
+                <flux:button href="{{ route('admin.socios.edit', $socio) }}" class="btn btn-blue">
+                    {{ __('Edit') }}
+                </flux:button>                
+                @endhasanyrole
+                <a href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">{{ __('Back') }}</a>
             </div>
         </div>
     </div>

@@ -5,12 +5,14 @@
             <flux:breadcrumbs.item>{{ __('Receipts') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
+            @hasanyrole('admin|editor')
             <flux:button href="{{ route('admin.recibos.create') }}" class="btn btn-green">
                 {{ __('New Receipt') }}
-            </flux:button>
+            </flux:button>            
             <flux:button id="generar-remesa" class="btn btn-blue-dark mr-2">
                 {{ __('Generate Remittance') }}
             </flux:button>
+            @endhasanyrole
         </div>                
     </div>
     <br />
@@ -26,7 +28,9 @@
                     <th scope="col" class="px-2 py-3">{{ __('Issue Date') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Status') }}</th>
                     <th scope="col" class="px-2 py-3">{{ __('Due Date') }}</th>
+                    @hasanyrole('admin|editor|viewer')
                     <th scope="col" class="px-2 py-3">{{ __('Actions') }}</th>
+                    @endhasanyrole
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +50,7 @@
                     </td>
                     <td class="px-2 py-4">{{ $recibo->fecha_vencimiento ? $recibo->fecha_vencimiento->format('Y-m-d') :
                         'N/A' }}</td>
+                    @hasanyrole('admin|editor|viewer')
                     <td class="px-2 py-4">
                         <div class="flex justify-end space-x-2">
                             <flux:button icon:trailing="arrow-up-right"
@@ -67,6 +72,7 @@
                             @endhasrole
                         </div>
                     </td>
+                    @endhasanyrole
                 </tr>
                 @endforeach
             </tbody>

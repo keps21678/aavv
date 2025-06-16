@@ -48,6 +48,28 @@ class IncidenciaController extends Controller
 
         return view('admin.incidencias.index', compact('incidencias'));
     }
+    /**
+     * Display the specified resource.
+     */
+    public function show(Incidencia $incidencia)
+    {
+        // Verificar si el usuario tiene el rol de admin
+        // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
+        if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
+            return redirect()->route('admin.incidencias.index')
+            ->with('swal', [
+                'title' => __('Access Denied'),
+                'text' => __('You are not authorized to access this page.'),
+                'icon' => 'error',
+            ]);
+        }
+        // Obtener el socio, tipo de incidencia y estado relacionados con la incidencia
+        $socio = $incidencia->socio; // Obtener el socio relacionado
+        $tincidencia = $incidencia->tincidencia; // Obtener el tipo de incidencia relacionado
+        $estado = $incidencia->estado; // Obtener el estado relacionado
+
+        return view('admin.incidencias.show', compact('incidencia', 'socio', 'tincidencia', 'estado'));
+    }   
 
     /**
      * Show the form for creating a new resource.
@@ -56,7 +78,7 @@ class IncidenciaController extends Controller
     {
         // Verificar si el usuario tiene el rol de admin
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
-        if (!Auth::user()->hasRole(['admin'])) {
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.incidencias.index')
             ->with('swal', [
                 'title' => __('Access Denied'),
@@ -80,7 +102,7 @@ class IncidenciaController extends Controller
     {
         // Verificar si el usuario tiene el rol de admin
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
-        if (!Auth::user()->hasRole(['admin'])) {
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.incidencias.index')
             ->with('swal', [
                 'title' => __('Access Denied'),

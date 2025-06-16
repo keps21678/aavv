@@ -103,7 +103,9 @@
                             <th class="px-4 py-2">Descripción</th>
                             <th class="px-4 py-2">Estado</th>
                             <th class="px-4 py-2">Importe</th>
+                            @hasanyrole('admin|editor|viewer')
                             <th class="px-4 py-2">Acciones</th>
+                            @endhasanyrole
                         </tr>
                     </thead>
                     <tbody>
@@ -120,14 +122,18 @@
                                 </span>
                             </td>
                             <td class="px-2 py-4 whitespace-nowrap">{{ number_format($gasto->importe, 2) }} €</td>
+                            @hasanyrole('admin|editor|viewer')
                             <td class="px-4 py-2">
                                 <div class="flex justify-end space-x-2">
                                     <flux:button icon:trailing="arrow-up-right"
                                         href="{{ route('admin.gastos.show', $gasto) }}" class="btn btn-green mr-2">
                                         Consultar</flux:button>
+                                        @hasanyrole('admin|editor')
                                     <flux:button variant="primary" href="{{ route('admin.gastos.edit', $gasto) }}"
                                         class="btn btn-blue">
                                         Editar</flux:button>
+                                    @endhasanyrole
+                                    @hasrole('admin')
                                     <form class="delete-form" action="{{ route('admin.gastos.destroy', $gasto) }}"
                                         method="POST">
                                         @csrf
@@ -137,8 +143,10 @@
                                             Eliminar
                                         </flux:button>
                                     </form>
+                                    @endhasrole
                                 </div>
                             </td>
+                            @endhasanyrole
                         </tr>
                         @endforeach
                     </tbody>
@@ -147,8 +155,14 @@
             </div>
 
             <div class="flex justify-end space-x-2 mt-6">
-                <a href="{{ route('admin.proveedores.edit', $proveedor) }}" class="btn btn-blue">Editar</a>
-                <a href="{{ route('admin.proveedores.index') }}" class="btn btn-green-dark">Volver</a>
+                @hasanyrole('admin|editor')
+                <flux:button href="{{ route('admin.proveedores.edit', $proveedor) }}" class="btn btn-blue">
+                    {{ __('Edit') }}
+                </flux:button>
+                @endhasanyrole
+                <flux:button href="{{ route('admin.proveedores.index') }}" class="btn btn-green-dark">
+                    {{ __('Back') }}
+                </flux:button>
             </div>
         </div>
     </div>

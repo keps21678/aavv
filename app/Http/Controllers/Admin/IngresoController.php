@@ -44,7 +44,7 @@ class IngresoController extends Controller
     {
         // Verificar si el usuario tiene el rol de admin
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
-        if (!Auth::user()->hasRole('admin')) {
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.ingresos.index')
                 ->with('swal', [
                     'title' => __('Access Denied'),
@@ -65,7 +65,7 @@ class IngresoController extends Controller
     {
         // Verificar si el usuario tiene el rol de admin
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
-        if (!Auth::user()->hasRole('admin')) {
+        if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.ingresos.index')
                 ->with('swal', [
                     'title' => __('Access Denied'),
