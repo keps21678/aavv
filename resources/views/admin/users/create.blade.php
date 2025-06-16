@@ -2,45 +2,51 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.users.index')">{{ __('Usuarios/as') }}
+            <flux:breadcrumbs.item :href="route('admin.users.index')">{{ __('Users') }}
             </flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Crear una cuenta de usuario/a') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Create an account') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
         <div>
-            <flux:button href="{{ route('register') }}" class="btn btn-green">Nuevo/a
-                Usuario/a</flux:button>
             <flux:button href="{{ route('admin.users.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de
-                usuarios</flux:button>
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Users List') }}
+            </flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg p-2 mt-4">
         <div class="flex flex-col gap-6">
-            <x-auth-header :title="__('Crear una cuenta de usuario/a ')" :description="__('Introduce a continuación, los detalles  para crear la cuenta')" />
+            <x-auth-header :title="__('Create an account')"
+                :description="__('Enter the details below to create the account')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.users.store') }}" method="POST">
                 @csrf
                 <div class='mb-4'>
-                    <flux:input wire:model="name" label="Nombre y Apellidos" placeholder="Esciba el Nombre y Apellidos"
-                        :value="old('name')" required />
-                </div>
-                <div c>
-                    <flux:input wire:model="email" label="Email" placeholder="Escriba el email del usuario"
-                        :value="old('description')" required />
+                    <flux:input wire:model="name" label="{{ __('Full Name') }}"
+                        placeholder="{{ __('Enter Full name') }}" required />
                 </div>
                 <div class='mb-4'>
-                    <flux:input wire:model="password" label="Contraseña" type="password" required
-                        placeholder="Escriba la contraseña" />
+                    <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email"
+                        placeholder="email@example.com" />
                 </div>
                 <div class='mb-4'>
-                    <flux:input wire:model="password_confirmation" label="Confirmar Contraseña" type="password" required
-                        placeholder="Confirme la contraseña" />
+                    <!-- Password -->
+                    <flux:input wire:model="password" :label="__('Password')" type="password" required
+                        autocomplete="new-password" :placeholder="__('Password')" />
                 </div>
-                <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Create</flux:button>
+                <div class='mb-4'>
+                    <!-- Confirm Password -->
+                    <flux:input wire:model="password_confirmation" :label="__('Confirm password')" type="password"
+                        required autocomplete="new-password" :placeholder="__('Confirm password')" />
+                </div>
+                <div class='mb-4 gap-6'>
+                    @foreach ($roles as $role)
+                    <input type="checkbox" class="ms-4" name="roles[]" value="{{ $role->id }}" {{ in_array($role->name, $userRoles) ?
+                    'checked' : '' }}>
+                    {{ $role->name }}
+                    @endforeach
+                </div>
+                <div class="flex justify-end mt-4">
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

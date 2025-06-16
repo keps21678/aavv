@@ -2,18 +2,18 @@
     <div class="flex items-center justify-between mb-6">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.contabilidad.index')">{{ __('Contabilidad') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Resumen Contable') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.contabilidad.index')">{{ __('Accounting') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Accounting Summary') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <flux:button href="{{ route('admin.contabilidad.index') }}" class="btn btn-green">
+        {{-- <flux:button href="{{ route('admin.contabilidad.index') }}" class="btn btn-green">
             {{ __('Back to List') }}
-        </flux:button>        
+        </flux:button>         --}}
     </div>
 
     <div class="rounded overflow-hidden shadow-lg text-lg">
         <div class="flex flex-col gap-6 px-4 mb-6">
-            <x-auth-header :title="__('Resumen Contable del Año en Curso')"
-                :description="__('Suma de importes y número de gastos, recibos e ingresos del año en curso')" />
+            <x-auth-header :title="__('Accounting Summary for Current Year')"
+                :description="__('Sum of amounts and number of expenses, receipts, and incomes for the current year')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
 

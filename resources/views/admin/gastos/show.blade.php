@@ -5,7 +5,9 @@
             <flux:breadcrumbs.item :href="route('admin.gastos.index')">{{ __('Expenses') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Expense Details') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">Volver al Listado</a>
+        <flux:button href="{{ route('admin.gastos.index') }}" class="btn btn-green">
+            {{ __('Back to List') }}
+        </flux:button>
     </div>
 
     <div class="rounded overflow-hidden shadow-lg text-lg  bg-white dark:bg-gray-800 py-4">

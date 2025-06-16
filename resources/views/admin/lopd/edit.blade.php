@@ -6,15 +6,15 @@
             <flux:breadcrumbs.item>{{ __('Editar documento') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.lopd.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nuevo Documento</a>
-            <a href="{{ route('admin.lopd.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Documentos</a>
+            <flux:button href="{{ route('admin.lopd.create') }}"
+                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">{{ __('Nuevo Documento') }}</flux:button>
+            <flux:button href="{{ route('admin.lopd.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Listado de Documentos') }}</flux:button>
         </div>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Editar documento LOPD</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Editar documento LOPD') }}</h1>
             <form action="{{ route('admin.lopd.update', $lopd->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

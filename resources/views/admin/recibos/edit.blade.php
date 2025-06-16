@@ -6,10 +6,11 @@
             <flux:breadcrumbs.item>{{ __('Edit Receipt') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.recibos.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">{{ __('New Receipt') }}</a>
-            <a href="{{ route('admin.recibos.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Receipt List') }}</a>
+            <flux:button href="{{ route('admin.recibos.create') }}" class="btn btn-green">
+                {{ __('New Receipt') }}
+            </flux:button>
+            <flux:button href="{{ route('admin.recibos.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Receipt List') }}</flux:button>            
         </div>
     </div>
 
@@ -105,7 +106,7 @@
 
                 <!-- Botón de envío -->
                 <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar Cambios</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

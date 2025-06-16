@@ -6,18 +6,20 @@
             </flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Nuevo documento') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.documentacion.index') }}" class="btn btn-green-dark">Listado de Documentos</a>
+        <flux:button href="{{ route('admin.documentacion.index') }}" class="btn btn-green">
+            {{ __('Documentation List') }}
+        </flux:button>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Nuevo documento LOPD</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Nuevo documento LOPD') }}</h1>
             <form action="{{ route('admin.documentacion.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Categoría -->
                 <div class='mb-4'>
                     <flux:select label="Categoría" name="categoria_id" id="categoria_id" required>
-                        <option value="" disabled selected>Seleccione una categoría</option>
+                        <option value="" disabled selected>{{ __('Select a Category') }}</option>
                         @foreach ($categorias as $categoria)
                         <option value="{{ $categoria->id }}" {{ old('categoria_id')==$categoria->id ? 'selected' : ''
                             }}>
@@ -50,7 +52,7 @@
                 <!-- Estado -->
                 <div class='mb-4'>
                     <flux:select label="Estado" name="estado_id" id="estado_id" required>
-                        <option value="" disabled selected>Seleccione un estado</option>
+                        <option value="" disabled selected>{{ __('Select a state') }}</option>
                         @foreach ($estados as $estado)
                         <option value="{{ $estado->id }}" {{ old('estado_id')==$estado->id ? 'selected' : '' }}>
                             {{ $estado->nombre }}
@@ -66,7 +68,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Crear documento</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

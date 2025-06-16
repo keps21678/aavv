@@ -7,12 +7,12 @@
             <flux:breadcrumbs.item>{{ __('Editar categoría') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.categorias.index') }}"
-                class="bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-xs">
-                Listado de categorías</a>
-            <a href="{{ route('admin.categorias.create') }}"
-                class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
-                Nueva Categoría</a>
+            <flux:button href="{{ route('admin.categorias.create') }}" class="btn btn-green">
+                {{ __('New Category') }}
+            </flux:button>
+            <flux:button href="{{ route('admin.categorias.index') }}" class="btn btn-green">
+                {{ __('Category List') }}
+            </flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg">

@@ -5,12 +5,13 @@
             <flux:breadcrumbs.item :href="route('admin.incidencias.index')">{{ __('Incidencias') }}
             </flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Nueva Incidencia') }}</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-        <a href="{{ route('admin.incidencias.index') }}" class="btn btn-green-dark">Listado de Incidencias</a>
+        </flux:breadcrumbs>        
+        <flux:button href="{{ route('admin.incidencias.index') }}"
+            class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Incident List') }}</flux:button>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Nueva Incidencia</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('New Incident') }}</h1>
             <form action="{{ route('admin.incidencias.store') }}" method="POST">
                 @csrf
 

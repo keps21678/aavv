@@ -2,19 +2,18 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.ingresos.index')">{{ __('Ingresos') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Edición de Ingreso') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item :href="route('admin.ingresos.index')">{{ __('Incomes') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Edit Income') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.ingresos.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nuevo Ingreso</a>
-            <a href="{{ route('admin.ingresos.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Ingresos</a>
+            <flux:button href="{{ route('admin.ingresos.create') }}"
+                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">{{ __('New Income') }}</flux:button>
+            <flux:button href="{{ route('admin.ingresos.index') }}" class="btn btn-green">{{ __('Income List') }}</flux:button>
         </div>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Edición de Ingreso</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Edit Income') }}</h1>
             <form action="{{ route('admin.ingresos.update', $ingreso->id) }}" method="POST">
                 @csrf
                 @method('PUT')

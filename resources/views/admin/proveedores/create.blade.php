@@ -6,7 +6,8 @@
             <flux:breadcrumbs.item>{{ __('New Provider') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.proveedores.index') }}" class="btn btn-green-dark">{{ __('Provider List') }}</a>
+            <flux:button href="{{ route('admin.proveedores.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Provider List') }}</flux:button>
         </div>
     </div>
     <div class="rounded overflow-hidden shadow-lg">
@@ -56,7 +57,7 @@
                     </div>
                 </div>
         </div>
-        <div class="">
+        <div class="ms-4">
             <div x-data="{ showIBAN: {{ old('domiciliacion', $proveedor->domiciliacion ?? false) ? 'true' : 'false' }} }">
                 <div class="flex items-center">
                     <input type="checkbox" id="domiciliacion" name="domiciliacion" value="1"
@@ -79,7 +80,7 @@
         </div>
         <!-- Botón de envío -->
         <div class="flex justify-end mt-6">
-            <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar Proveedor</flux:button>
+            <flux:button type="submit" variant="primary" class="btn btn-blue mb-4 me-4">Guardar Proveedor</flux:button>
         </div>
         </form>
     </div>

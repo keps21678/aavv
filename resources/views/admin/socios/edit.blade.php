@@ -6,10 +6,12 @@
             <flux:breadcrumbs.item>{{ __('Editar Socio/a') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.socios.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nuevo/a Socio/a</a>
-            <a href="{{ route('admin.socios.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Socios</a>
+            <flux:button href="{{ route('admin.socios.create') }}"
+                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">{{ __('New Member') }}
+            </flux:button>
+            <flux:button href="{{ route('admin.socios.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Member List') }}
+            </flux:button>
         </div>
     </div>
 

@@ -3,13 +3,13 @@
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item :href="route('admin.lopd.index')">{{ __('Documentos LOPD') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Nuevo documento') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('New Document') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.lopd.index') }}" class="btn btn-green-dark">Listado de Documentos</a>
+        <flux:button href="{{ route('admin.lopd.index') }}" class="btn btn-green">{{ __('Documentation List') }}</flux:button>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Nuevo documento LOPD</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('New LOPD Document') }}</h1>
             <form action="{{ route('admin.lopd.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 

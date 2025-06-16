@@ -6,7 +6,11 @@
             </flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Provider Details') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.proveedores.index') }}" class="btn btn-green-dark">{{ __('Back to List') }}</a>
+        <div>
+        <flux:button href="{{ route('admin.proveedores.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Provider List') }}
+            </flux:button>
+        </div>
     </div>
     <div class="rounded overflow-hidden shadow-lg bg-white dark:bg-gray-800">
         <div class="px-6 py-4">

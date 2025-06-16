@@ -6,24 +6,24 @@
             <flux:breadcrumbs.item>{{ __('Edición de Gasto') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.gastos.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nuevo gasto</a>
-            <a href="{{ route('admin.gastos.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de gastos</a>
+            <flux:button href="{{ route('admin.gastos.create') }}"
+                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">{{ __('New Expense') }}</flux:button>
+            <flux:button href="{{ route('admin.gastos.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Expense List') }}</flux:button>
         </div>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Edición de gasto</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Edit Expense') }}</h1>
             <form action="{{ route('admin.gastos.update', $gasto->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <!-- Selección del proveedor -->
                 <div class='mb-4'>
-                    <flux:select wire:model="proveedor_id" label="Proveedor" name="proveedor_id" id="proveedor_id"
+                    <flux:select wire:model="proveedor_id" label="{{ __('Provider') }}" name="proveedor_id" id="proveedor_id"
                         required searchable>
-                        <option value="" disabled>Seleccione un proveedor</option>
+                        <option value="" disabled>{{ __('Select a provider') }}</option>
                         @foreach ($proveedores as $proveedor)
                         <option value="{{ $proveedor->id }}" {{ $gasto->proveedor_id == $proveedor->id ? 'selected' :
                             '' }}>
@@ -81,7 +81,7 @@
 
                 <!-- Botón de envío -->
                 <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar Cambios</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

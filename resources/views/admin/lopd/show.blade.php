@@ -5,7 +5,8 @@
             <flux:breadcrumbs.item :href="route('admin.lopd.index')">{{ __('Documentos LOPD') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Detalles del Documento') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.lopd.index') }}" class="btn btn-green-dark">Volver al Listado</a>
+        <flux:button href="{{ route('admin.lopd.index') }}"
+                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Listado de Documentos') }}</flux:button>
     </div>
 
     <div class="rounded overflow-hidden shadow-lg text-lg">

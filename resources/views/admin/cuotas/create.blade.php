@@ -2,16 +2,14 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.cuotas.index')">{{ __('Cuotas') }}
+            <flux:breadcrumbs.item :href="route('admin.cuotas.index')">{{ __('Fees') }}
             </flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Nueva Cuota') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('New Fee') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
         <div>
-            <a href="{{ route('admin.cuotas.index') }}"
-                class="btn btn-green-dark">
-                Listado de Cuotas</a>
+            <flux:button href="{{ route('admin.cuotas.index') }}" class="btn btn-green-dark">
+                {{ __('Fee List') }}
+            </flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg">
@@ -23,7 +21,7 @@
                 <div class='mb-4'>
                     <flux:select wire:model="tsocio_id" label="Tipo Cuota/Socio" name="tsocio_id" id="tsocio_id"
                         required>
-                        <option value="" disabled selected>Seleccionar el Tipo Cuota/Socio</option>
+                        <option value="" disabled selected>{{ __('Select Fee/Member Type') }}</option>
                         @foreach ($tsocios as $tsocio)
                             <option value="{{ $tsocio->id }}">{{ $tsocio->nombre }}</option>
                         @endforeach

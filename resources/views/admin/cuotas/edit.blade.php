@@ -2,31 +2,28 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item :href="route('admin.tincidencias.index')">{{ __('Cuotas') }}
+            <flux:breadcrumbs.item :href="route('admin.tincidencias.index')">{{ __('Fees') }}
             </flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Editar Cuota') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Fee Edit') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
         <div>
             <flux:button href="{{ route('admin.cuotas.create') }}" class="btn btn-green">
-                Nueva Cuota</flux:button>
+               {{{ __('New Fee') }}}</flux:button>
             <flux:button href="{{ route('admin.cuotas.index') }}" class="btn btn-green-dark">
-                Listado de Cuotas</flux:button>
+                {{{ __('Fee List') }}}</flux:button>
         </div>
     </div>
     <div class="max-w-sm rounded overflow-hidden shadow-lg">
         {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Edición de Cuota</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Fee Edit') }}</h1>
             <form action="{{ route('admin.cuotas.update', $cuota) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <div class='mb-4'>
                     <flux:select label="Tipo Cuota/Socio" name="tsocio_id" id="tsocio_id" required>
-                        <option value="" disabled {{ !$cuota->tsocio_id ? 'selected' : '' }}>Seleccionar el Tipo
-                            Cuota/Socio</option>
+                        <option value="" disabled {{ !$cuota->tsocio_id ? 'selected' : '' }}>{{ __('Select Fee/Member Type') }}</option>
                         @foreach ($tsocios as $tsocio)
                             <option value="{{ $tsocio->id }}"
                                 {{ $cuota->tsocio_id == $tsocio->id ? 'selected' : '' }}>
@@ -47,7 +44,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar cambios</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save Changes') }}</flux:button>
                 </div>
             </form>
         </div>

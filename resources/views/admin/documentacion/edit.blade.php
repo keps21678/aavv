@@ -7,15 +7,17 @@
             <flux:breadcrumbs.item>{{ __('Editar documento') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.documentacion.create') }}"
-                class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">Nuevo Documento</a>
-            <a href="{{ route('admin.documentacion.index') }}"
-                class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">Listado de Documentos</a>
+            <flux:button href="{{ route('admin.documentacion.create') }}" class="btn btn-green text-white font-bold py-2 px-4 rounded text-xs">
+                {{ __('New Document') }}
+            </flux:button>
+            <flux:button href="{{ route('admin.documentacion.index') }}" class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">
+                {{ __('Documentation List') }}
+            </flux:button>
         </div>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Editar documento</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Edit Document') }}</h1>
             <form action="{{ route('admin.documentacion.update', $documentacion->id) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
@@ -24,7 +26,7 @@
                 <!-- Categoría -->
                 <div class='mb-4'>
                     <flux:select label="Categoría" name="categoria_id" id="categoria_id" required>
-                        <option value="" disabled>Seleccione una categoría</option>
+                        <option value="" disabled>{{ __('Select a Category') }}</option>
                         @foreach ($categorias as $categoria)
                         <option value="{{ $categoria->id }}" {{ $documentacion->categoria_id == $categoria->id ?
                             'selected' : '' }}>
@@ -59,7 +61,7 @@
                     </a>
                     <a href="{{ route('documentacion.download', basename($documentacion->archivo)) }}"
                         class="text-green-700 underline" download>
-                        Descargar
+                        {{ __('Download') }}
                     </a>
                     @else
                     <span>-</span>

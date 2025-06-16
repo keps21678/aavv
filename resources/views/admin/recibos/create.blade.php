@@ -5,8 +5,10 @@
             <flux:breadcrumbs.item :href="route('admin.recibos.index')">{{ __('Receipts') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Create a new receipt') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <div>
-            <a href="{{ route('admin.recibos.index') }}" class="btn btn-green-dark">{{ __('Receipt List') }}</a>
+        <div>            
+            <flux:button href="{{ route('admin.recibos.index') }}" class="btn btn-green">
+                {{ __('Receipt List') }}
+            </flux:button>
         </div>
     </div>
     <div class="max-w-xl mx-auto rounded overflow-hidden shadow-lg">
@@ -78,7 +80,7 @@
 
                 <!-- Botón de envío -->
                 <div class="flex justify-end mt-6">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save Receipt') }}</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

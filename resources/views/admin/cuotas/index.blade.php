@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Cuotas') }}
+            <flux:breadcrumbs.item>{{ __('Fees') }}
             </flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <flux:button href="{{ route('admin.cuotas.create') }}" class="btn btn-green">
@@ -51,15 +51,14 @@
                                 class="btn btn-blue justify-end">Editar</a> --}}
                             @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.cuotas.edit', $cuota) }}"
-                                class="btn btn-blue">Editar</flux:button>
+                                class="btn btn-blue">{{ __('Edit') }}</flux:button>
                             @endhasanyrole
                             @hasrole('admin')
                             <form class="delete-form" action="{{ route('admin.cuotas.destroy', $cuota) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <flux:button variant="danger" type="submit" class="btn btn-danger">Eliminar
-                                </flux:button>
+                                <flux:button variant="danger" type="submit" class="btn btn-danger">{{ __('Delete') }}</flux:button>                                
                             </form>
                             @endhasrole
                         </div>

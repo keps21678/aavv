@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role as ModelsRole;
 use Livewire\WithPagination;
@@ -44,13 +47,13 @@ class UserController extends Controller
             ->orWhere('email', 'LIKE', '%' . $this->search . '%')
             ->orderBy('id', 'asc')
             ->with('roles')
-            ->paginate(5);
+            ->paginate(10);
 
         if ($users->isEmpty()) {
             session()->flash('swal', [
-            'title' => 'No se encontraron usuarios',
-            'text' => 'No se encontraron usuarios con los criterios de búsqueda proporcionados',
-            'icon' => 'info',
+                'title' => 'No se encontraron usuarios',
+                'text' => 'No se encontraron usuarios con los criterios de búsqueda proporcionados',
+                'icon' => 'info',
             ]);
         }
         // $users = User::orderBy('id', 'desc')->get();
@@ -66,8 +69,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
-        return view('admin.users.create');
+        $roles = \Spatie\Permission\Models\Role::all(); // O el modelo que uses para roles
+        $userRoles = []; // Para creación, normalmente vacío
+
+        return view('admin.users.create', compact('roles', 'userRoles'));
     }
 
     /**
@@ -75,14 +80,43 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Desde la pantalla de registro
-        // variable de sesión
-        session()->flash('swal', [
-            'title' => 'Usuario/a creado/a correctamente',
-            'text' => 'Usuario/a se ha creado correctamente',
-            'icon' => 'success',
-        ]);
-        return redirect()->route('admin.users.index');
+        try {
+            // Validación
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            ]);
+
+            $validated['password'] = Hash::make($validated['password']);
+
+            event(new Registered(($user = User::create($validated))));
+
+            $user->roles()->sync($request->roles);
+
+            $user->fill($validated);
+
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
+            }
+
+            $user->save();
+
+            session()->flash('swal', [
+                'title' => __('User account correctly created'),
+                'text' => __('The user account correctly created.'),
+                'icon' => 'success',
+            ]);
+            return redirect()->route('admin.users.index');
+        } catch (\Exception $e) {
+            // Manejo de error
+            session()->flash('swal', [
+                'title' => __('Error creating user account'),
+                'text' => $e->getMessage(),
+                'icon' => 'error',
+            ]);
+            return redirect()->back()->withInput();
+        }
     }
 
     /**

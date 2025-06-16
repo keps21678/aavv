@@ -1,14 +1,14 @@
-<x-layouts.app :title="__('Lista de Usuarios')">
+<x-layouts.app :title="__('Users List')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('User/s') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('Users') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        {{-- <bootstrap:button variant="primary" href="{{ route('admin.categories.create') }}" class="btn btn-primary">
-            Create Category</bootstrap:button> --}}
         <flux:button href="{{ route('register') }}" class="btn btn-green">
             {{ __('New User') }}
         </flux:button>
+        <flux:button href="{{ route('admin.users.create') }}" class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">
+            {{ __('New User') }} </flux:button>
     </div>
     <br />
     <div class="relative overflow-x-auto px-4">

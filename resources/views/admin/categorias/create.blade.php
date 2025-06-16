@@ -6,29 +6,29 @@
             </flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Nueva categoría') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <a href="{{ route('admin.categorias.index') }}"
-            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
-            Listado de categorías</a>
+        <flux:button href="{{ route('admin.categorias.index') }}" class="btn btn-green">
+            {{ __('Category List') }}
+        </flux:button>
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Nueva categoría</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('New Category') }}</h1>
             <form action="{{ route('admin.categorias.store') }}" method="POST">
                 @csrf
                 <div class='mb-4'>
-                    <flux:input wire:model="nombre" label="Nombre de la categoría"
-                        placeholder="Escriba el nombre de la categoría" :value="old('nombre')" required />
+                    <flux:input wire:model="nombre" label="{{ __('Category Name') }}"
+                        placeholder="{{ __('Enter category name') }}" :value="old('nombre')" required />
                 </div>
                 <div class='mb-4'>
-                    <flux:textarea wire:model="descripcion" label="Descripción de la categoría"
-                        placeholder="Escriba la descripción de la categoría" :value="old('descripcion')" required />
+                    <flux:textarea wire:model="descripcion" label="{{ __('Category Description') }}"
+                        placeholder="{{ __('Enter category description') }}" :value="old('descripcion')" required />
                 </div>
                 <div class='mb-4'>
-                    <flux:input label="Color de la categoría" name="color" id="color" type="color"
+                    <flux:input label="{{ __('Category Color') }}" name="color" id="color" type="color"
                         value="{{ old('color') }}" required />
                 </div>
                 <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Crear</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save Category') }}</flux:button>
                 </div>
             </form>
         </div>

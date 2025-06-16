@@ -6,7 +6,7 @@
             <flux:breadcrumbs.item>{{ __('Nuevo gasto') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
-            <a href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">Listado de Gastos</a>
+            <flux:button href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">{{ __('Listado de Gastos') }}</flux:button>
         </div>
     </div>
     <div class="rounded overflow-hidden shadow-lg">
