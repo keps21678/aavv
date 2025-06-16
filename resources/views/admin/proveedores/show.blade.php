@@ -88,69 +88,78 @@
             </div>
 
             <!-- Gastos relacionados -->
-            <div class="mt-8">
-                <strong>Gastos relacionados:</strong>
+            <div class="mt-8">                
                 @if ($proveedor->gastos->isEmpty())
                 <p class="mt-2">No hay gastos relacionados con este proveedor.</p>
                 @else
-                <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2"
-                    id="tabla">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th class="px-4 py-2">Número</th>
-                            <th class="px-4 py-2">Fecha Emisión</th>
-                            <th class="px-4 py-2">Fecha Vencimiento</th>
-                            <th class="px-4 py-2">Descripción</th>
-                            <th class="px-4 py-2">Estado</th>
-                            <th class="px-4 py-2">Importe</th>
-                            @hasanyrole('admin|editor|viewer')
-                            <th class="px-4 py-2">Acciones</th>
-                            @endhasanyrole
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($proveedor->gastos as $gasto)
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                            <td class="px-4 py-2">{{ $gasto->numero }}</td>
-                            <td class="px-4 py-2">{{ $gasto->fecha_emision->format('d/m/Y') }}</td>
-                            <td class="px-4 py-2">{{ $gasto->fecha_vencimiento->format('d/m/Y') }}</td>
-                            <td class="px-4 py-2">{{ $gasto->descripcion }}</td>
-                            <td class="px-2 py-4">
-                                <span class="px-2 py-1 rounded-full text-sm text-white"
-                                    style="background-color: {{ $gasto->estado->color }}">
-                                    {{ $gasto->estado->nombre }}
-                                </span>
-                            </td>
-                            <td class="px-2 py-4 whitespace-nowrap">{{ number_format($gasto->importe, 2) }} €</td>
-                            @hasanyrole('admin|editor|viewer')
-                            <td class="px-4 py-2">
-                                <div class="flex justify-end space-x-2">
-                                    <flux:button icon:trailing="arrow-up-right"
-                                        href="{{ route('admin.gastos.show', $gasto) }}" class="btn btn-green mr-2">
-                                        Consultar</flux:button>
-                                        @hasanyrole('admin|editor')
-                                    <flux:button variant="primary" href="{{ route('admin.gastos.edit', $gasto) }}"
-                                        class="btn btn-blue">
-                                        Editar</flux:button>
+                <div x-data="{ open: false }">
+                    <flux:button @click="open = !open" class="mb-2" variant="outline">
+                        <span x-show="open">Ocultar gastos</span>
+                        <span x-show="!open">Mostrar gastos</span>
+                    </flux:button>
+                    <span class="ms-4 mt-2 inline-block">
+                        {{ $proveedor->gastos->count() > 0 ? $proveedor->gastos->count() . ' gasto(s) relacionado(s).' : '' }}
+                    </span>
+                    <div x-show="open" x-transition>
+                        <table class="table-fixed w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th class="px-4 py-2">Número</th>
+                                    <th class="px-4 py-2">Fecha Emisión</th>
+                                    <th class="px-4 py-2">Fecha Vencimiento</th>
+                                    <th class="px-4 py-2">Descripción</th>
+                                    <th class="px-4 py-2">Estado</th>
+                                    <th class="px-4 py-2">Importe</th>
+                                    @hasanyrole('admin|editor|viewer')
+                                    <th class="px-4 py-2">Acciones</th>
                                     @endhasanyrole
-                                    @hasrole('admin')
-                                    <form class="delete-form" action="{{ route('admin.gastos.destroy', $gasto) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <flux:button wire:click="delete" variant="danger" type="submit"
-                                            class="btn btn-danger">
-                                            Eliminar
-                                        </flux:button>
-                                    </form>
-                                    @endhasrole
-                                </div>
-                            </td>
-                            @endhasanyrole
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($proveedor->gastos as $gasto)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                    <td class="px-4 py-2">{{ $gasto->numero }}</td>
+                                    <td class="px-4 py-2">{{ $gasto->fecha_emision->format('d/m/Y') }}</td>
+                                    <td class="px-4 py-2">{{ $gasto->fecha_vencimiento->format('d/m/Y') }}</td>
+                                    <td class="px-4 py-2">{{ $gasto->descripcion }}</td>
+                                    <td class="px-2 py-4">
+                                        <span class="px-2 py-1 rounded-full text-sm text-white"
+                                            style="background-color: {{ $gasto->estado->color }}">
+                                            {{ $gasto->estado->nombre }}
+                                        </span>
+                                    </td>
+                                    <td class="px-2 py-4 whitespace-nowrap">{{ number_format($gasto->importe, 2) }} €</td>
+                                    @hasanyrole('admin|editor|viewer')
+                                    <td class="px-4 py-2">
+                                        <div class="flex justify-end space-x-2">
+                                            <flux:button icon:trailing="arrow-up-right"
+                                                href="{{ route('admin.gastos.show', $gasto) }}" class="btn btn-green mr-2">
+                                                Consultar</flux:button>
+                                                @hasanyrole('admin|editor')
+                                            <flux:button variant="primary" href="{{ route('admin.gastos.edit', $gasto) }}"
+                                                class="btn btn-blue">
+                                                Editar</flux:button>
+                                            @endhasanyrole
+                                            @hasrole('admin')
+                                            <form class="delete-form" action="{{ route('admin.gastos.destroy', $gasto) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <flux:button wire:click="delete" variant="danger" type="submit"
+                                                    class="btn btn-danger">
+                                                    Eliminar
+                                                </flux:button>
+                                            </form>
+                                            @endhasrole
+                                        </div>
+                                    </td>
+                                    @endhasanyrole
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 @endif
             </div>
 
