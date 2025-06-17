@@ -27,7 +27,24 @@ class DocumentacionSeeder extends Seeder
         if (!$estadoVigente) {
             throw new \Exception('No existe el estado "Vigente" en la tabla estados.');
         }
-
+        Documentacion::factory()->create([
+            'categoria_id' => $categoriaPlantilla->id,
+            'descripcion' => 'Plantilla LOPD para Socios, en Word',
+            'fecha_firma' => now(),
+            'archivo' => 'Plantilla_LOPD.docx',
+            'nombre_archivo' => 'Plantilla LOPD para Socios',
+            'estado_id' => $estadoVigente->id,
+            'observaciones' => 'Plantilla de consentimiento del tratamiento de datos personales.',
+        ]);
+        Documentacion::factory()->create([
+            'categoria_id' => $categoriaPlantilla->id,
+            'descripcion' => 'Formulario Mandato Simple SEPA, en PDF',
+            'fecha_firma' => now(),
+            'archivo' => 'formulario-mandato-simple.pdf',
+            'nombre_archivo' => 'Formulario Mandato Simple SEPA',
+            'estado_id' => $estadoVigente->id,
+            'observaciones' => 'Plantilla de mandato SEPA.',
+        ]);
         Documentacion::factory()->create([
             'categoria_id' => $categoriaPlantilla->id,
             'descripcion' => 'Balance de situación abreviado anual',
