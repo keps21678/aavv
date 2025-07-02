@@ -58,8 +58,8 @@ test('user can delete their account', function () {
         ->assertHasNoErrors()
         ->assertRedirect('/');
 
-    expect($user->fresh())->toBeNull();
-    expect(auth()->check())->toBeFalse();
+    expect($user->fresh()->trashed())->toBeTrue();
+    $this->assertGuest();
 });
 
 test('correct password must be provided to delete account', function () {

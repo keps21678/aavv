@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -28,7 +29,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => bcrypt('password'), //static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
     }
@@ -38,7 +39,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
@@ -50,13 +51,17 @@ class UserFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (User $user) {
+            // Asegura que el rol admin existe antes de asignarlo
+            Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+            Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
+            Role::firstOrCreate(['name' => 'viewer', 'guard_name' => 'web']);
             if (User::count() === 1) {
                 $user->assignRole('admin');
                 return;
             } else if (User::count() === 2) {
                 $user->assignRole('admin');
-                return;            
-            } else if (User::count() > 2) {
+                return;
+            } else if (User::count() > 1) {
                 $user->assignRole('viewer');
                 return;
             }

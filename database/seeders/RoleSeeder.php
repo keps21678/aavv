@@ -14,33 +14,23 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        ModelsRole::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        ModelsRole::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
-        ModelsRole::firstOrCreate(['name' => 'viewer', 'guard_name' => 'web']);
-        //
-        // $Roles = [
-        //     'admin',
-        //     'editor',
-        //     'viewer',
-        // ];
-        // foreach ($Roles as $role) {
-        //     ModelsRole::create([
-        //         'name' => $role,
-        //     ]);
-        // };
-        $Permissions = [
+        $permissions = [
             'delete',
             'update',
             'create',
             'read',
         ];
-        foreach ($Permissions as $permission) {
-            ModelsPermission::create([
+        foreach ($permissions as $permission) {
+            ModelsPermission::firstOrCreate([
                 'name' => $permission,
+                'guard_name' => 'web',
             ]);
-        };
-        ModelsRole::findByName('admin')->givePermissionTo(ModelsPermission::all());
-        ModelsRole::findByName('editor')->givePermissionTo(['create', 'update', 'read']);
-        ModelsRole::findByName('viewer')->givePermissionTo(['read']);
+        }
+        $admin = ModelsRole::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $editor = ModelsRole::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
+        $viewer = ModelsRole::firstOrCreate(['name' => 'viewer', 'guard_name' => 'web']);
+        $admin->givePermissionTo(ModelsPermission::all());
+        $editor->givePermissionTo(['create', 'update', 'read']);
+        $viewer->givePermissionTo(['read']);
     }
 }
