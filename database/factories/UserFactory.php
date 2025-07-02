@@ -56,7 +56,7 @@ class UserFactory extends Factory
             } else if (User::count() === 2) {
                 $user->assignRole('admin');
                 return;            
-            } else if (User::count() > 1) {
+            } else if (User::count() > 2) {
                 $user->assignRole('viewer');
                 return;
             }
