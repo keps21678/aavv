@@ -14,17 +14,20 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        ModelsRole::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        ModelsRole::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
+        ModelsRole::firstOrCreate(['name' => 'viewer', 'guard_name' => 'web']);
         //
-        $Roles = [
-            'admin',
-            'editor',
-            'viewer',
-        ];
-        foreach ($Roles as $role) {
-            ModelsRole::create([
-                'name' => $role,
-            ]);
-        };
+        // $Roles = [
+        //     'admin',
+        //     'editor',
+        //     'viewer',
+        // ];
+        // foreach ($Roles as $role) {
+        //     ModelsRole::create([
+        //         'name' => $role,
+        //     ]);
+        // };
         $Permissions = [
             'delete',
             'update',
