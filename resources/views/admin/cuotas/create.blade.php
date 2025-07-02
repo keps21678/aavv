@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('Editar Cuota')">
+<x-layouts.app :title="__('New Fee')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
@@ -15,7 +15,7 @@
     <div class="max-w-sm rounded overflow-hidden shadow-lg">
         {{-- <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains"> --}}
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">Edición de Cuota</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('New Fee') }}</h1>
             <form action="{{ route('admin.cuotas.store') }}" method="POST">
                 @csrf
                 <div class='mb-4'>
@@ -36,7 +36,7 @@
                         step="0.5" name="cantidad" required />
                 </div>
                 <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar Cuota</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

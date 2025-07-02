@@ -1,4 +1,5 @@
-{
+{ 
+    "log in": "Iniciar sesión",
     "Dashboard": "Panel de Control",
     "dashboard": "panel de control",
     "Home": "Inicio",
@@ -424,9 +425,9 @@
     "Member Types List": "Listado de Tipos de Socios/as",
     "Consult Member": "Consultar Socio/a",
     "View Member": "Ver Socio/a",
-    "Member Details": "Detalles del Socio/a",
     "New User": "Nuevo Usuario",
     "New user": "Nuevo usuario",
+    "New Spent": "Nuevo Gasto",
     "Fees": "Cuotas",
     "Fee": "Cuota",
     "Fee Edit": "Editar Cuota",
@@ -450,5 +451,6 @@
     "Your session has expired or you are not authenticated. Please log in again.": "Tu sesión ha expirado o no estás autenticado. Por favor, inicia sesión de nuevo.",
     "You are not authenticated. Please log in to access this page.": "No estás autenticado. Por favor, inicia sesión para acceder a esta página.",
     "You are not authorized to access this page.": "No estás autorizado para acceder a esta página.",
+    "Stateless": "Sin Estado",
     "Access Denied": "Acceso Denegado"
 }

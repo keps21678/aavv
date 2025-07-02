@@ -8,8 +8,9 @@
             @hasanyrole('admin|editor')
             <flux:button href="{{ route('admin.incidencias.create', ['socio_id' => request('socio_id')]) }}"
                 class="btn btn-green">{{ __('New Incident') }}</flux:button>
-            @endhasanyrole            
-            <flux:button href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">{{ __('Member List') }}</flux:button>
+            @endhasanyrole
+            <flux:button href="{{ route('admin.socios.index') }}" class="btn btn-green-dark">{{ __('Member List') }}
+            </flux:button>
         </div>
     </div>
     <br />
@@ -53,9 +54,16 @@
                         {{ $incidencia->fecha_incidencia->format('d/m/Y') }}
                     </td>
                     <td class="px-6 py-4">
-                        <span class="px-2 py-1 rounded-full text-sm text-white" style="background-color: {{ $incidencia->estado->color }}">
+                        @if($incidencia->estado)
+                        <span class="px-2 py-1 rounded-full text-sm text-white"
+                            style="background-color: {{ $incidencia->estado->color }}">
                             {{ $incidencia->estado->nombre }}
                         </span>
+                        @else
+                        <span class="px-2 py-1 rounded-full text-sm bg-gray-300 text-gray-700">
+                            {{ __('Stateless') }}
+                        </span>
+                        @endif
                     </td>
                     <td class="px-6 py-4">
                         {{ $incidencia->created_at->format('d/m/Y') }}
@@ -63,8 +71,9 @@
                     @hasanyrole('admin|editor|viewer')
                     <td class="px-6 py-4">
                         <div class="flex justify-end space-x-2">
-                            <flux:button icon:trailing="arrow-up-right" href="{{ route('admin.incidencias.show', $incidencia) }}"
-                                class="btn btn-green">{{ __('Consult') }}</flux:button>
+                            <flux:button icon:trailing="arrow-up-right"
+                                href="{{ route('admin.incidencias.show', $incidencia) }}" class="btn btn-green">{{
+                                __('Consult') }}</flux:button>
                             @hasanyrole('admin|editor')
                             <flux:button variant="primary" href="{{ route('admin.incidencias.edit', $incidencia) }}"
                                 class="btn btn-blue">
@@ -78,7 +87,7 @@
                                 <flux:button variant="danger" type="submit" class="btn btn-danger">{{ __('Delete') }}
                                 </flux:button>
                             </form>
-                            @endhasrole 
+                            @endhasrole
                         </div>
                     </td>
                     @endhasanyrole

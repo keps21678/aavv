@@ -157,7 +157,7 @@
                         Subir Documento
                     </flux:button>
                     @endif
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">Guardar cambios</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

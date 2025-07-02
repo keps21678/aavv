@@ -38,7 +38,7 @@
     @php
     $groups = [
     [
-    'heading' => __('Plataforma'),
+    'heading' => __('Menú principal'),
     'items' => [
     [
     'name' => __('Dashboard'),
@@ -109,15 +109,7 @@
     'current' => request()->routeIs('cuotas.*'),
     'label' => __('Fees'),
     'role' => ['admin', 'editor'],
-    ],
-    [
-    'name' => __('Providers'),
-    'icon' => 'building-storefront',
-    'url' => route('admin.proveedores.index'),
-    'current' => request()->routeIs('proveedores.*'),
-    'label' => __('Providers'),
-    'role' => ['admin', 'editor'],
-    ],
+    ],   
     ],
     ],
     [
@@ -184,6 +176,14 @@
     'label' => __('Receipts'),
     'role' => ['admin', 'editor'],
     ],
+    [
+    'name' => __('Providers'),
+    'icon' => 'building-storefront',
+    'url' => route('admin.proveedores.index'),
+    'current' => request()->routeIs('proveedores.*'),
+    'label' => __('Providers'),
+    'role' => ['admin', 'editor'],
+    ],
     ],
     ],
     ];
@@ -216,9 +216,9 @@
                 {{ __('Repository') }}
             </flux:navlist.item> --}}
 
-            <flux:navlist.item icon="building-library" :href="route('admin.documentacion.index')" target="_self">
+            {{-- <flux:navlist.item icon="building-library" :href="route('admin.documentacion.index')" target="_self">
                 {{ __('Documentation') }}
-            </flux:navlist.item>
+            </flux:navlist.item> --}}
         </flux:navlist>
 
         <!-- Desktop User Menu -->

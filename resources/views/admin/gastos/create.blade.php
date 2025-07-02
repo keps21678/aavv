@@ -1,9 +1,9 @@
-<x-layouts.app :title="__('Nuevo Gasto')">
+<x-layouts.app :title="__('New Spent')">
     <div class="flex items-center justify-between">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item :href="route('dashboard')">{{ __('Dashboard') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item :href="route('admin.gastos.index')">{{ __('gastos') }}</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ __('Nuevo gasto') }}</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ __('New Spent') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         <div>
             <flux:button href="{{ route('admin.gastos.index') }}" class="btn btn-green-dark">{{ __('Listado de Gastos') }}</flux:button>
@@ -11,7 +11,7 @@
     </div>
     <div class="rounded overflow-hidden shadow-lg">
         <div class="flex flex-col gap-6">
-            <x-auth-header :title="__('Nueva gasto')" :description="__('Introduce los detalles para crear la gasto')" />
+            <x-auth-header :title="__('New Spent')" :description="__('Introduce los detalles para crear la gasto')" />
             <!-- Session Status -->
             <x-auth-session-status class="text-center" :status="session('status')" />
             <form action="{{ route('admin.gastos.store') }}" method="POST">
@@ -76,7 +76,7 @@
 
                 <!-- Botón de envío -->
                 <div class="flex justify-end mt-6">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue mb-4">Guardar gasto</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue mb-4">{{  __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

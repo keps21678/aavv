@@ -9,7 +9,7 @@
                 class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Listado de Documentos') }}</flux:button>
     </div>
 
-    <div class="rounded overflow-hidden shadow-lg text-lg">
+    <div class="rounded overflow-hidden shadow-lg text-lg bg-white dark:bg-gray-800 py-4">
         <div class="flex flex-col gap-6 px-4 mb-6">
             <x-auth-header
                 :title="__('Documento LOPD de: ' . ($lopd->socio->apellidos ?? '') . ', ' . ($lopd->socio->nombre ?? ''))"

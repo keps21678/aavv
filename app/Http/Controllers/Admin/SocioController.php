@@ -29,11 +29,11 @@ class SocioController extends Controller
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
         if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
             return redirect()->route('dashboard')
-            ->with('swal', [
-                'title' => __('Access Denied'),
-                'text' => __('You are not authorized to access this page.'),
-                'icon' => 'error',
-            ]);
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
         }
         // Obtener los socios segun la busqueda, necesario pasara a la vista
         // de LiveWire
@@ -99,61 +99,73 @@ class SocioController extends Controller
                     'icon' => 'error',
                 ]);
         }
-        $validatedData = $request->validate([
-            'nsocio' => 'required|integer|unique:socios,nsocio',
-            'nombre' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
-            'dni' => [
-                'required',
-                'string',
-                'max:20',
-                'unique:socios,dni',
-                function ($attribute, $value, $fail) {
-                    if (!$this->isValidDni($value)) {
-                        $fail('El DNI proporcionado no es válido.');
-                    }
-                },
-            ],
-            'telefono' => 'nullable|string|max:20',
-            'movil' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'calle' => 'nullable|string|max:255',
-            'portal' => 'nullable|string|max:10',
-            'piso' => 'nullable|string|max:10',
-            'letra' => 'nullable|string|max:5',
-            'codigo_postal' => 'nullable|string|max:10',
-            'poblacion' => 'nullable|string|max:255',
-            'provincia' => 'nullable|string|max:255',
-            'persona_contacto' => 'nullable|string|max:255',
-            'iban' => [
-                'nullable',
-                'string',
-                'max:34',
-                function ($attribute, $value, $fail) {
-                    if (!$this->isValidIban($value)) {
-                        $fail('El IBAN proporcionado no es válido.');
-                    }
-                },
-            ],
-            'titular' => 'nullable|string|max:255',
-            'dni_titular' => 'nullable|string|max:20',
-            'empresa' => 'boolean',
-            'baja' => 'boolean',
-            'domiciliacion' => 'boolean',
-            'tsocio_id' => 'required|exists:tsocios,id',
-            'cuota_id' => 'required|exists:cuotas,id',
-            // Agrega aquí cualquier otro campo nuevo...
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'nsocio' => 'required|integer|unique:socios,nsocio',
+                'nombre' => 'required|string|max:255',
+                'apellidos' => 'required|string|max:255',
+                'dni' => [
+                    'required',
+                    'string',
+                    'max:20',
+                    'unique:socios,dni',
+                    function ($attribute, $value, $fail) {
+                        if (!$this->isValidDni($value)) {
+                            $fail('El DNI proporcionado no es válido.');
+                        }
+                    },
+                ],
+                'telefono' => 'nullable|string|max:20',
+                'movil' => 'nullable|string|max:20',
+                'email' => 'nullable|email|max:255',
+                'calle' => 'nullable|string|max:255',
+                'portal' => 'nullable|string|max:10',
+                'piso' => 'nullable|string|max:10',
+                'letra' => 'nullable|string|max:5',
+                'codigo_postal' => 'nullable|string|max:10',
+                'poblacion' => 'nullable|string|max:255',
+                'provincia' => 'nullable|string|max:255',
+                'persona_contacto' => 'nullable|string|max:255',
+                'iban' => $request->input('domiciliacion') ? 'required|string|max:255' : 'nullable|string|max:255',
+                'iban' => [
+                    'nullable|required',
+                    'string',
+                    'max:34',
+                    'unique:socios,iban',
+                    function ($attribute, $value, $fail) {
+                        if (!$this->isValidIban($value)) {
+                            $fail('El IBAN proporcionado no es válido.');
+                        }
+                    },
+                ],
+                'titular' => $request->input('domiciliacion') ? 'required|string|max:255' : 'nullable|string|max:255',
+                'dni_titular' => $request->input('domiciliacion') ? 'required|string|max:20' : 'nullable|string|max:20',
+                'empresa' => 'boolean',
+                'baja' => 'boolean',
+                'domiciliacion' => 'boolean',
+                'tsocio_id' => 'required|exists:tsocios,id',
+                'cuota_id' => 'required|exists:cuotas,id',
+                // Agrega aquí cualquier otro campo nuevo...
+            ]);
 
-        Socio::create($validatedData);
 
-        session()->flash('swal', [
-            'title' => 'Socio creado correctamente',
-            'text' => 'El socio se ha creado correctamente.',
-            'icon' => 'success',
-        ]);
+            Socio::create($validatedData);
 
-        return redirect()->route('admin.socios.index');
+            session()->flash('swal', [
+                'title' => 'Socio creado correctamente',
+                'text' => 'El socio se ha creado correctamente.',
+                'icon' => 'success',
+            ]);
+
+            return redirect()->route('admin.socios.index');
+        } catch (\Exception $e) {
+            session()->flash('swal', [
+                'title' => 'Error al guardar',
+                'text' => $e->getMessage(),
+                'icon' => 'error',
+            ]);
+            return redirect()->back()->withInput();
+        }
     }
 
 
@@ -166,11 +178,11 @@ class SocioController extends Controller
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
         if (!Auth::user()->hasAnyRole(['admin', 'editor', 'viewer'])) {
             return redirect()->route('dashboard')
-            ->with('swal', [
-                'title' => __('Access Denied'),
-                'text' => __('You are not authorized to access this page.'),
-                'icon' => 'error',
-            ]);
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
         }
         //        
         return view('admin.socios.show', compact('socio'));
@@ -185,11 +197,11 @@ class SocioController extends Controller
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
         if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.socios.index')
-            ->with('swal', [
-                'title' => __('Access Denied'),
-                'text' => __('You are not authorized to access this page.'),
-                'icon' => 'error',
-            ]);
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
         }
         $tsocios = TSocio::all();
         $cuotas = Cuota::where('anyo', '>=', now()->year - 1)->get(); // Obtener cuotas del año actual y futuros
@@ -206,11 +218,11 @@ class SocioController extends Controller
         // Si no tiene el rol, redirigir a la lista de usuarios con un mensaje de error
         if (!Auth::user()->hasAnyRole(['admin', 'editor'])) {
             return redirect()->route('admin.socios.index')
-            ->with('swal', [
-                'title' => __('Access Denied'),
-                'text' => __('You are not authorized to access this page.'),
-                'icon' => 'error',
-            ]);
+                ->with('swal', [
+                    'title' => __('Access Denied'),
+                    'text' => __('You are not authorized to access this page.'),
+                    'icon' => 'error',
+                ]);
         }
         if (!$request->has('baja')) {
             $request->merge(['baja' => false]);

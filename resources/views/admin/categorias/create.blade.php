@@ -28,7 +28,7 @@
                         value="{{ old('color') }}" required />
                 </div>
                 <div class="flex justify-end">
-                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save Category') }}</flux:button>
+                    <flux:button type="submit" variant="primary" class="btn btn-blue">{{ __('Save') }}</flux:button>
                 </div>
             </form>
         </div>

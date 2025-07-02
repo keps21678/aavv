@@ -5,7 +5,7 @@
             <flux:breadcrumbs.item :href="route('admin.recibos.index')">{{ __('Receipts') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('Create a new receipt') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <div>            
+        <div>
             <flux:button href="{{ route('admin.recibos.index') }}" class="btn btn-green">
                 {{ __('Receipt List') }}
             </flux:button>
@@ -33,25 +33,26 @@
                         </flux:select>
 
                         <!-- Tipo de Socio -->
-                        <flux:select wire:model="tsocio_id" label="Tipo de Socio" name="tsocio_id" id="tsocio_id" required>
+                        <flux:select wire:model="tsocio_id" label="Tipo de Socio" name="tsocio_id" id="tsocio_id"
+                            required>
                             <option value="" disabled selected>Seleccionar tipo de socio</option>
                             @foreach ($tsocios as $tsocio)
                             <option value="{{ $tsocio->id }}">{{ $tsocio->nombre }}</option>
                             @endforeach
-                        </flux:select> 
+                        </flux:select>
                         <!-- Cuota -->
                         <flux:select wire:model="cuota_id" label="Cuota" name="cuota_id" id="cuota_id" required>
                             <option value="" disabled selected>Seleccionar cuota</option>
                             @foreach ($cuotas as $cuota)
-                                <option value="{{ $cuota->id }}" data-tsocio="{{ $cuota->tsocio_id }}">
-                                    {{ $cuota->cantidad }} € - {{ $cuota->tsocio->nombre }}
-                                </option>
+                            <option value="{{ $cuota->id }}" data-tsocio="{{ $cuota->tsocio_id }}">
+                                {{ $cuota->cantidad }} € - {{ $cuota->tsocio->nombre }}
+                            </option>
                             @endforeach
-                        </flux:select>                       
+                        </flux:select>
                     </div>
 
                     <!-- Segunda columna -->
-                    <div class="flex flex-col gap-6">                       
+                    <div class="flex flex-col gap-6">
                         <!-- Fecha de Emisión -->
                         <flux:input wire:model="fecha_emision" label="Fecha de Emisión" name="fecha_emision"
                             id="fecha_emision" type="date" :value="old('fecha_emision')" required />
@@ -67,7 +68,7 @@
                     <flux:select wire:model="estado" label="Estado" name="estado_id" id="estado_id" required>
                         <option value="" disabled selected>Seleccionar estado</option>
                         @foreach ($estados as $estado)
-                            <option value="{{ $estado->id }}">{{ $estado->nombre }}</option>
+                        <option value="{{ $estado->id }}">{{ $estado->nombre }}</option>
                         @endforeach
                     </flux:select>
                 </div>

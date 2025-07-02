@@ -80,7 +80,7 @@
         </div>
         <!-- Botón de envío -->
         <div class="flex justify-end mt-6">
-            <flux:button type="submit" variant="primary" class="btn btn-blue mb-4 me-4">Guardar Proveedor</flux:button>
+            <flux:button type="submit" variant="primary" class="btn btn-blue mb-4 me-4">{{ __('Save') }}</flux:button>
         </div>
         </form>
     </div>

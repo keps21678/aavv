@@ -5,7 +5,7 @@
             <flux:breadcrumbs.item :href="route('admin.socios.index')">{{ __('Members') }}</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>{{ __('New Member') }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
-        <div>            
+        <div>
             <flux:button href="{{ route('admin.socios.index') }}"
                 class="btn btn-green-dark text-white font-bold py-2 px-4 rounded text-xs">{{ __('Member List') }}
             </flux:button>
@@ -59,6 +59,25 @@
 
                     <!-- Tercera columna -->
                     <div class="flex flex-col gap-6">
+                        <!-- Tipo de Socio -->
+                        <flux:select wire:model="tsocio_id" label="Tipo Socio" name="tsocio_id" id="tsocio_id" required>
+                            <option value="" disabled>Seleccionar el tipo Socio/a</option>
+                            @foreach ($tsocios as $tsocio)
+                            <option value="{{ $tsocio->id }}" {{ $socio->tsocio_id == $tsocio->id ? 'selected' : '' }}>
+                                {{ $tsocio->nombre }}
+                            </option>
+                            @endforeach
+                        </flux:select>
+                        <!-- Cuota -->
+                        <flux:select wire:model="cuotas_id" label="Cuota" name="cuota_id" id="cuota_id" required>
+                            <option value="" disabled selected>Seleccionar cuota</option>
+                            @foreach ($cuotas as $cuota)
+                            <option value="{{ $cuota->id }}" {{ $socio->cuota_id == $cuota->id ? 'selected' : '' }}>
+                                {{ $cuota->cantidad }} € / {{ $cuota->anyo }}
+                            </option>
+                            @endforeach
+                        </flux:select>
+                        <!-- Empresa -->
                         <div class="flex items-center">
                             <input type="checkbox" id="empresa" name="empresa" value="1" {{ old('empresa',
                                 $socio->empresa ?? false) ? 'checked' : '' }} class="form-checkbox h-5 w-5">

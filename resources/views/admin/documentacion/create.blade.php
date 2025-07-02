@@ -12,7 +12,7 @@
     </div>
     <div class="max-w-2xl rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
-            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Nuevo documento LOPD') }}</h1>
+            <h1 class="flex justify-end font-bold text-xl mb-4">{{ __('Nuevo documento') }}</h1>
             <form action="{{ route('admin.documentacion.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 

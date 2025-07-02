@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('provincia');
             $table->string('persona_contacto', 512)->nullable();
             $table->boolean('domiciliacion')->default(0);
-            $table->string('iban', 512)->unique();
+            $table->string('iban', 512)->unique()->nullable();
             $table->string('titular', 512)->nullable();
             $table->string('dni_titular', 512)->nullable();
             $table->unsignedBigInteger('tsocio_id');
