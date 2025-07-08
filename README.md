@@ -1,4 +1,4 @@
-Proyecto desarrollado como parte del Trabajo Fin de Grado (TFG) del Curso de adaptación al grado de ingenieria informática.
+Proyecto desarrollado como parte del Trabajo Fin de Grado (TFG) del Curso de adaptación al Grado en Ingeniería Informática de UNIR.
 
 Las asociaciones vecinales, habitualmente están formadas y sobre todo gestionadas por los vecinos de barrio de mayor edad, que son los que disponen de más tiempo para preparar, gestionar y promover iniciativas destinadas a mejorar las condiciones del barrio.
 La mayoría de los programas actuales de gestión vecinal están ubicadas en la “nube”, con un corte administrativo y con un coste económico. Muchas de estas asociaciones, no disponen entre sus socios de gente con los conocimientos y la habilidad necesarios para utilizar dichos programas. También suele suceder que tienen un presupuesto limitado o financiación no estable, que les dificulta el acceso a estos programas.
